@@ -194,6 +194,9 @@ int main(int argc, char **argv)
     case 70:
         strcpy(funcName, "copy");
         break;
+    case 71:
+        strcpy(funcName, "cast");
+        break;
     case 80:
         strcpy(funcName, "resize_mirror_normalize");
         break;
@@ -1626,6 +1629,31 @@ int main(int argc, char **argv)
             rppt_copy_host(inputi8, srcDescPtr, outputi8, dstDescPtr, handle);
         else if (ip_bitDepth == 6)
             missingFuncFlag = 1;
+        else
+            missingFuncFlag = 1;
+
+        break;
+    }
+    case 71:
+    {
+        test_case_name = "cast";
+
+        start_omp = omp_get_wtime();
+        start = clock();
+        if (ip_bitDepth == 0)
+            rppt_cast_host(input, srcDescPtr, output, dstDescPtr, handle);
+        else if (ip_bitDepth == 1)
+            rppt_copy_host(inputf16, srcDescPtr, outputf16, dstDescPtr, handle);
+        else if (ip_bitDepth == 2)
+            rppt_cast_host(inputf32, srcDescPtr, outputf32, dstDescPtr, handle);
+        else if (ip_bitDepth == 3)
+            rppt_cast_host(input, srcDescPtr, outputf16, dstDescPtr, handle);
+        else if (ip_bitDepth == 4)
+            rppt_cast_host(input, srcDescPtr, outputf32, dstDescPtr, handle);
+        else if (ip_bitDepth == 5)
+            rppt_cast_host(inputi8, srcDescPtr, outputi8, dstDescPtr, handle);
+        else if (ip_bitDepth == 6)
+            rppt_cast_host(input, srcDescPtr, outputi8, dstDescPtr, handle);
         else
             missingFuncFlag = 1;
 

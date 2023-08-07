@@ -46,6 +46,8 @@ RppStatus rppt_copy_host(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dstPt
 RppStatus rppt_copy_gpu(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dstPtr, RpptDescPtr dstDescPtr, rppHandle_t rppHandle);
 #endif // GPU_SUPPORT
 
+RppStatus rppt_cast_host(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dstPtr, RpptDescPtr dstDescPtr, rppHandle_t rppHandle);
+
 /******************** swap_channels ********************/
 
 // Swap R and B channels to toggle RGB<->BGR for a NCHW/NHWC layout tensor
