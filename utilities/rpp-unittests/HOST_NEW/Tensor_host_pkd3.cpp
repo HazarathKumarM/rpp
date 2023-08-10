@@ -290,6 +290,12 @@ int main(int argc, char **argv)
         srcDescPtr->dataType = RpptDataType::U8;
         dstDescPtr->dataType = RpptDataType::I8;
     }
+    else if (ip_bitDepth == 7)
+    {
+        strcat(funcName, "_f32_u8_");
+        srcDescPtr->dataType = RpptDataType::F32;
+        dstDescPtr->dataType = RpptDataType::U8;
+    }
 
     // Other initializations
 
@@ -1609,6 +1615,10 @@ int main(int argc, char **argv)
     case 70:
     {
         test_case_name = "copy";
+        for (int i = 0; i < ioBufferSize; i++)
+        {
+            inputf32[i] = 238.0f;
+        }
 
         start_omp = omp_get_wtime();
         start = clock();
@@ -1619,15 +1629,15 @@ int main(int argc, char **argv)
         else if (ip_bitDepth == 2)
             rppt_copy_host(inputf32, srcDescPtr, outputf32, dstDescPtr, handle);
         else if (ip_bitDepth == 3)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputf16, dstDescPtr, handle);
         else if (ip_bitDepth == 4)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputf32, dstDescPtr, handle);
         else if (ip_bitDepth == 5)
             rppt_copy_host(inputi8, srcDescPtr, outputi8, dstDescPtr, handle);
         else if (ip_bitDepth == 6)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputi8, dstDescPtr, handle);
         else
-            missingFuncFlag = 1;
+            rppt_copy_host(inputf32, srcDescPtr, output, dstDescPtr, handle);
 
         break;
     }
@@ -1961,6 +1971,16 @@ int main(int argc, char **argv)
 
     string fileName = std::to_string(ip_bitDepth);
     ofstream outputFile (fileName + ".csv");
+    // ofstream outFile2("input_pkd3.csv");
+    // if (outFile2.is_open())
+    // {
+    //     for (int i = 0; i < ioBufferSize; i++)
+    //     {
+    //         outFile2 << (Rpp32u) *input << ",";
+    //         input++;
+    //     }
+    //     outFile2.close();
+    // }
 
     if (ip_bitDepth == 0)
     {
@@ -1991,7 +2011,7 @@ int main(int argc, char **argv)
         {
             for (int i = 0; i < oBufferSize; i++)
             {
-                outputFile << *outputf16Temp << ",";
+                outputFile << (int)*outputf16Temp << ",";
                 *outputTemp = (Rpp8u)RPPPIXELCHECK(*outputf16Temp * invConversionFactor);
                 outputf16Temp++;
                 outputTemp++;
@@ -2013,7 +2033,7 @@ int main(int argc, char **argv)
         {
             for (int i = 0; i < oBufferSize; i++)
             {
-                outputFile << *outputf32Temp << ",";
+                outputFile << (int)*outputf32Temp << ",";
                 *outputTemp = (Rpp8u)RPPPIXELCHECK(*outputf32Temp * invConversionFactor);
                 outputf32Temp++;
                 outputTemp++;

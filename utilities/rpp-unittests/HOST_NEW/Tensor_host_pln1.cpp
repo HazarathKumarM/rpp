@@ -1485,13 +1485,13 @@ int main(int argc, char **argv)
         else if (ip_bitDepth == 2)
             rppt_copy_host(inputf32, srcDescPtr, outputf32, dstDescPtr, handle);
         else if (ip_bitDepth == 3)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputf16, dstDescPtr, handle);
         else if (ip_bitDepth == 4)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputf32, dstDescPtr, handle);
         else if (ip_bitDepth == 5)
             rppt_copy_host(inputi8, srcDescPtr, outputi8, dstDescPtr, handle);
         else if (ip_bitDepth == 6)
-            missingFuncFlag = 1;
+            rppt_copy_host(input, srcDescPtr, outputi8, dstDescPtr, handle);
         else
             missingFuncFlag = 1;
 
@@ -1710,6 +1710,16 @@ int main(int argc, char **argv)
 
     string fileName = std::to_string(ip_bitDepth);
     ofstream outputFile (fileName + ".csv");
+    ofstream outFile2("input_pln1.csv");
+    if (outFile2.is_open())
+    {
+        for (int i = 0; i < ioBufferSize; i++)
+        {
+            outFile2 << (Rpp32u) *input << ",";
+            input++;
+        }
+        outFile2.close();
+    }
 
     if (ip_bitDepth == 0)
     {

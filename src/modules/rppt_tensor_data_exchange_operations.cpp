@@ -76,6 +76,42 @@ RppStatus rppt_copy_host(RppPtr_t srcPtr,
                                layoutParams,
                                rpp::deref(rppHandle));
     }
+    else if ((srcDescPtr->dataType == RpptDataType::U8) && (dstDescPtr->dataType == RpptDataType::F32))
+    {
+        copy_generic_host_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
+                                 srcDescPtr,
+                                 (Rpp32f*) (static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes),
+                                 dstDescPtr,
+                                 layoutParams,
+                                 rpp::deref(rppHandle));
+    }
+    else if ((srcDescPtr->dataType == RpptDataType::U8) && (dstDescPtr->dataType == RpptDataType::F16))
+    {
+        copy_generic_host_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
+                                 srcDescPtr,
+                                 (Rpp16f*) (static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes),
+                                 dstDescPtr,
+                                 layoutParams,
+                                 rpp::deref(rppHandle));
+    }
+    else if ((srcDescPtr->dataType == RpptDataType::U8) && (dstDescPtr->dataType == RpptDataType::I8))
+    {
+        copy_generic_host_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
+                         srcDescPtr,
+                         static_cast<Rpp8s*>(dstPtr) + dstDescPtr->offsetInBytes,
+                         dstDescPtr,
+                         layoutParams,
+                         rpp::deref(rppHandle));
+    }
+    else if ((srcDescPtr->dataType == RpptDataType::F32) && (dstDescPtr->dataType == RpptDataType::U8))
+    {
+        copy_generic_host_tensor((Rpp32f*) (static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes),
+                         srcDescPtr,
+                         static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes,
+                         dstDescPtr,
+                         layoutParams,
+                         rpp::deref(rppHandle));
+    }
 
     return RPP_SUCCESS;
 }
@@ -262,6 +298,31 @@ RppStatus rppt_copy_gpu(RppPtr_t srcPtr,
                              dstDescPtr,
                              rpp::deref(rppHandle));
     }
+    else if ((srcDescPtr->dataType == RpptDataType::U8) && (dstDescPtr->dataType == RpptDataType::F16))
+    {
+        hip_exec_copy_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
+                             srcDescPtr,
+                             (Rpp16f*) (static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes),
+                             dstDescPtr,
+                             rpp::deref(rppHandle));
+    }
+    else if ((srcDescPtr->dataType == RpptDataType::U8) && (dstDescPtr->dataType == RpptDataType::I8))
+    {
+        hip_exec_copy_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
+                             srcDescPtr,
+                            static_cast<Rpp8s*>(dstPtr) + dstDescPtr->offsetInBytes,
+                             dstDescPtr,
+                             rpp::deref(rppHandle));
+    }
+    else if ((srcDescPtr->dataType == RpptDataType::F32) && (dstDescPtr->dataType == RpptDataType::U8))
+    {
+        hip_exec_copy_tensor((Rpp32f*)(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes),
+                             srcDescPtr,
+                            static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes,
+                             dstDescPtr,
+                             rpp::deref(rppHandle));
+    }
+
 
     return RPP_SUCCESS;
 #elif defined(OCL_COMPILE)

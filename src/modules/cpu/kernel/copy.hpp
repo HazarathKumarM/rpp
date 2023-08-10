@@ -603,3 +603,43 @@ RppStatus copy_i8_i8_host_tensor(Rpp8s *srcPtr,
 
     return RPP_SUCCESS;
 }
+
+template<typename T , typename U>
+RppStatus copy_generic_host_tensor(T *srcPtr,
+                                 RpptDescPtr srcDescPtr,
+                                 U *dstPtr,
+                                 RpptDescPtr dstDescPtr,
+                                 RppLayoutParams layoutParams,
+                                 rpp::Handle& handle)
+{
+    Rpp32u numThreads = handle.GetNumThreads();
+
+    // Copy without fused output-layout toggle (NHWC -> NHWC or NCHW -> NCHW)
+    if ((srcDescPtr->c == 1) || (srcDescPtr->layout == dstDescPtr->layout))
+    {
+//         omp_set_dynamic(0);
+// #pragma omp parallel for num_threads(numThreads)
+        for(int batchCount = 0; batchCount < dstDescPtr->n; batchCount++)
+        {
+            T *srcPtrImage;
+            U *dstPtrImage;
+            srcPtrImage = srcPtr + batchCount * srcDescPtr->strides.nStride;
+            dstPtrImage = dstPtr + batchCount * dstDescPtr->strides.nStride;
+            if(dstDescPtr->dataType ==  RpptDataType::U8)
+            {
+                std::cerr<<"\n inside ";
+                for(int i = 0; i < dstDescPtr->strides.nStride; i++)
+                    dstPtrImage[i] = static_cast<U>(RPPPIXELCHECK(srcPtrImage[i]));
+
+            }
+            else
+            {
+                for(int i = 0; i < dstDescPtr->strides.nStride; i++)
+                    dstPtrImage[i] = static_cast<U>(srcPtrImage[i]);
+            }
+            std::cerr<<"\n output "<<(int)dstPtrImage[0];
+        }
+    }
+
+    return RPP_SUCCESS;
+}
