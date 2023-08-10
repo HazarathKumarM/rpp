@@ -302,7 +302,7 @@ RppStatus rppt_copy_gpu(RppPtr_t srcPtr,
     {
         hip_exec_copy_tensor(static_cast<Rpp8u*>(srcPtr) + srcDescPtr->offsetInBytes,
                              srcDescPtr,
-                             (Rpp16f*) (static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes),
+                             (half*) (static_cast<Rpp8u*>(dstPtr) + dstDescPtr->offsetInBytes),
                              dstDescPtr,
                              rpp::deref(rppHandle));
     }
