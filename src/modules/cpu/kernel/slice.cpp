@@ -25,6 +25,7 @@ SOFTWARE.
 #include "rppdefs.h"
 #include "rpp_cpu_simd.hpp"
 #include "rpp_cpu_common.hpp"
+#include "../host_geometric_decls.hpp"
 
 template<typename T>
 RppStatus slice_host_tensor(T *srcPtr,

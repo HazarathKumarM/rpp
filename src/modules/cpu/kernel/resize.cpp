@@ -25,11 +25,12 @@ SOFTWARE.
 #include "rppdefs.h"
 #include "rpp_cpu_simd.hpp"
 #include "rpp_cpu_common.hpp"
+#include "../host_geometric_decls.hpp"
 
 
 /************* NEAREST NEIGHBOR INTERPOLATION *************/
 
-inline RppStatus resize_nn_u8_u8_host_tensor(Rpp8u *srcPtr,
+RppStatus resize_nn_u8_u8_host_tensor(Rpp8u *srcPtr,
                                       RpptDescPtr srcDescPtr,
                                       Rpp8u *dstPtr,
                                       RpptDescPtr dstDescPtr,
@@ -250,7 +251,7 @@ inline RppStatus resize_nn_u8_u8_host_tensor(Rpp8u *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
+RppStatus resize_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
                                         RpptDescPtr srcDescPtr,
                                         Rpp32f *dstPtr,
                                         RpptDescPtr dstDescPtr,
@@ -463,7 +464,7 @@ inline RppStatus resize_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_nn_i8_i8_host_tensor(Rpp8s *srcPtr,
+RppStatus resize_nn_i8_i8_host_tensor(Rpp8s *srcPtr,
                                       RpptDescPtr srcDescPtr,
                                       Rpp8s *dstPtr,
                                       RpptDescPtr dstDescPtr,
@@ -684,7 +685,7 @@ inline RppStatus resize_nn_i8_i8_host_tensor(Rpp8s *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
+RppStatus resize_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
                                         RpptDescPtr srcDescPtr,
                                         Rpp16f *dstPtr,
                                         RpptDescPtr dstDescPtr,
@@ -794,7 +795,7 @@ inline RppStatus resize_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
 
 /************* BILINEAR INTERPOLATION *************/
 
-inline RppStatus resize_bilinear_u8_u8_host_tensor(Rpp8u *srcPtr,
+RppStatus resize_bilinear_u8_u8_host_tensor(Rpp8u *srcPtr,
                                             RpptDescPtr srcDescPtr,
                                             Rpp8u *dstPtr,
                                             RpptDescPtr dstDescPtr,
@@ -1035,7 +1036,7 @@ inline RppStatus resize_bilinear_u8_u8_host_tensor(Rpp8u *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
+RppStatus resize_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                                               RpptDescPtr srcDescPtr,
                                               Rpp32f *dstPtr,
                                               RpptDescPtr dstDescPtr,
@@ -1278,7 +1279,7 @@ inline RppStatus resize_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
+RppStatus resize_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                                               RpptDescPtr srcDescPtr,
                                               Rpp16f *dstPtr,
                                               RpptDescPtr dstDescPtr,
@@ -1522,7 +1523,7 @@ inline RppStatus resize_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
     return RPP_SUCCESS;
 }
 
-inline RppStatus resize_bilinear_i8_i8_host_tensor(Rpp8s *srcPtr,
+RppStatus resize_bilinear_i8_i8_host_tensor(Rpp8s *srcPtr,
                                             RpptDescPtr srcDescPtr,
                                             Rpp8s *dstPtr,
                                             RpptDescPtr dstDescPtr,

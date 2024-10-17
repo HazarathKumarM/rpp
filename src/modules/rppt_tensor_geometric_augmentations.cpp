@@ -26,6 +26,7 @@ SOFTWARE.
 #include "rppi_validate.hpp"
 #include "rppt_tensor_geometric_augmentations.h"
 #include "cpu/host_tensor_geometric_augmentations.hpp"
+#include "cpu/host_geometric_decls.hpp"
 
 #ifdef HIP_COMPILE
 #include <hip/hip_fp16.h>

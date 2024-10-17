@@ -25,6 +25,7 @@ SOFTWARE.
 #include "rppdefs.h"
 #include "rpp_cpu_simd.hpp"
 #include "rpp_cpu_common.hpp"
+#include "../host_geometric_decls.hpp"
 #include <omp.h>
 
 // Compute Inverse matrix (3x3)
@@ -46,7 +47,7 @@ inline void get_inverse(float *mat, float *invMat)
     }
 }
 
-inline void compute_lens_correction_remap_tables_host_tensor(RpptDescPtr srcDescPtr,
+void compute_lens_correction_remap_tables_host_tensor(RpptDescPtr srcDescPtr,
                                                              Rpp32f *rowRemapTable,
                                                              Rpp32f *colRemapTable,
                                                              RpptDescPtr tableDescPtr,
