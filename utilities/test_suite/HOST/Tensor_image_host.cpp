@@ -634,7 +634,7 @@ int main(int argc, char **argv)
 
                     break;
                 }
-                case 10:
+                case FOG:
                 {
                     testCaseName = "fog";
 

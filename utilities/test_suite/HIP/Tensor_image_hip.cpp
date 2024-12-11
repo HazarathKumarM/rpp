@@ -427,6 +427,10 @@ int main(int argc, char **argv)
     void *d_interDstPtr;
     if(testCase == PIXELATE)
         CHECK_RETURN_STATUS(hipHostMalloc(&d_interDstPtr, srcDescPtr->strides.nStride * srcDescPtr->n * sizeof(Rpp32f)));
+    
+    Rpp32f *perspectiveTensorPtr = NULL;
+    if(testCase == 28)
+        CHECK_RETURN_STATUS(hipHostMalloc(&perspectiveTensorPtr, batchSize * 9 * sizeof(Rpp32f)));
 
     Rpp32f *perspectiveTensorPtr = NULL;
     if(testCase == WARP_PERSPECTIVE)
