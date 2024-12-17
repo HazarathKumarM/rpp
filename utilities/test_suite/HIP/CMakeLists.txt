@@ -228,12 +228,8 @@ else()
                                 target_link_libraries(Tensor_audio_hip ${LINK_LIBRARY_LIST} ${libsnd_LIBS} -lsndfile)
                                 message("-- ${White}Tensor_audio_hip -- Link Libraries: ${LINK_LIBRARY_LIST}${ColourReset}")
                             else()
-                                message("-- ${Yellow}Warning: libsnd must be installed to install ${PROJECT_NAME} Tensor-Audio tests successfully!${ColourReset}")
                             endif(libsnd_LIBS)
                         else()
-                            message("-- ${Yellow}Warning: RPP_AUDIO_SUPPORT not found in RPP installation. It must be installed to build ${PROJECT_NAME} Tensor-Audio tests successfully!${ColourReset}")
-                        endif(RPP_AUDIO_AUGMENTATIONS_SUPPORT_FOUND)
-
                         # HIP test set 4 - RPP Tensor-Misc HIP test suite
                         add_executable(Tensor_misc_hip Tensor_misc_hip.cpp)
                         target_link_libraries(Tensor_misc_hip ${LINK_LIBRARY_LIST})
