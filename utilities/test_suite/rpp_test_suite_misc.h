@@ -78,8 +78,10 @@ void read_data(Rpp32f *data, Rpp32u nDim, Rpp32u readType, string scriptPath, st
 {
     if(nDim != 2 && nDim != 3)
     {
-        std::cout<<"\nGolden Inputs / Outputs are generated only for 2D/3D data"<<std::endl;
-        exit(0);
+        if(nDim != 4 || testCase != "log") {
+            std::cout<<"\nGolden Inputs / Outputs are generated only for 2D/3D data"<<std::endl;
+            exit(0);
+        }
     }
     string dataPath = get_path(nDim, readType, scriptPath, testCase, isMeanStd);
     read_bin_file(dataPath, data);
