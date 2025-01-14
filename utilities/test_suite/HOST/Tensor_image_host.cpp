@@ -749,11 +749,7 @@ int main(int argc, char **argv)
                 case FLIP:
                 {
                     testCaseName = "flip";
-
                     Rpp32u horizontalFlag[batchSize];
-                    Rpp32u verticalFlag[batchSize];
-                    for (i = 0; i < batchSize; i++)
-                    {
                         horizontalFlag[i] = 1;
                         verticalFlag[i] = 0;
                     }
