@@ -173,8 +173,7 @@ os.chdir(buildFolderPath + "/build")
 subprocess.call(["cmake", scriptPath], cwd=".")   # nosec
 subprocess.call(["make", "-j16"], cwd=".")    # nosec
 
-supportedCaseList = ['0', '1', '2']
-noCaseSupported = all(case not in supportedCaseList for case in caseList)
+noCaseSupported = all(int(case) not in miscAugmentationMap for case in caseList)
 if noCaseSupported:
     print("\ncase numbers %s are not supported" % caseList)
     exit(0)
@@ -203,7 +202,7 @@ if testType == 0:
     checkFile = os.path.isfile(qaFilePath)
     if checkFile:
         print("---------------------------------- Results of QA Test - Tensor_misc_host ----------------------------------\n")
-        print_qa_tests_summary(qaFilePath, supportedCaseList, nonQACaseList, "Tensor_misc_host")
+        print_qa_tests_summary(qaFilePath, list(miscAugmentationMap.keys()), nonQACaseList, "Tensor_misc_host")
 
 # Performance tests
 if (testType == 1):
