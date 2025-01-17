@@ -91,10 +91,9 @@ def run_performance_test_cmd(loggingFolder, logFileLayout, srcPath1, srcPath2, d
             read_from_subprocess_and_write_to_log(process, logFile)
             log_detected(process, errorLog, imageAugmentationMap[int(case)][0], get_bit_depth(int(bitDepth)), get_image_layout_type(layout, outputFormatToggle, "HOST"))
         logFile.write("./Tensor_image_host " + srcPath1 + " " + srcPath2 + " " + dstPath + " " + str(bitDepth) + " " + str(outputFormatToggle) + " " + str(case) + " " + str(additionalParam) + " 0\n")
-        
-def run_performance_test(loggingFolder, logFileLayout, srcPath1, srcPath2, dstPath, case, numRuns, testType, layout, qaMode, decoderType, batchSize, roiList):
-    print("\n")
-    bitDepths = range(7)
+
+    with open(loggingFolder + "/Tensor_image_host" + logFileLayout + "_raw_performance_log.txt", "a") as logFile:
+        process = subprocess.Popen([buildFolderPath + "/build/Tensor_image_host", srcPath1, srcPath2, dstPath, str(bitDepth), str(outputFormatToggle), str(case), str(additionalParam), str(numRuns), str(testType), str(layout), "0", str(qaMode), str(decoderType), str(batchSize)] + roiList + [scriptPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)    # nosec
     if qaMode:
         bitDepths = [0]
     for bitDepth in bitDepths:
@@ -270,9 +269,12 @@ if testType == 0:
         if case == "82" and (("--input_path1" not in sys.argv and "--input_path2" not in sys.argv) or qaMode == 1):
             srcPath1 = ricapInFilePath
             srcPath2 = ricapInFilePath
-        if case == "26" and (("--input_path1" not in sys.argv and "--input_path2" not in sys.argv) or qaMode == 1):
+        elif case == "26" and (("--input_path1" not in sys.argv and "--input_path2" not in sys.argv) or qaMode == 1):
             srcPath1 = lensCorrectionInFilePath
             srcPath2 = lensCorrectionInFilePath
+        else:
+            srcPath1 = inFilePath1
+            srcPath2 = inFilePath2
         # if QA mode is enabled overwrite the input folders with the folders used for generating golden outputs
         if qaMode == 1 and (case != "82" and case != "26"):
             srcPath1 = inFilePath1
@@ -303,9 +305,12 @@ else:
         if case == "82" and "--input_path1" not in sys.argv and "--input_path2" not in sys.argv:
             srcPath1 = ricapInFilePath
             srcPath2 = ricapInFilePath
-        if case == "26" and "--input_path1" not in sys.argv and "--input_path2" not in sys.argv:
+        elif case == "26" and "--input_path1" not in sys.argv and "--input_path2" not in sys.argv:
             srcPath1 = lensCorrectionInFilePath
             srcPath2 = lensCorrectionInFilePath
+        else:
+            srcPath1 = inFilePath1
+            srcPath2 = inFilePath2
         for layout in range(3):
             dstPathTemp, logFileLayout = process_layout(layout, qaMode, case, dstPath, "host", func_group_finder)
             run_performance_test(loggingFolder, logFileLayout, srcPath1, srcPath2, dstPath, case, numRuns, testType, layout, qaMode, decoderType, batchSize, roiList)
