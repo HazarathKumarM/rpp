@@ -26,75 +26,118 @@ SOFTWARE.
 #include <unistd.h>
 #endif
 
-#include <thread>
-#include "rpp/device_name.hpp"
-#include "rpp/errors.hpp"
+#include<thread>
 #include "rpp/logger.hpp"
 #include "rpp/handle.hpp"
+
+#if GPU_SUPPORT
+#include "rpp/device_name.hpp"
+#include "rpp/errors.hpp"
 #include "rpp/kernel_cache.hpp"
 #include "rpp/binary_cache.hpp"
+#endif
 
 namespace rpp {
 
-// Get current context
-// We leak resources for now as there is no hipCtxRetain API
-hipCtx_t get_ctx()
-{
-    hipInit(0);
-    hipCtx_t ctx;
-    auto status = 0;
-    if(status != hipSuccess)
-        RPP_THROW("No device");
-    return ctx;
-}
-
-std::size_t GetAvailableMemory()
-{
-    size_t free, total;
-    auto status = hipMemGetInfo(&free, &total);
-    if(status != hipSuccess)
-        RPP_THROW_HIP_STATUS(status, "Failed getting available memory");
-    return free;
-}
-
-void* default_allocator(void*, size_t sz)
-{
-    if(sz > GetAvailableMemory())
-        RPP_THROW("Memory not available to allocate buffer: " + std::to_string(sz));
-    void* result;
-    auto status = hipMalloc(&result, sz);
-    if(status != hipSuccess)
+#if HIP_COMPILE
+#if GPU_SUPPORT
+    // Get current context
+    // We leak resources for now as there is no hipCtxRetain API
+    hipCtx_t get_ctx()
     {
-        status = hipHostMalloc(&result, sz);
+        hipInit(0);
+        hipCtx_t ctx;
+        auto status = 0;
         if(status != hipSuccess)
-            RPP_THROW_HIP_STATUS(status, "Hip error creating buffer " + std::to_string(sz) + ": ");
+            RPP_THROW("No device");
+        return ctx;
     }
-    return result;
-}
 
-void default_deallocator(void*, void* mem)
-{
-    CHECK_RETURN_STATUS(hipFree(mem));
-}
+    std::size_t GetAvailableMemory()
+    {
+        size_t free, total;
+        auto status = hipMemGetInfo(&free, &total);
+        if(status != hipSuccess)
+            RPP_THROW_HIP_STATUS(status, "Failed getting available memory");
+        return free;
+    }
 
-int get_device_id() // Get random device
-{
-    int device;
-    auto status = hipGetDevice(&device);
-    if(status != hipSuccess)
-        RPP_THROW("No device");
-    return device;
-}
+    void* default_allocator(void*, size_t sz)
+    {
+        if(sz > GetAvailableMemory())
+            RPP_THROW("Memory not available to allocate buffer: " + std::to_string(sz));
+        void* result;
+        auto status = hipMalloc(&result, sz);
+        if(status != hipSuccess)
+        {
+            status = hipHostMalloc(&result, sz);
+            if(status != hipSuccess)
+                RPP_THROW_HIP_STATUS(status, "Hip error creating buffer " + std::to_string(sz) + ": ");
+        }
+        return result;
+    }
 
-void set_ctx(hipCtx_t ctx)
-{
-    auto status =  0;
-    if(status != hipSuccess)
-        RPP_THROW("Error setting context");
-}
+    void default_deallocator(void*, void* mem)
+    {
+        CHECK_RETURN_STATUS(hipFree(mem));
+    }
+
+    int get_device_id() // Get random device
+    {
+        int device;
+        auto status = hipGetDevice(&device);
+        if(status != hipSuccess)
+            RPP_THROW("No device");
+        return device;
+    }
+
+    void set_ctx(hipCtx_t ctx)
+    {
+        auto status =  0;
+        if(status != hipSuccess)
+            RPP_THROW("Error setting context");
+    }
+#endif
+#endif
 
 struct HandleImpl
 {
+#ifndef OCL_COMPILE
+    size_t nBatchSize = 1;
+    Rpp32u numThreads = 0;
+    InitHandle* initHandle = nullptr;
+
+    void PreInitializeBufferCPU()
+    {
+        this->initHandle = new InitHandle();
+        this->initHandle->nbatchSize = this->nBatchSize;
+        this->initHandle->mem.mcpu.maxSrcSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
+        this->initHandle->mem.mcpu.maxDstSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
+        this->initHandle->mem.mcpu.roiPoints = (RppiROI *)malloc(sizeof(RppiROI) * this->nBatchSize);
+        this->initHandle->mem.mcpu.scratchBufferHost = (Rpp32f *)malloc(sizeof(Rpp32f) * 99532800 * this->nBatchSize); // 7680 * 4320 * 3
+
+        this->initHandle->mem.mcpu.srcSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
+        this->initHandle->mem.mcpu.dstSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
+        this->initHandle->mem.mcpu.srcBatchIndex = (Rpp64u *)malloc(sizeof(Rpp64u) * this->nBatchSize);
+        this->initHandle->mem.mcpu.dstBatchIndex = (Rpp64u *)malloc(sizeof(Rpp64u) * this->nBatchSize);
+        this->initHandle->mem.mcpu.inc = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
+        this->initHandle->mem.mcpu.dstInc = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
+
+        for(int i = 0; i < 10; i++)
+        {
+            this->initHandle->mem.mcpu.floatArr[i].floatmem = (Rpp32f *)malloc(sizeof(Rpp32f) * this->nBatchSize);
+            this->initHandle->mem.mcpu.uintArr[i].uintmem = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
+            this->initHandle->mem.mcpu.intArr[i].intmem = (Rpp32s *)malloc(sizeof(Rpp32s) * this->nBatchSize);
+            this->initHandle->mem.mcpu.ucharArr[i].ucharmem = (Rpp8u *)malloc(sizeof(Rpp8u) * this->nBatchSize);
+            this->initHandle->mem.mcpu.charArr[i].charmem = (Rpp8s *)malloc(sizeof(Rpp8s) * this->nBatchSize);
+        }
+        this->initHandle->mem.mcpu.rgbArr.rgbmem = (RpptRGB *)malloc(sizeof(RpptRGB) * this->nBatchSize);
+
+    }
+#endif //OCL_COMPILE
+
+#if HIP_COMPILE
+#if GPU_SUPPORT
     using StreamPtr = std::shared_ptr<typename std::remove_pointer<hipStream_t>::type>;
 
     hipCtx_t ctx;
@@ -104,9 +147,6 @@ struct HandleImpl
     KernelCache cache;
     bool enable_profiling = false;
     float profiling_result = 0.0;
-    size_t nBatchSize = 1;
-    Rpp32u numThreads = 0;
-    InitHandle* initHandle = nullptr;
 
     HandleImpl() : ctx(get_ctx()) {}
 
@@ -134,34 +174,6 @@ struct HandleImpl
         // Check device matches
         if(this->device != get_device_id())
             RPP_THROW("Running handle on wrong device");
-    }
-
-    void PreInitializeBufferCPU()
-    {
-        this->initHandle = new InitHandle();
-
-        this->initHandle->nbatchSize = this->nBatchSize;
-        this->initHandle->mem.mcpu.srcSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
-        this->initHandle->mem.mcpu.dstSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
-        this->initHandle->mem.mcpu.maxSrcSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
-        this->initHandle->mem.mcpu.maxDstSize = (RppiSize *)malloc(sizeof(RppiSize) * this->nBatchSize);
-        this->initHandle->mem.mcpu.roiPoints = (RppiROI *)malloc(sizeof(RppiROI) * this->nBatchSize);
-        this->initHandle->mem.mcpu.srcBatchIndex = (Rpp64u *)malloc(sizeof(Rpp64u) * this->nBatchSize);
-        this->initHandle->mem.mcpu.dstBatchIndex = (Rpp64u *)malloc(sizeof(Rpp64u) * this->nBatchSize);
-        this->initHandle->mem.mcpu.inc = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
-        this->initHandle->mem.mcpu.dstInc = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
-
-        for(int i = 0; i < 10; i++)
-        {
-            this->initHandle->mem.mcpu.floatArr[i].floatmem = (Rpp32f *)malloc(sizeof(Rpp32f) * this->nBatchSize);
-            this->initHandle->mem.mcpu.uintArr[i].uintmem = (Rpp32u *)malloc(sizeof(Rpp32u) * this->nBatchSize);
-            this->initHandle->mem.mcpu.intArr[i].intmem = (Rpp32s *)malloc(sizeof(Rpp32s) * this->nBatchSize);
-            this->initHandle->mem.mcpu.ucharArr[i].ucharmem = (Rpp8u *)malloc(sizeof(Rpp8u) * this->nBatchSize);
-            this->initHandle->mem.mcpu.charArr[i].charmem = (Rpp8s *)malloc(sizeof(Rpp8s) * this->nBatchSize);
-        }
-
-        this->initHandle->mem.mcpu.rgbArr.rgbmem = (RpptRGB *)malloc(sizeof(RpptRGB) * this->nBatchSize);
-        this->initHandle->mem.mcpu.scratchBufferHost = (Rpp32f *)malloc(sizeof(Rpp32f) * 99532800 * this->nBatchSize); // 7680 * 4320 * 3
     }
 
     void PreInitializeBuffer()
@@ -230,8 +242,72 @@ struct HandleImpl
 #endif
         CHECK_RETURN_STATUS(hipHostMalloc(&(this->initHandle->mem.mgpu.scratchBufferPinned.floatmem), sizeof(Rpp32f) * 8294400));    // 3840 x 2160
     }
+#endif
+#endif
 };
 
+#ifndef OCL_COMPILE
+Handle::Handle(size_t batchSize, Rpp32u numThreads) : impl(new HandleImpl())
+{
+    impl->nBatchSize = batchSize;
+    numThreads = std::min(numThreads, std::thread::hardware_concurrency());
+    if(numThreads == 0)
+        numThreads = batchSize;
+    impl->numThreads = numThreads;
+    impl->PreInitializeBufferCPU();
+}
+
+Handle::~Handle() {}
+
+void Handle::rpp_destroy_object_host()
+{
+    free(this->GetInitHandle()->mem.mcpu.maxSrcSize);
+    free(this->GetInitHandle()->mem.mcpu.maxDstSize);
+    free(this->GetInitHandle()->mem.mcpu.roiPoints);
+    free(this->GetInitHandle()->mem.mcpu.scratchBufferHost);
+
+    free(this->GetInitHandle()->mem.mcpu.srcSize);
+    free(this->GetInitHandle()->mem.mcpu.dstSize);
+    free(this->GetInitHandle()->mem.mcpu.srcBatchIndex);
+    free(this->GetInitHandle()->mem.mcpu.dstBatchIndex);
+    free(this->GetInitHandle()->mem.mcpu.inc);
+    free(this->GetInitHandle()->mem.mcpu.dstInc);
+
+    for(int i = 0; i < 10; i++)
+    {
+        free(this->GetInitHandle()->mem.mcpu.floatArr[i].floatmem);
+        free(this->GetInitHandle()->mem.mcpu.uintArr[i].uintmem);
+        free(this->GetInitHandle()->mem.mcpu.intArr[i].intmem);
+        free(this->GetInitHandle()->mem.mcpu.ucharArr[i].ucharmem);
+        free(this->GetInitHandle()->mem.mcpu.charArr[i].charmem);
+    }
+
+    free(this->GetInitHandle()->mem.mcpu.rgbArr.rgbmem);
+}
+
+size_t Handle::GetBatchSize() const
+{
+    return this->impl->nBatchSize;
+}
+
+Rpp32u Handle::GetNumThreads() const
+{
+    return this->impl->numThreads;
+}
+
+void Handle::SetBatchSize(size_t bSize) const
+{
+    this->impl->nBatchSize = bSize;
+}
+
+InitHandle* Handle::GetInitHandle() const
+{
+    return impl->initHandle;
+}
+#endif // OCL_COMPILE
+
+#if HIP_COMPILE
+#if GPU_SUPPORT
 Handle::Handle(size_t batchSize, rppAcceleratorQueue_t stream) : impl(new HandleImpl())
 {
     impl->nBatchSize = batchSize;
@@ -247,20 +323,6 @@ Handle::Handle(size_t batchSize, rppAcceleratorQueue_t stream) : impl(new Handle
     impl->PreInitializeBuffer();
     RPP_LOG_I(*this);
 }
-
-
-Handle::Handle(size_t batchSize, Rpp32u numThreads) : impl(new HandleImpl())
-{
-    impl->nBatchSize = batchSize;
-    numThreads = std::min(numThreads, std::thread::hardware_concurrency());
-    if(numThreads == 0)
-        numThreads = batchSize;
-    impl->numThreads = numThreads;
-    this->SetAllocator(nullptr, nullptr, nullptr);
-    impl->PreInitializeBufferCPU();
-}
-
-Handle::~Handle() {}
 
 void Handle::SetStream(rppAcceleratorQueue_t streamID) const
 {
@@ -316,54 +378,9 @@ void Handle::rpp_destroy_object_gpu()
     CHECK_RETURN_STATUS(hipHostFree(this->GetInitHandle()->mem.mgpu.scratchBufferPinned.floatmem));
 }
 
-void Handle::rpp_destroy_object_host()
-{
-    free(this->GetInitHandle()->mem.mcpu.srcSize);
-    free(this->GetInitHandle()->mem.mcpu.dstSize);
-    free(this->GetInitHandle()->mem.mcpu.maxSrcSize);
-    free(this->GetInitHandle()->mem.mcpu.maxDstSize);
-    free(this->GetInitHandle()->mem.mcpu.roiPoints);
-    free(this->GetInitHandle()->mem.mcpu.srcBatchIndex);
-    free(this->GetInitHandle()->mem.mcpu.dstBatchIndex);
-    free(this->GetInitHandle()->mem.mcpu.inc);
-    free(this->GetInitHandle()->mem.mcpu.dstInc);
-
-    for(int i = 0; i < 10; i++)
-    {
-        free(this->GetInitHandle()->mem.mcpu.floatArr[i].floatmem);
-        free(this->GetInitHandle()->mem.mcpu.uintArr[i].uintmem);
-        free(this->GetInitHandle()->mem.mcpu.intArr[i].intmem);
-        free(this->GetInitHandle()->mem.mcpu.ucharArr[i].ucharmem);
-        free(this->GetInitHandle()->mem.mcpu.charArr[i].charmem);
-    }
-
-    free(this->GetInitHandle()->mem.mcpu.rgbArr.rgbmem);
-    free(this->GetInitHandle()->mem.mcpu.scratchBufferHost);
-}
-
-size_t Handle::GetBatchSize() const
-{
-    return this->impl->nBatchSize;
-}
-
-Rpp32u Handle::GetNumThreads() const
-{
-    return this->impl->numThreads;
-}
-
-void Handle::SetBatchSize(size_t bSize) const
-{
-    this->impl->nBatchSize = bSize;
-}
-
 rppAcceleratorQueue_t Handle::GetStream() const
 {
     return impl->stream.get();
-}
-
-InitHandle* Handle::GetInitHandle() const
-{
-    return impl->initHandle;
 }
 
 void Handle::SetAllocator(rppAllocatorFunction allocator, rppDeallocatorFunction deallocator, void* allocatorContext) const
@@ -579,5 +596,8 @@ shared<ConstData_t> Handle::CreateSubBuffer(ConstData_t data, std::size_t offset
     auto cdata = reinterpret_cast<const char*>(data);
     return {cdata + offset, null_deleter{}};
 }
+
+#endif // GPU_SUPPORT
+#endif // GPU_SUPPORT
 
 } // namespace rpp
