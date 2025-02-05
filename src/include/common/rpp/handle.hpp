@@ -57,7 +57,6 @@ using GemmKey = std::pair<std::string, std::string>;
 using rocblas_handle_ptr = RPP_MANAGE_PTR(rocblas_handle, rocblas_destroy_handle);
 #endif
 
-#if !GPU_SUPPORT
 
 struct Handle : rppHandle
 {
@@ -70,20 +69,8 @@ struct Handle : rppHandle
     void SetBatchSize(size_t bSize) const;
     void rpp_destroy_object_host();
     std::unique_ptr<HandleImpl> impl;
-};
 
-#else
-
-struct Handle : rppHandle
-{
-    // Host handle related
-    Handle(size_t nBatchSize, Rpp32u numThreads = 0);
-    ~Handle();
-    InitHandle*  GetInitHandle() const;
-    size_t GetBatchSize() const;
-    Rpp32u GetNumThreads() const;
-    void SetBatchSize(size_t bSize) const;
-    void rpp_destroy_object_host();
+#ifdef GPU_SUPPORT
 
     // Allocator related
     void SetAllocator(rppAllocatorFunction allocator, rppDeallocatorFunction deallocator, void* allocatorContext) const;
@@ -171,9 +158,10 @@ struct Handle : rppHandle
         return GetDeviceName() + "_" + std::to_string(GetMaxComputeUnits());
     }
 
-    std::unique_ptr<HandleImpl> impl;
+#endif
 };
 
+#ifdef GPU_SUPPORT
 inline std::ostream& operator<<(std::ostream& os, const Handle& handle) { return handle.Print(os); }
 
 struct AutoEnableProfiling
