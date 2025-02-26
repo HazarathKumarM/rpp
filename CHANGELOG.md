@@ -15,24 +15,31 @@ Full documentation for RPP is available at [https://rocm.docs.amd.com/projects/r
 * RPP Warp Perspective on HOST and HIP
 * RPP Threshold on HOST and HIP
 
-## (Unreleased) RPP 1.9.4
+### Removed
 
 ### Changed
 
 * AMD Clang is now the default CXX and C compiler
 * RPP Tensor Box Filter support on HOST
-
-## (Unreleased) RPP 1.9.3
-
-### Changed
-
-* RPP Audio Support HIP - Spectrogram
+### Resolved issues
 
 ## (Unreleased) RPP 1.9.2 
 
 ### Changed
 
-* RPP Audio Support HIP - Mel Filter Bank
+* AMD Clang is now the default CXX and C compiler
+* AMD RPP can now pass HOST (CPU) build with g++ (#517)
+* Test Suite case numbers have been replaced with ENUMs for all augmentations to enhance test suite readability (#499)
+* Test suite updated to return error codes from RPP API and display them (#483)
+* Internal to RPP working - Restructure half.hpp and hip_fp16.h includes in one common header (#459)
+
+### Resolved issues
+
+* CXX Compiler: Fixed HOST (CPU) g++ issues. (#517)
+* Deprecation warning fixed for the "'sprintf' is deprecated" warning. (#512)
+* Test suite build fix - RPP Test Suite Pre-requisite instructions updated to lock to a specific 'nifti_clib' commit as stated in ReadME - https://github.com/ROCm/rpp/tree/develop/utilities/test_suite#prerequisites (#506)
+* Fixed broken image links for pixelate and jitter (#461)
+* Internal to RPP working - Bugfix for Log Tensor in stride updation in log_recursive function (#479)
 
 ## RPP 1.9.1 for ROCm 6.3.0
 
