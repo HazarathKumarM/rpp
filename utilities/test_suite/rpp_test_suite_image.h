@@ -156,6 +156,7 @@ enum Augmentation {
     MAGNITUDE = 61,
     PHASE = 63,
     BITWISE_AND = 65,
+    BITWISE_NOT = 66,
     BITWISE_XOR = 67,
     BITWISE_OR = 68,
     COPY = 70,

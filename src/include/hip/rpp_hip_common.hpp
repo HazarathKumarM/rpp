@@ -2079,6 +2079,8 @@ __device__ __forceinline__ void rpp_hip_math_bitwiseNot8(d_uchar8 *src_uc8, d_uc
     dst_uc8->uc1[7] = ~src_uc8->uc1[7];
 }
 
+// d_uchar8 bitwiseXOR
+
 __device__ __forceinline__ void rpp_hip_math_bitwiseXor8(d_uchar8 *src1_uc8, d_uchar8 *src2_uc8, d_uchar8 *dst_uc8)
 {
         dst_uc8->uc1[0] = src1_uc8->uc1[0] ^ src2_uc8->uc1[0];
@@ -2089,6 +2091,20 @@ __device__ __forceinline__ void rpp_hip_math_bitwiseXor8(d_uchar8 *src1_uc8, d_u
         dst_uc8->uc1[5] = src1_uc8->uc1[5] ^ src2_uc8->uc1[5];
         dst_uc8->uc1[6] = src1_uc8->uc1[6] ^ src2_uc8->uc1[6];
         dst_uc8->uc1[7] = src1_uc8->uc1[7] ^ src2_uc8->uc1[7];
+}
+
+// d_uchar8 bitwiseNOT
+
+__device__ __forceinline__ void rpp_hip_math_bitwiseNot8(d_uchar8 *src_uc8, d_uchar8 *dst_uc8)
+{
+    dst_uc8->uc1[0] = ~src_uc8->uc1[0];
+    dst_uc8->uc1[1] = ~src_uc8->uc1[1];
+    dst_uc8->uc1[2] = ~src_uc8->uc1[2];
+    dst_uc8->uc1[3] = ~src_uc8->uc1[3];
+    dst_uc8->uc1[4] = ~src_uc8->uc1[4];
+    dst_uc8->uc1[5] = ~src_uc8->uc1[5];
+    dst_uc8->uc1[6] = ~src_uc8->uc1[6];
+    dst_uc8->uc1[7] = ~src_uc8->uc1[7];
 }
 
 __device__ __forceinline__ float rpp_hip_math_inverse_sqrt1(float x)
