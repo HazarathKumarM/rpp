@@ -286,8 +286,10 @@ if testType == 1 and profilingOption == "YES":
     os.makedirs(dstPath + "/Tensor_PLN1")
     os.makedirs(dstPath + "/Tensor_PLN3")
 
+supportedCaseList = [key for key, values in imageAugmentationMap.items() if "HIP" in values]
+
 if(testType == 0):
-    noCaseSupported = all(int(case) not in imageAugmentationMap.keys() for case in caseList)
+    noCaseSupported = all(int(case) not in supportedCaseList for case in caseList)
     if noCaseSupported:
         print("case numbers %s are not supported" % caseList)
     for case in caseList:
@@ -317,7 +319,7 @@ if(testType == 0):
         create_layout_directories(dstPath, layoutDict)
 else:
     if (testType == 1 and profilingOption == "NO"):
-        noCaseSupported = all(case not in supportedCaseList for case in caseList)
+        noCaseSupported = all(case not in imageAugmentationMap for case in caseList)
         if noCaseSupported:
             print("case numbers %s are not supported" % caseList)
         for case in caseList:
@@ -337,7 +339,7 @@ else:
     elif (testType == 1 and profilingOption == "YES"):
         NEW_FUNC_GROUP_LIST = [0, 15, 20, 29, 36, 40, 42, 49, 56, 65, 67, 69]
 
-        noCaseSupported = all(int(case) not in imageAugmentationMap.keys() for case in caseList)
+        noCaseSupported = all(int(case) not in supportedCaseList for case in caseList)
         if noCaseSupported:
             print("case numbers %s are not supported" % caseList)
         for case in caseList:

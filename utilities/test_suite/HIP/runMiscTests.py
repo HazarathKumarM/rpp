@@ -289,7 +289,7 @@ if testType == 0:
     checkFile = os.path.isfile(qaFilePath)
     if checkFile:
         print("---------------------------------- Results of QA Test - Tensor_misc_hip ----------------------------------\n")
-        print_qa_tests_summary(qaFilePath, list(miscAugmentationMap.keys()), nonQACaseList, "Tensor_misc_hip")
+        print_qa_tests_summary(qaFilePath, supportedCaseList, nonQACaseList, "Tensor_misc_hip")
 
 # Performance tests
 if (testType == 1 and profilingOption == "NO"):
