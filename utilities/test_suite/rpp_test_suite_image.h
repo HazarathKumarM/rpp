@@ -1092,12 +1092,21 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
                     outRefVal = rowTempRef + j * 3;
                     Rpp32f diff = abs(*outVal - *outRefVal);
                     if(diff <= 1e-6)
+                    {
                         matchedIdx++;
+                        // std::cout << "Matched at " << i << " " << j << " " << c << std::endl;
+                        // std::cout << "OutVal " << *outVal << "- outRefVal: " << *outRefVal << "= difference -" << diff << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "Mismatch at " << i << " " << j << " " << c << " "<< imageCnt <<std::endl;
+                        std::cout << "OutVal " << *outVal << "- outRefVal: " << *outRefVal << "= difference -" << diff << std::endl;
+                    }
                 }
             }
-        }
         if(matchedIdx == (height * width * dstDescPtr->c) && matchedIdx !=0)
             fileMatch++;
+        }
     }
 }
 

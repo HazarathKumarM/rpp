@@ -332,23 +332,23 @@ RppStatus blend_f32_f32_host_tensor(Rpp32f *srcPtr1,
                 dstPtrTempB = dstPtrRowB;
 
                 int vectorLoopCount = 0;
-                for (; vectorLoopCount < alignedLength; vectorLoopCount += 12)
-                {
-                    __m128 p1[4], p2[4];
+                // for (; vectorLoopCount < alignedLength; vectorLoopCount += 12)
+                // {
+                //     __m128 p1[4], p2[4];
 
-                    rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtr1Temp, p1);    // simd loads
-                    rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtr2Temp, p2);    // simd loads
-                    p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
-                    p1[1] = _mm_fmadd_ps(_mm_sub_ps(p1[1], p2[1]), pMul, p2[1]);    // alpha-blending adjustment
-                    p1[2] = _mm_fmadd_ps(_mm_sub_ps(p1[2], p2[2]), pMul, p2[2]);    // alpha-blending adjustment
-                    rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p1);    // simd stores
+                //     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtr1Temp, p1);    // simd loads
+                //     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtr2Temp, p2);    // simd loads
+                //     p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
+                //     p1[1] = _mm_fmadd_ps(_mm_sub_ps(p1[1], p2[1]), pMul, p2[1]);    // alpha-blending adjustment
+                //     p1[2] = _mm_fmadd_ps(_mm_sub_ps(p1[2], p2[2]), pMul, p2[2]);    // alpha-blending adjustment
+                //     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p1);    // simd stores
 
-                    srcPtr1Temp += 12;
-                    srcPtr2Temp += 12;
-                    dstPtrTempR += 4;
-                    dstPtrTempG += 4;
-                    dstPtrTempB += 4;
-                }
+                //     srcPtr1Temp += 12;
+                //     srcPtr2Temp += 12;
+                //     dstPtrTempR += 4;
+                //     dstPtrTempG += 4;
+                //     dstPtrTempB += 4;
+                // }
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     *dstPtrTempR = RPPPIXELCHECKF32((srcPtr1Temp[0] - srcPtr2Temp[0]) * alpha + srcPtr2Temp[0]);
@@ -396,25 +396,25 @@ RppStatus blend_f32_f32_host_tensor(Rpp32f *srcPtr1,
                 dstPtrTemp = dstPtrRow;
 
                 int vectorLoopCount = 0;
-                for (; vectorLoopCount < alignedLength; vectorLoopCount += 4)
-                {
-                    __m128 p1[4], p2[4];
+                // for (; vectorLoopCount < alignedLength; vectorLoopCount += 4)
+                // {
+                //     __m128 p1[4], p2[4];
 
-                    rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtr1TempR, srcPtr1TempG, srcPtr1TempB, p1);    // simd loads
-                    rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtr2TempR, srcPtr2TempG, srcPtr2TempB, p2);    // simd loads
-                    p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
-                    p1[1] = _mm_fmadd_ps(_mm_sub_ps(p1[1], p2[1]), pMul, p2[1]);    // alpha-blending adjustment
-                    p1[2] = _mm_fmadd_ps(_mm_sub_ps(p1[2], p2[2]), pMul, p2[2]);    // alpha-blending adjustment
-                    rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p1);    // simd stores
+                //     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtr1TempR, srcPtr1TempG, srcPtr1TempB, p1);    // simd loads
+                //     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtr2TempR, srcPtr2TempG, srcPtr2TempB, p2);    // simd loads
+                //     p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
+                //     p1[1] = _mm_fmadd_ps(_mm_sub_ps(p1[1], p2[1]), pMul, p2[1]);    // alpha-blending adjustment
+                //     p1[2] = _mm_fmadd_ps(_mm_sub_ps(p1[2], p2[2]), pMul, p2[2]);    // alpha-blending adjustment
+                //     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p1);    // simd stores
 
-                    srcPtr1TempR += 4;
-                    srcPtr1TempG += 4;
-                    srcPtr1TempB += 4;
-                    srcPtr2TempR += 4;
-                    srcPtr2TempG += 4;
-                    srcPtr2TempB += 4;
-                    dstPtrTemp += 12;
-                }
+                //     srcPtr1TempR += 4;
+                //     srcPtr1TempG += 4;
+                //     srcPtr1TempB += 4;
+                //     srcPtr2TempR += 4;
+                //     srcPtr2TempG += 4;
+                //     srcPtr2TempB += 4;
+                //     dstPtrTemp += 12;
+                // }
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     dstPtrTemp[0] = RPPPIXELCHECKF32((*srcPtr1TempR - *srcPtr2TempR) * alpha + *srcPtr2TempR);
@@ -460,19 +460,19 @@ RppStatus blend_f32_f32_host_tensor(Rpp32f *srcPtr1,
                     dstPtrTemp = dstPtrRow;
 
                     int vectorLoopCount = 0;
-                    for (; vectorLoopCount < alignedLength; vectorLoopCount += 4)
-                    {
-                        __m128 p1[1], p2[1];
+                    // for (; vectorLoopCount < alignedLength; vectorLoopCount += 4)
+                    // {
+                    //     __m128 p1[1], p2[1];
 
-                        rpp_simd_load(rpp_load4_f32_to_f32, srcPtr1Temp, p1);    // simd loads
-                        rpp_simd_load(rpp_load4_f32_to_f32, srcPtr2Temp, p2);    // simd loads
-                        p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
-                        rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp, p1);    // simd stores
+                    //     rpp_simd_load(rpp_load4_f32_to_f32, srcPtr1Temp, p1);    // simd loads
+                    //     rpp_simd_load(rpp_load4_f32_to_f32, srcPtr2Temp, p2);    // simd loads
+                    //     p1[0] = _mm_fmadd_ps(_mm_sub_ps(p1[0], p2[0]), pMul, p2[0]);    // alpha-blending adjustment
+                    //     rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp, p1);    // simd stores
 
-                        srcPtr1Temp += 4;
-                        srcPtr2Temp += 4;
-                        dstPtrTemp += 4;
-                    }
+                    //     srcPtr1Temp += 4;
+                    //     srcPtr2Temp += 4;
+                    //     dstPtrTemp += 4;
+                    // }
                     for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                     {
                         *dstPtrTemp = RPPPIXELCHECKF32((*srcPtr1Temp - *srcPtr2Temp) * alpha + *srcPtr2Temp);
