@@ -280,6 +280,10 @@ RppStatus glitch_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     compute_src_loc(dstLocRow, vectorLoopCount, glitchSrcLocArray, srcDescPtr, rgbOffsets, roi, batchCount, 3);
                     rpp_simd_load(rpp_glitch_load24_f32pkd3_to_f32pln3_avx, srcPtrChannel, p, glitchSrcLocArray);
+                    //Boundary checks for f32 data type
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstRowPtrTempR, dstRowPtrTempG, dstRowPtrTempB, p);    // simd stores
 
                     dstRowPtrTempR += 8;
@@ -317,6 +321,10 @@ RppStatus glitch_f32_f32_host_tensor(Rpp32f *srcPtr,
                     p[0] = _mm256_loadu_ps(srcPtrChannel + glitchSrcLocArray[0]);
                     p[1] = _mm256_loadu_ps(srcPtrChannel + srcDescPtr->strides.cStride + glitchSrcLocArray[1]);
                     p[2] = _mm256_loadu_ps(srcPtrChannel + 2 * srcDescPtr->strides.cStride + glitchSrcLocArray[2]);
+                    //Boundary checks for f32 data type
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, p);    // simd stores
                     dstPtrTemp += 24;
                 }
@@ -351,6 +359,8 @@ RppStatus glitch_f32_f32_host_tensor(Rpp32f *srcPtr,
                     {
                         __m256 p;
                         p = _mm256_loadu_ps(srcPtrChannel + (glitchSrcLocArray[c] + c * srcDescPtr->strides.cStride));
+                        //Boundary checks for f32 data type
+                        p = rpp_pixel_check_0to1_avx(p);
                         _mm256_storeu_ps((dstPtrTemp + c * srcDescPtr->strides.cStride), p);
                     }
                     dstPtrTemp += 8;
@@ -372,7 +382,7 @@ RppStatus glitch_f32_f32_host_tensor(Rpp32f *srcPtr,
         {
             Rpp32f *dstPtrRow;
             dstPtrRow = dstPtrChannel;
-            Rpp32u alignedLength = (((roi.xywhROI.roiWidth)/ 2) * 2) - 2;
+            Rpp32u alignedLength = (((roi.xywhROI.roiWidth)/ 10) * 10) - 10;
             Rpp32s vectorIncrement = 2;
             Rpp32s vectorIncrementPkd = 6;
             for (int dstLocRow = 0; dstLocRow < roi.xywhROI.roiHeight; dstLocRow++)
@@ -385,6 +395,8 @@ RppStatus glitch_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p;
                     compute_src_loc(dstLocRow, vectorLoopCount, glitchSrcLocArray, srcDescPtr, rgbOffsets, roi, batchCount, 3);
                     rpp_simd_load(rpp_glitch_load6_f32pkd3_to_f32pkd3_avx, srcPtrChannel, glitchSrcLocArray, p);
+                    //Boundary checks for f32 data type
+                    p = rpp_pixel_check_0to1_avx(p);
                     _mm256_storeu_si256((__m256i *)(dstPtrTemp), p);
                     dstPtrTemp += 6;
                 }

@@ -327,6 +327,10 @@ omp_set_dynamic(0);
                     __m128 pRow[3];
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit, pSrcChannel);
                     rpp_simd_load(rpp_resize_nn_load_f32pkd3_to_f32pln3, srcPtrChannel, remapSrcLocArray, pRow);
+                    //Boundary checks for f32 data type
+                    pRow[0] = rpp_pixel_check_0to1_sse(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_sse(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_sse(pRow[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, pRow);
                     dstPtrTempR += vectorIncrementPerChannel;
                     dstPtrTempG += vectorIncrementPerChannel;
@@ -374,6 +378,10 @@ omp_set_dynamic(0);
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowR, remapSrcLocArray, pRow[0]);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowG, remapSrcLocArray, pRow[1]);
+                    //Boundary checks for f32 data type
+                    pRow[0] = rpp_pixel_check_0to1_sse(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_sse(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_sse(pRow[2]);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowB, remapSrcLocArray, pRow[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, pRow);
                     dstPtrTemp += vectorIncrement;
@@ -413,6 +421,8 @@ omp_set_dynamic(0);
                     __m128 pRow;
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit, pSrcChannel);
                     rpp_simd_load(rpp_load4_f32_to_f32, (srcPtrChannel + *remapSrcLocArray), &pRow);
+                    //Boundary checks for f32 data type
+                    pRow = rpp_pixel_check_0to1_sse(pRow);
                     rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp, &pRow);
                     dstPtrTemp += 3;
                     rowRemapTableTemp++;
@@ -450,6 +460,8 @@ omp_set_dynamic(0);
                     {
                         __m128 pRow;
                         rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrTempChn, remapSrcLocArray, pRow);
+                        //Boundary checks for f32 data type
+                        pRow = rpp_pixel_check_0to1_sse(pRow);
                         rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTempChn, &pRow);
                         srcPtrTempChn += srcDescPtr->strides.cStride;
                         dstPtrTempChn += dstDescPtr->strides.cStride;

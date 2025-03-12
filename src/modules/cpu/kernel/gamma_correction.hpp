@@ -238,7 +238,6 @@ RppStatus gamma_correction_f32_f32_host_tensor(Rpp32f *srcPtr,
                     *dstPtrTempR = gammaLUT[(int) (RPPPIXELCHECK(srcPtrTemp[0] * 255))];
                     *dstPtrTempG = gammaLUT[(int) (RPPPIXELCHECK(srcPtrTemp[1] * 255))];
                     *dstPtrTempB = gammaLUT[(int) (RPPPIXELCHECK(srcPtrTemp[2] * 255))];
-
                     srcPtrTemp += 3;
                     dstPtrTempR++;
                     dstPtrTempG++;
