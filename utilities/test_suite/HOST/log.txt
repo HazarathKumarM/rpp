@@ -15,138 +15,129 @@
 -- Configuring done (1.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: /dockerx/rpp/utilities/test_suite/HOST/build
-[ 16%] Building CXX object CMakeFiles/Tensor_image_host.dir/Tensor_image_host.cpp.o
-[ 33%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
-[ 50%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
+[ 16%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
+[ 33%] Building CXX object CMakeFiles/Tensor_image_host.dir/Tensor_image_host.cpp.o
+[ 50%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
 [ 66%] Linking CXX executable Tensor_misc_host
 [ 66%] Built target Tensor_misc_host
 [ 83%] Linking CXX executable Tensor_audio_host
 [ 83%] Built target Tensor_audio_host
 [100%] Linking CXX executable Tensor_image_host
 [100%] Built target Tensor_image_host
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 0 0
 
-Running crop_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.675 ms/batch
-CPU Backend Wall Time: 1.71804 ms/batch
+CPU Backend Clock Time: 1.552 ms/batch
+CPU Backend Wall Time: 1.55902 ms/batch
 
-Results for crop_u8_Tensor_PKD3_to_PKD3 :
+Results for glitch_u8_Tensor_PKD3_to_PKD3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 1 37 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 1 35 0 1 0 0 0
 
-Running crop_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.507 ms/batch
-CPU Backend Wall Time: 1.52397 ms/batch
+CPU Backend Clock Time: 1.581 ms/batch
+CPU Backend Wall Time: 1.52707 ms/batch
 
-Results for crop_u8_Tensor_PKD3_to_PLN3 :
+Results for glitch_u8_Tensor_PKD3_to_PLN3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 0 0
 
-Running crop_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.604 ms/batch
-CPU Backend Wall Time: 1.57404 ms/batch
+CPU Backend Clock Time: 1.926 ms/batch
+CPU Backend Wall Time: 1.6911 ms/batch
 
-Results for crop_f32_Tensor_PKD3_to_PKD3 :
+Results for glitch_f32_Tensor_PKD3_to_PKD3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 1 37 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 1 35 0 1 0 0 0
 
-Running crop_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.463 ms/batch
-CPU Backend Wall Time: 1.52206 ms/batch
+CPU Backend Clock Time: 1.794 ms/batch
+CPU Backend Wall Time: 1.62601 ms/batch
 
-Results for crop_f32_Tensor_PKD3_to_PLN3 :
+Results for glitch_f32_Tensor_PKD3_to_PLN3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 1 0
 
-Running crop_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.082 ms/batch
-CPU Backend Wall Time: 0.0491142 ms/batch
+CPU Backend Clock Time: 0.272 ms/batch
+CPU Backend Wall Time: 0.133991 ms/batch
 
-Results for crop_u8_Tensor_PLN3_to_PLN3 :
+Results for glitch_u8_Tensor_PLN3_to_PLN3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 1 37 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 1 35 0 1 0 1 0
 
-Running crop_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.062 ms/batch
-CPU Backend Wall Time: 0.041008 ms/batch
+CPU Backend Clock Time: 0.181 ms/batch
+CPU Backend Wall Time: 0.0879765 ms/batch
 
-Results for crop_u8_Tensor_PLN3_to_PKD3 :
+Results for glitch_u8_Tensor_PLN3_to_PKD3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 1 0
 
-Running crop_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.122 ms/batch
-CPU Backend Wall Time: 0.102043 ms/batch
+CPU Backend Clock Time: 0.359 ms/batch
+CPU Backend Wall Time: 0.176907 ms/batch
 
-Results for crop_f32_Tensor_PLN3_to_PLN3 :
+Results for glitch_f32_Tensor_PLN3_to_PLN3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 1 37 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 1 35 0 1 0 1 0
 
-Running crop_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running glitch_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.112 ms/batch
-CPU Backend Wall Time: 0.0910759 ms/batch
+CPU Backend Clock Time: 0.431 ms/batch
+CPU Backend Wall Time: 0.204802 ms/batch
 
-Results for crop_f32_Tensor_PLN3_to_PKD3 :
+Results for glitch_f32_Tensor_PLN3_to_PKD3 :
 PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 2 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 2 0
 
-Running crop_u8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.457 ms/batch
+case 35 does not exist for PLN1 layout
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 2 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 2 0
 
-Running crop_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.606 ms/batch
-CPU Backend Wall Time: 1.616 ms/batch
-
-Results for crop_f32_Tensor_PLN1_to_PLN1 :
-PASSED!
+case 35 does not exist for PLN1 layout
 
 ------------------------------------------------------------------------------------------
 ---------------------------------- Results of QA Test - Tensor_host ----------------------------------
 
-crop_u8_Tensor_PKD3_to_PKD3: PASSED
-crop_u8_Tensor_PKD3_to_PLN3: PASSED
-crop_f32_Tensor_PKD3_to_PKD3: PASSED
-crop_f32_Tensor_PKD3_to_PLN3: PASSED
-crop_u8_Tensor_PLN3_to_PLN3: PASSED
-crop_u8_Tensor_PLN3_to_PKD3: PASSED
-crop_f32_Tensor_PLN3_to_PLN3: PASSED
-crop_f32_Tensor_PLN3_to_PKD3: PASSED
-crop_f32_Tensor_PLN1_to_PLN1: PASSED
+glitch_u8_Tensor_PKD3_to_PKD3: PASSED
+glitch_u8_Tensor_PKD3_to_PLN3: PASSED
+glitch_f32_Tensor_PKD3_to_PKD3: PASSED
+glitch_f32_Tensor_PKD3_to_PLN3: PASSED
+glitch_u8_Tensor_PLN3_to_PLN3: PASSED
+glitch_u8_Tensor_PLN3_to_PKD3: PASSED
+glitch_f32_Tensor_PLN3_to_PLN3: PASSED
+glitch_f32_Tensor_PLN3_to_PKD3: PASSED
 
 ---------------------------------- Summary of QA Test - Tensor_host ----------------------------------
 
 Final Results of Tests:
-    - Total test cases including all subvariants REQUESTED = 9
-    - Total test cases including all subvariants PASSED = 9
+    - Total test cases including all subvariants REQUESTED = 8
+    - Total test cases including all subvariants PASSED = 8
 
 General information on Tensor voxel test suite availability:
     - Total augmentations supported in Tensor test suite = 52
@@ -157,5 +148,6 @@ General information on Tensor voxel test suite availability:
 
 ---------------------------------- Log of function variants requested but not run - Tensor_image_host ----------------------------------
 
-crop_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
+glitch_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -1  ( RPP_ERROR ) 
+glitch_f32_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -1  ( RPP_ERROR ) 
 -----------------------------------------------------------------------------------------------

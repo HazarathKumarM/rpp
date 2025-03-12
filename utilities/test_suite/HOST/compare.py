@@ -46,9 +46,9 @@ def compare_directories(dir1, dir2, output_dir):
                     compare_images(img_path1, img_path2, diff_path)
 
 if __name__ == "__main__":
-    dir1 = "/dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_color_twist_commented"
-    dir2 = "/dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_color_twist_avx"
-    output_dir = "/dockerx/rpp/utilities/test_suite/HOST/Output_difference"
+    dir1 = "/dockerx/rpp/utilities/test_suite/HOST/U8"
+    dir2 = "/dockerx/rpp/utilities/test_suite/HOST/F32"
+    output_dir = "/dockerx/rpp/utilities/test_suite/HOST/Output_difference_U8_F32"
     
     # Ensure directories exist
     for directory in [dir1, dir2, output_dir]:
