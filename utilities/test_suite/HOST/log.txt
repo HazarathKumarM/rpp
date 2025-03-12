@@ -16,267 +16,146 @@
 -- Generating done (0.0s)
 -- Build files have been written to: /dockerx/rpp/utilities/test_suite/HOST/build
 [ 16%] Building CXX object CMakeFiles/Tensor_image_host.dir/Tensor_image_host.cpp.o
-[ 33%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
-[ 50%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
+[ 33%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
+[ 50%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
 [ 66%] Linking CXX executable Tensor_misc_host
 [ 66%] Built target Tensor_misc_host
 [ 83%] Linking CXX executable Tensor_audio_host
 [ 83%] Built target Tensor_audio_host
 [100%] Linking CXX executable Tensor_image_host
 [100%] Built target Tensor_image_host
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 0 0 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 0 0
 
-Running contrast_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.668 ms/batch
-CPU Backend Wall Time: 1.64008 ms/batch
+CPU Backend Clock Time: 1.675 ms/batch
+CPU Backend Wall Time: 1.71804 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 0 1 4 0 1 0 0 0
-
-Running contrast_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.544 ms/batch
-CPU Backend Wall Time: 1.51086 ms/batch
+Results for crop_u8_Tensor_PKD3_to_PKD3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 1 0 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 1 37 0 1 0 0 0
 
-Running contrast_f16_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.884 ms/batch
-CPU Backend Wall Time: 1.652 ms/batch
+CPU Backend Clock Time: 1.507 ms/batch
+CPU Backend Wall Time: 1.52397 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 1 1 4 0 1 0 0 0
-
-Running contrast_f16_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.875 ms/batch
-CPU Backend Wall Time: 1.56403 ms/batch
+Results for crop_u8_Tensor_PKD3_to_PLN3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 2 0 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 0 0
 
-Running contrast_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.678 ms/batch
-CPU Backend Wall Time: 1.55115 ms/batch
+CPU Backend Clock Time: 1.604 ms/batch
+CPU Backend Wall Time: 1.57404 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 2 1 4 0 1 0 0 0
-
-Running contrast_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.681 ms/batch
-CPU Backend Wall Time: 1.55091 ms/batch
+Results for crop_f32_Tensor_PKD3_to_PKD3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 3 0 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 1 37 0 1 0 0 0
 
-Running contrast_u8_f16_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f16_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
+Running crop_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 3 1 4 0 1 0 0 0
+CPU Backend Clock Time: 1.463 ms/batch
+CPU Backend Wall Time: 1.52206 ms/batch
 
-Running contrast_u8_f16_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f16_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 4 0 4 0 1 0 0 0
-
-Running contrast_u8_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f32_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
+Results for crop_f32_Tensor_PKD3_to_PLN3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 4 1 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 1 0
 
-Running contrast_u8_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f32_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
+Running crop_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 5 0 4 0 1 0 0 0
+CPU Backend Clock Time: 0.082 ms/batch
+CPU Backend Wall Time: 0.0491142 ms/batch
 
-Running contrast_i8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.648 ms/batch
-CPU Backend Wall Time: 1.64413 ms/batch
+Results for crop_u8_Tensor_PLN3_to_PLN3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 5 1 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 1 37 0 1 0 1 0
 
-Running contrast_i8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.561 ms/batch
-CPU Backend Wall Time: 1.60384 ms/batch
+CPU Backend Clock Time: 0.062 ms/batch
+CPU Backend Wall Time: 0.041008 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 6 0 4 0 1 0 0 0
-
-Running contrast_u8_i8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_i8_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
+Results for crop_u8_Tensor_PLN3_to_PKD3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pkd3_color_augmentations 6 1 4 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 1 0
 
-Running contrast_u8_i8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_i8_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
+Running crop_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 0 0 4 0 1 0 1 0
+CPU Backend Clock Time: 0.122 ms/batch
+CPU Backend Wall Time: 0.102043 ms/batch
 
-Running contrast_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.157 ms/batch
-CPU Backend Wall Time: 0.0760555 ms/batch
+Results for crop_f32_Tensor_PLN3_to_PLN3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 0 1 4 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 1 37 0 1 0 1 0
 
-Running contrast_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.171 ms/batch
-CPU Backend Wall Time: 0.0789165 ms/batch
+CPU Backend Clock Time: 0.112 ms/batch
+CPU Backend Wall Time: 0.0910759 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 1 0 4 0 1 0 1 0
-
-Running contrast_f16_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.612 ms/batch
-CPU Backend Wall Time: 0.309944 ms/batch
+Results for crop_f32_Tensor_PLN3_to_PKD3 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 1 1 4 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 0 0 37 0 1 0 2 0
 
-Running contrast_f16_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_u8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.558 ms/batch
-CPU Backend Wall Time: 0.272989 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 2 0 4 0 1 0 1 0
-
-Running contrast_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.329 ms/batch
-CPU Backend Wall Time: 0.16284 ms/batch
+CPU Backend Clock Time: 1.457 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 2 1 4 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_05-35-52 2 0 37 0 1 0 2 0
 
-Running contrast_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running crop_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.345 ms/batch
-CPU Backend Wall Time: 0.168085 ms/batch
+CPU Backend Clock Time: 1.606 ms/batch
+CPU Backend Wall Time: 1.616 ms/batch
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 3 0 4 0 1 0 1 0
-
-Running contrast_u8_f16_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f16_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
+Results for crop_f32_Tensor_PLN1_to_PLN1 :
+PASSED!
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 3 1 4 0 1 0 1 0
+---------------------------------- Results of QA Test - Tensor_host ----------------------------------
 
-Running contrast_u8_f16_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f16_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
+crop_u8_Tensor_PKD3_to_PKD3: PASSED
+crop_u8_Tensor_PKD3_to_PLN3: PASSED
+crop_f32_Tensor_PKD3_to_PKD3: PASSED
+crop_f32_Tensor_PKD3_to_PLN3: PASSED
+crop_u8_Tensor_PLN3_to_PLN3: PASSED
+crop_u8_Tensor_PLN3_to_PKD3: PASSED
+crop_f32_Tensor_PLN3_to_PLN3: PASSED
+crop_f32_Tensor_PLN3_to_PKD3: PASSED
+crop_f32_Tensor_PLN1_to_PLN1: PASSED
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 4 0 4 0 1 0 1 0
+---------------------------------- Summary of QA Test - Tensor_host ----------------------------------
 
-Running contrast_u8_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f32_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
+Final Results of Tests:
+    - Total test cases including all subvariants REQUESTED = 9
+    - Total test cases including all subvariants PASSED = 9
 
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 4 1 4 0 1 0 1 0
+General information on Tensor voxel test suite availability:
+    - Total augmentations supported in Tensor test suite = 52
+    - Total augmentations with golden output QA test support = 44
+    - Total augmentations without golden ouput QA test support (due to randomization involved) = 8
 
-Running contrast_u8_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f32_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 5 0 4 0 1 0 1 0
-
-Running contrast_i8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.185 ms/batch
-CPU Backend Wall Time: 0.0889301 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 5 1 4 0 1 0 1 0
-
-Running contrast_i8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.193 ms/batch
-CPU Backend Wall Time: 0.09799 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 6 0 4 0 1 0 1 0
-
-Running contrast_u8_i8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_i8_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln3_color_augmentations 6 1 4 0 1 0 1 0
-
-Running contrast_u8_i8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_i8_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 0 0 4 0 1 0 2 0
-
-Running contrast_u8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.355 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 1 0 4 0 1 0 2 0
-
-Running contrast_f16_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.489 ms/batch
-CPU Backend Wall Time: 1.44696 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 2 0 4 0 1 0 2 0
-
-Running contrast_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.609 ms/batch
-CPU Backend Wall Time: 16.7639 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 3 0 4 0 1 0 2 0
-
-Running contrast_u8_f16_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f16_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 4 0 4 0 1 0 2 0
-
-Running contrast_u8_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_f32_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 5 0 4 0 1 0 2 0
-
-Running contrast_i8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 1.384 ms/batch
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-10_10-01-00/rpp_host_pln1_color_augmentations 6 0 4 0 1 0 2 0
-
-Running contrast_u8_i8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
-The functionality contrast_u8_i8_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
-
-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 
 ---------------------------------- Log of function variants requested but not run - Tensor_image_host ----------------------------------
 
-contrast_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
-contrast_i8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
-15 functionality variants requested by test_suite_image_host were not executed since these sub-variants are not currently supported in RPP.
-
+crop_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
 -----------------------------------------------------------------------------------------------

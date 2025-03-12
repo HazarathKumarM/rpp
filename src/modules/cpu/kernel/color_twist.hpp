@@ -436,11 +436,19 @@ RppStatus color_twist_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);  
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #else
                     __m128 p[8];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);    
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #endif
                     srcPtrTemp += vectorIncrement;
@@ -496,11 +504,19 @@ RppStatus color_twist_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 #endif
                     srcPtrTempR += vectorIncrementPerChannel;
@@ -552,11 +568,19 @@ RppStatus color_twist_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]); 
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]); 
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 #endif
                     srcPtrTemp += vectorIncrement;
@@ -610,11 +634,19 @@ RppStatus color_twist_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    // Boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #endif
                     srcPtrTempR += vectorIncrementPerChannel;
@@ -745,11 +777,17 @@ RppStatus color_twist_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_avx(p[i]);
+                    }   
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 #else
                     __m128 p[8];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp_ps, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_sse(p[i]);
+                    }  
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
@@ -819,11 +857,17 @@ RppStatus color_twist_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_avx(p[i]);
+                    }
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_sse(p[i]);
+                    }
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
@@ -881,11 +925,17 @@ RppStatus color_twist_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_avx(p[i]);
+                    } 
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp_ps, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_sse(p[i]);
+                    } 
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
@@ -949,11 +999,17 @@ RppStatus color_twist_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_twist_24_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_avx(p[i]);
+                    }
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 #else
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_twist_12_host(p[0], p[1], p[2], pColorTwistParams);    // color_twist adjustment
+                    for (int i = 0; i < 3; i++) {
+                        p[i] = rpp_pixel_check_0to1_sse(p[i]);
+                    }  
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)

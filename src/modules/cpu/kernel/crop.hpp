@@ -231,6 +231,10 @@ RppStatus crop_f32_f32_host_tensor(Rpp32f *srcPtr,
                 {
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
+                    //boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
                     srcPtrTemp += 12;
                     dstPtrTempR += 4;
@@ -279,6 +283,10 @@ RppStatus crop_f32_f32_host_tensor(Rpp32f *srcPtr,
                 {
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
+                    //boundary checks for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
                     srcPtrTempR += 4;
                     srcPtrTempG += 4;

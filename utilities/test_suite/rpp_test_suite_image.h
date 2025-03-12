@@ -991,7 +991,17 @@ void compare_outputs_pkd_and_pln1(Rpp8u* output, Rpp8u* refOutput, RpptDescPtr d
                 outRefVal = rowTempRef + j;
                 int diff = abs(*outVal - *outRefVal);
                 if(diff <= CUTOFF)
+                {
                     matchedIdx++;
+                }
+                else{
+                    if (outVal && outRefVal)  // Check for null pointers
+                    {
+                        printf("Mismatch at %d %d \n", i, j);
+                        printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
+                        printf("%0.6f\n", diff);
+
+                    }}
             }
         }
         if(matchedIdx == (height * width) && matchedIdx !=0)
@@ -1020,8 +1030,14 @@ void compare_outputs_pkd_and_pln1(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr
                 outVal = rowTemp + j;
                 outRefVal = rowTempRef + j;
                 Rpp32f diff = abs(*outVal - *outRefVal);
-                if(diff <= 1e-6)
-                    matchedIdx++;
+                if(diff <= 1e-6){
+                    matchedIdx++;}
+                else
+                {
+                    printf("Mismatch at %d %d\n", i, j);
+                        printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
+                        printf("%0.6f\n", diff);
+                }
             }
         }
         if(matchedIdx == (height * width) && matchedIdx !=0)
@@ -1056,8 +1072,21 @@ void compare_outputs_pln3(Rpp8u* output, Rpp8u* refOutput, RpptDescPtr dstDescPt
                     outRefVal = rowTempRef + j * 3;
                     int diff = abs(*outVal - *outRefVal);
                     if(diff <= CUTOFF)
-                        matchedIdx++;
+                {
+                    matchedIdx++;
+                    // std::cout << "OutVal: " << static_cast<int>(*outVal)  // Cast to avoid garbage characters
+                    //         << " - OutRefVal: " << static_cast<int>(*outRefVal)
+                    //         << " = Difference: " << static_cast<int>(diff) << std::endl;
+                }else{
+                    if (outVal && outRefVal)  // Check for null pointers
+                    {
+                        printf("Mismatch at %d %d %d\n", i, j, c);
+                        printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
+                        printf("%0.6f\n", diff);
+
+                    }
                 }
+            }
             }
         }
         if(matchedIdx == (height * width * dstDescPtr->c) && matchedIdx !=0)
@@ -1099,8 +1128,9 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
                     }
                     else
                     {
-                        std::cout << "Mismatch at " << i << " " << j << " " << c << " "<< imageCnt <<std::endl;
-                        std::cout << "OutVal " << *outVal << "- outRefVal: " << *outRefVal << "= difference -" << diff << std::endl;
+                        printf("Mismatch at %d %d %d\n", i, j, c);
+                        printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
+                        printf("%0.6f\n", diff);
                     }
                 }
             }

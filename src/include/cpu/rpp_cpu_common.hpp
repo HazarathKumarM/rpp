@@ -2563,9 +2563,9 @@ inline void compute_contrast_48_host(__m256 *p, __m256 *pContrastParams)
 
 inline void compute_contrast_24_host(__m256 *p, __m256 *pContrastParams)
 {
-    p[0] = rpp_pixel_check_0to1_avx(_mm256_fmadd_ps(_mm256_sub_ps(p[0], pContrastParams[1]), pContrastParams[0], pContrastParams[1]));    // contrast adjustment
-    p[1] = rpp_pixel_check_0to1_avx(_mm256_fmadd_ps(_mm256_sub_ps(p[1], pContrastParams[1]), pContrastParams[0], pContrastParams[1]));    // contrast adjustment
-    p[2] = rpp_pixel_check_0to1_avx(_mm256_fmadd_ps(_mm256_sub_ps(p[2], pContrastParams[1]), pContrastParams[0], pContrastParams[1]));    // contrast adjustment
+    p[0] = _mm256_fmadd_ps(_mm256_sub_ps(p[0], pContrastParams[1]), pContrastParams[0], pContrastParams[1]);    // contrast adjustment
+    p[1] = _mm256_fmadd_ps(_mm256_sub_ps(p[1], pContrastParams[1]), pContrastParams[0], pContrastParams[1]);    // contrast adjustment
+    p[2] = _mm256_fmadd_ps(_mm256_sub_ps(p[2], pContrastParams[1]), pContrastParams[0], pContrastParams[1]);    // contrast adjustment
 }
 
 inline void compute_contrast_16_host(__m256 *p, __m256 *pContrastParams)
@@ -2576,7 +2576,7 @@ inline void compute_contrast_16_host(__m256 *p, __m256 *pContrastParams)
 
 inline void compute_contrast_8_host(__m256 *p, __m256 *pContrastParams)
 {
-    p[0] = rpp_pixel_check_0to1_avx(_mm256_fmadd_ps(_mm256_sub_ps(p[0], pContrastParams[1]), pContrastParams[0], pContrastParams[1]));    // contrast adjustment
+    p[0] = _mm256_fmadd_ps(_mm256_sub_ps(p[0], pContrastParams[1]), pContrastParams[0], pContrastParams[1]);    // contrast adjustment
 }
 
 inline void compute_brightness_48_host(__m256 *p, __m256 *pBrightnessParams)
@@ -2775,11 +2775,17 @@ inline void compute_cmn_48_rgb_host(__m256 *p, __m256 *pCMNParams)
 
 inline void compute_cmn_24_host(__m256 *p, __m256 *pCMNParams)
 {
-    p[0] = _mm256_fmadd_ps(p[0], pCMNParams[0], pCMNParams[1]);
-    p[1] = _mm256_fmadd_ps(p[1], pCMNParams[2], pCMNParams[3]);
-    p[2] = _mm256_fmadd_ps(p[2], pCMNParams[4], pCMNParams[5]);
-}
+    // p[0] = _mm256_fmadd_ps(p[0], pCMNParams[0], pCMNParams[1]);
+    // p[1] = _mm256_fmadd_ps(p[1], pCMNParams[2], pCMNParams[3]);
+    // p[2] = _mm256_fmadd_ps(p[2], pCMNParams[4], pCMNParams[5]);
+    p[0] = _mm256_mul_ps(p[0], pCMNParams[0]);  
+    p[0] = _mm256_add_ps(p[0], pCMNParams[1]);
+    p[1] = _mm256_mul_ps(p[1], pCMNParams[2]);
+    p[1] = _mm256_add_ps(p[1], pCMNParams[3]);
+    p[2] = _mm256_mul_ps(p[2], pCMNParams[4]);
+    p[2] = _mm256_add_ps(p[2], pCMNParams[5]);
 
+}
 inline void compute_cmn_16_host(__m256 *p, __m256 *pCMNParams)
 {
     p[0] = _mm256_fmadd_ps(p[0], pCMNParams[0], pCMNParams[1]);
@@ -2788,7 +2794,9 @@ inline void compute_cmn_16_host(__m256 *p, __m256 *pCMNParams)
 
 inline void compute_cmn_8_host(__m256 *p, __m256 *pCMNParams)
 {
-    p[0] = _mm256_fmadd_ps(p[0], pCMNParams[0], pCMNParams[1]);
+    // p[0] = _mm256_fmadd_ps(p[0], pCMNParams[0], pCMNParams[1]);
+    p[0] = _mm256_mul_ps(p[0], pCMNParams[0]);
+    p[0] = _mm256_add_ps(p[0], pCMNParams[1]);
 }
 
 inline void compute_gridmask_masks_16_host(__m128 *pCol, __m128 *pGridRowRatio, __m128 pCosRatio, __m128 pSinRatio, __m128 pGridRatio, __m128 *pMask)
@@ -3012,9 +3020,9 @@ inline void compute_color_twist_12_host(__m128 &pVecR, __m128 &pVecG, __m128 &pV
     pVecR = _mm_or_ps(_mm_andnot_ps(pMask[0], pVecR), _mm_and_ps(pMask[0], pV));                                    //     rf = v;
     pVecG = _mm_or_ps(_mm_andnot_ps(pMask[0], pVecG), _mm_and_ps(pMask[0], pA));                                    //     gf = p;
     pVecB = _mm_or_ps(_mm_andnot_ps(pMask[0], pVecB), _mm_and_ps(pMask[0], pH));                                    //     bf = q; break;}
-    pVecR =  rpp_pixel_check_0to1_sse(_mm_fmadd_ps(pVecR, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrR = rf * brightnessParam + contrastParam;
-    pVecG =  rpp_pixel_check_0to1_sse(_mm_fmadd_ps(pVecG, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrG = gf * brightnessParam + contrastParam;
-    pVecB =  rpp_pixel_check_0to1_sse(_mm_fmadd_ps(pVecB, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrB = bf * brightnessParam + contrastParam;
+    pVecR = _mm_fmadd_ps(pVecR, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrR = rf * brightnessParam + contrastParam;
+    pVecG = _mm_fmadd_ps(pVecG, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrG = gf * brightnessParam + contrastParam;
+    pVecB = _mm_fmadd_ps(pVecB, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrB = bf * brightnessParam + contrastParam;
 }
 
 inline void compute_color_twist_24_host(__m256 &pVecR, __m256 &pVecG, __m256 &pVecB, __m256 *pColorTwistParams)
@@ -3088,9 +3096,9 @@ inline void compute_color_twist_24_host(__m256 &pVecR, __m256 &pVecG, __m256 &pV
     pVecR = _mm256_or_ps(_mm256_andnot_ps(pMask[0], pVecR), _mm256_and_ps(pMask[0], pV));                              //     rf = v;
     pVecG = _mm256_or_ps(_mm256_andnot_ps(pMask[0], pVecG), _mm256_and_ps(pMask[0], pA));                              //     gf = p;
     pVecB = _mm256_or_ps(_mm256_andnot_ps(pMask[0], pVecB), _mm256_and_ps(pMask[0], pH));                              //     bf = q; break;}
-    pVecR = rpp_pixel_check_0to1_avx (_mm256_fmadd_ps(pVecR, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrR = rf * brightnessParam + contrastParam;
-    pVecG = rpp_pixel_check_0to1_avx (_mm256_fmadd_ps(pVecG, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrG = gf * brightnessParam + contrastParam;
-    pVecB = rpp_pixel_check_0to1_avx (_mm256_fmadd_ps(pVecB, pColorTwistParams[0], pColorTwistParams[1]));                                        // dstPtrB = bf * brightnessParam + contrastParam;
+    pVecR = _mm256_fmadd_ps(pVecR, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrR = rf * brightnessParam + contrastParam;
+    pVecG = _mm256_fmadd_ps(pVecG, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrG = gf * brightnessParam + contrastParam;
+    pVecB = _mm256_fmadd_ps(pVecB, pColorTwistParams[0], pColorTwistParams[1]);                                        // dstPtrB = bf * brightnessParam + contrastParam;
 }
 
 inline void compute_color_cast_48_host(__m128 *p, __m128 pMul, __m128 *pAdd)
