@@ -338,9 +338,9 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
         Rpp32f *srcPtrChannel, *dstPtrChannel;
         dstPtrChannel = dstPtrImage;
 
-        Rpp32u alignedLength = (bufferLength / 24) * 24;
-        Rpp32u vectorIncrement = 24;
-        Rpp32u vectorIncrementPerChannel = 8;
+        Rpp32u alignedLength = (bufferLength / 24) * 24; 
+        Rpp32u vectorIncrement = 24; //24 if avx present, 1 otherwise
+        Rpp32u vectorIncrementPerChannel = 8; // 8 if avx present , 1 otherwise
 
         //Initialize hFactor, vFactor and hStrideSrcIncrement with default values (used for getting src pointer location)
         Rpp32u hFactor = roi.xywhROI.xy.x * layoutParams.bufferMultiplier;
@@ -387,7 +387,11 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                 for(int i = 0; i < roi.xywhROI.roiHeight; i++)
                 {
-                    memcpy(dstPtrRow, srcPtrRow, copyLengthInBytes);
+                    // memcpy(dstPtrRow, srcPtrRow, copyLengthInBytes);
+                    for (int j = 0; j < copyLengthInBytes / sizeof(Rpp32f); j++)
+                    {
+                        dstPtrRow[j] = srcPtrRow[j];
+                    }
                     srcPtrRow += srcDescPtr->strides.hStride;
                     dstPtrRow += dstDescPtr->strides.hStride;
                 }
@@ -434,12 +438,12 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
                     dstPtrTempG += vectorIncrementPerChannel;
                     dstPtrTempB += vectorIncrementPerChannel;
                 }
-                srcPtrTemp += hFlipFactor;
+                srcPtrTemp += hFlipFactor-2;
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
-                    *dstPtrTempR = srcPtrTemp[0];
-                    *dstPtrTempG = srcPtrTemp[1];
-                    *dstPtrTempB = srcPtrTemp[2];
+                    *dstPtrTempR = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[0]);
+                    *dstPtrTempG = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[1]);
+                    *dstPtrTempB = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[2]);
 
                     srcPtrTemp += srcPtrIncrementPerRGB;
                     dstPtrTempR++;
@@ -498,9 +502,9 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
-                    dstPtrTemp[0] = *srcPtrTempR;
-                    dstPtrTemp[1] = *srcPtrTempG;
-                    dstPtrTemp[2] = *srcPtrTempB;
+                    dstPtrTemp[0] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) *srcPtrTempR);
+                    dstPtrTemp[1] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) *srcPtrTempG);
+                    dstPtrTemp[2] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) *srcPtrTempB);
 
                     srcPtrTempR += srcPtrIncrementPerPixel;
                     srcPtrTempG += srcPtrIncrementPerPixel;
@@ -544,12 +548,12 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
                     srcPtrTemp += srcPtrIncrement;
                     dstPtrTemp += vectorIncrement;
                 }
-                srcPtrTemp += hFlipFactor;
+                srcPtrTemp += hFlipFactor-2;
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
-                    dstPtrTemp[0] = srcPtrTemp[0];
-                    dstPtrTemp[1] = srcPtrTemp[1];
-                    dstPtrTemp[2] = srcPtrTemp[2];
+                    dstPtrTemp[0] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[0]);
+                    dstPtrTemp[1] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[1]);
+                    dstPtrTemp[2] = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) srcPtrTemp[2]);
                     srcPtrTemp += srcPtrIncrementPerRGB;
                     dstPtrTemp += 3;
                 }
@@ -590,7 +594,7 @@ RppStatus flip_f32_f32_host_tensor(Rpp32f *srcPtr,
                     srcPtrTemp += hFlipFactorPerChannel;
                     for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                     {
-                        *dstPtrTemp = *srcPtrTemp;
+                        *dstPtrTemp = (Rpp32f) RPPPIXELCHECKF32((Rpp32f) *srcPtrTemp);
                         srcPtrTemp += srcPtrIncrementPerPixel;
                         dstPtrTemp++;
                     }
@@ -690,7 +694,11 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
 
                 for(int i = 0; i < roi.xywhROI.roiHeight; i++)
                 {
-                    memcpy(dstPtrRow, srcPtrRow, copyLengthInBytes);
+                    // memcpy(dstPtrRow, srcPtrRow, copyLengthInBytes);
+                    for (int j = 0; j < copyLengthInBytes / sizeof(Rpp32f); j++)
+                    {
+                        dstPtrRow[j] = srcPtrRow[j];
+                    }
                     srcPtrRow += srcDescPtr->strides.hStride;
                     dstPtrRow += dstDescPtr->strides.hStride;
                 }
@@ -728,6 +736,13 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                         srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
 
                     rpp_simd_load(load24FnPkdPln, srcPtrTemp_ps, p);     // simd loads
+                    //Boundary checks for f16 data type
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
+                    p[3] = rpp_pixel_check_0to1_avx(p[3]);
+                    p[4] = rpp_pixel_check_0to1_avx(p[4]);
+                    p[5] = rpp_pixel_check_0to1_avx(p[5]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
@@ -742,7 +757,7 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                     dstPtrTempG += vectorIncrementPerChannel;
                     dstPtrTempB += vectorIncrementPerChannel;
                 }
-                srcPtrTemp += hFlipFactor;
+                srcPtrTemp += hFlipFactor-2;
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     *dstPtrTempR = (Rpp16f) RPPPIXELCHECKF32((Rpp32f)srcPtrTemp[0]);
@@ -794,6 +809,13 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
 
                     rpp_simd_load(load24FnPlnPln, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
+                    //Boundary checks for f16 data type
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
+                    p[3] = rpp_pixel_check_0to1_avx(p[3]);
+                    p[4] = rpp_pixel_check_0to1_avx(p[4]);
+                    p[5] = rpp_pixel_check_0to1_avx(p[5]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
@@ -850,6 +872,13 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                         srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
 
                     rpp_simd_load(load24FnPkdPln, srcPtrTemp_ps, p);    // simd loads
+                    //Boundary checks for f16 data type
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
+                    p[3] = rpp_pixel_check_0to1_avx(p[3]);
+                    p[4] = rpp_pixel_check_0to1_avx(p[4]);
+                    p[5] = rpp_pixel_check_0to1_avx(p[5]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
@@ -857,7 +886,7 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                     srcPtrTemp += srcPtrIncrement;
                     dstPtrTemp += vectorIncrement;
                 }
-                srcPtrTemp += hFlipFactor;
+                srcPtrTemp += hFlipFactor-2;
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     dstPtrTemp[0] = (Rpp16f) RPPPIXELCHECKF32((Rpp32f)srcPtrTemp[0]);
@@ -898,6 +927,9 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                             srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
 
                         rpp_simd_load(load8Fn, srcPtrTemp_ps, p);    // simd loads
+                        //Boundary checks for f16 data type
+                        p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                        p[1] = rpp_pixel_check_0to1_avx(p[1]);
                         rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTemp_ps, p);    // simd stores
 
                         for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
@@ -906,7 +938,7 @@ RppStatus flip_f16_f16_host_tensor(Rpp16f *srcPtr,
                         srcPtrTemp += srcPtrIncrementPerChannel;
                         dstPtrTemp += vectorIncrementPerChannel;
                     }
-                    srcPtrTemp -= hFlipFactorPerChannel;
+                    srcPtrTemp += hFlipFactorPerChannel;
                     for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                     {
                         *dstPtrTemp = (Rpp16f) RPPPIXELCHECKF32((Rpp32f)*srcPtrTemp);

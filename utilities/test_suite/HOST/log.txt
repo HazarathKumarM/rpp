@@ -12,142 +12,271 @@
 -- Detecting CXX compile features - done
 -- Performing Test STD_FILESYSTEM_PRESENT
 -- Performing Test STD_FILESYSTEM_PRESENT - Success
--- Configuring done (1.7s)
+-- Configuring done (1.6s)
 -- Generating done (0.0s)
 -- Build files have been written to: /dockerx/rpp/utilities/test_suite/HOST/build
-[ 16%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
-[ 33%] Building CXX object CMakeFiles/Tensor_image_host.dir/Tensor_image_host.cpp.o
-[ 50%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
+[ 16%] Building CXX object CMakeFiles/Tensor_image_host.dir/Tensor_image_host.cpp.o
+[ 33%] Building CXX object CMakeFiles/Tensor_misc_host.dir/Tensor_misc_host.cpp.o
+[ 50%] Building CXX object CMakeFiles/Tensor_audio_host.dir/Tensor_audio_host.cpp.o
 [ 66%] Linking CXX executable Tensor_misc_host
 [ 66%] Built target Tensor_misc_host
 [ 83%] Linking CXX executable Tensor_audio_host
 [ 83%] Built target Tensor_audio_host
 [100%] Linking CXX executable Tensor_image_host
 [100%] Built target Tensor_image_host
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 0 0 20 0 1 0 0 0
 
-Running glitch_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_u8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.552 ms/batch
-CPU Backend Wall Time: 1.55902 ms/batch
-
-Results for glitch_u8_Tensor_PKD3_to_PKD3 :
-PASSED!
+CPU Backend Clock Time: 1.587 ms/batch
+CPU Backend Wall Time: 1.63102 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 1 35 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 0 1 20 0 1 0 0 0
 
-Running glitch_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_u8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.581 ms/batch
-CPU Backend Wall Time: 1.52707 ms/batch
-
-Results for glitch_u8_Tensor_PKD3_to_PLN3 :
-PASSED!
+CPU Backend Clock Time: 1.544 ms/batch
+CPU Backend Wall Time: 1.53589 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 1 0 20 0 1 0 0 0
 
-Running glitch_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_f16_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.926 ms/batch
-CPU Backend Wall Time: 1.6911 ms/batch
-
-Results for glitch_f32_Tensor_PKD3_to_PKD3 :
-PASSED!
+CPU Backend Clock Time: 1.915 ms/batch
+CPU Backend Wall Time: 1.78504 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 1 35 0 1 0 0 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 1 1 20 0 1 0 0 0
 
-Running glitch_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_f16_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 1.794 ms/batch
-CPU Backend Wall Time: 1.62601 ms/batch
-
-Results for glitch_f32_Tensor_PKD3_to_PLN3 :
-PASSED!
+CPU Backend Clock Time: 2.166 ms/batch
+CPU Backend Wall Time: 1.83296 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 2 0 20 0 1 0 0 0
 
-Running glitch_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.272 ms/batch
-CPU Backend Wall Time: 0.133991 ms/batch
-
-Results for glitch_u8_Tensor_PLN3_to_PLN3 :
-PASSED!
+CPU Backend Clock Time: 1.902 ms/batch
+CPU Backend Wall Time: 1.71995 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 1 35 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 2 1 20 0 1 0 0 0
 
-Running glitch_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+Running flip_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-CPU Backend Clock Time: 0.181 ms/batch
-CPU Backend Wall Time: 0.0879765 ms/batch
-
-Results for glitch_u8_Tensor_PLN3_to_PKD3 :
-PASSED!
+CPU Backend Clock Time: 1.936 ms/batch
+CPU Backend Wall Time: 1.96004 ms/batch
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 3 0 20 0 1 0 0 0
 
-Running glitch_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.359 ms/batch
-CPU Backend Wall Time: 0.176907 ms/batch
-
-Results for glitch_f32_Tensor_PLN3_to_PLN3 :
-PASSED!
+Running flip_u8_f16_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f16_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 1 35 0 1 0 1 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 3 1 20 0 1 0 0 0
 
-Running glitch_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
-
-CPU Backend Clock Time: 0.431 ms/batch
-CPU Backend Wall Time: 0.204802 ms/batch
-
-Results for glitch_f32_Tensor_PLN3_to_PKD3 :
-PASSED!
+Running flip_u8_f16_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f16_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
 
 ------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 0 0 35 0 1 0 2 0
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 4 0 20 0 1 0 0 0
 
-case 35 does not exist for PLN1 layout
-
-------------------------------------------------------------------------------------------
-./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/QA_RESULTS_HOST_2025-03-12_15-43-30 2 0 35 0 1 0 2 0
-
-case 35 does not exist for PLN1 layout
+Running flip_u8_f32_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f32_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
 
 ------------------------------------------------------------------------------------------
----------------------------------- Results of QA Test - Tensor_host ----------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 4 1 20 0 1 0 0 0
 
-glitch_u8_Tensor_PKD3_to_PKD3: PASSED
-glitch_u8_Tensor_PKD3_to_PLN3: PASSED
-glitch_f32_Tensor_PKD3_to_PKD3: PASSED
-glitch_f32_Tensor_PKD3_to_PLN3: PASSED
-glitch_u8_Tensor_PLN3_to_PLN3: PASSED
-glitch_u8_Tensor_PLN3_to_PKD3: PASSED
-glitch_f32_Tensor_PLN3_to_PLN3: PASSED
-glitch_f32_Tensor_PLN3_to_PKD3: PASSED
+Running flip_u8_f32_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f32_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
 
----------------------------------- Summary of QA Test - Tensor_host ----------------------------------
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 5 0 20 0 1 0 0 0
 
-Final Results of Tests:
-    - Total test cases including all subvariants REQUESTED = 8
-    - Total test cases including all subvariants PASSED = 8
+Running flip_i8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
 
-General information on Tensor voxel test suite availability:
-    - Total augmentations supported in Tensor test suite = 52
-    - Total augmentations with golden output QA test support = 44
-    - Total augmentations without golden ouput QA test support (due to randomization involved) = 8
+CPU Backend Clock Time: 1.644 ms/batch
+CPU Backend Wall Time: 1.61004 ms/batch
 
--------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 5 1 20 0 1 0 0 0
+
+Running flip_i8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 1.527 ms/batch
+CPU Backend Wall Time: 1.50108 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 6 0 20 0 1 0 0 0
+
+Running flip_u8_i8_Tensor_HOST_PKD3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_i8_Tensor_HOST_PKD3_toPKD3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pkd3_geometric_augmentations 6 1 20 0 1 0 0 0
+
+Running flip_u8_i8_Tensor_HOST_PKD3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_i8_Tensor_HOST_PKD3_toPLN3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 0 0 20 0 1 0 1 0
+
+Running flip_u8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.202 ms/batch
+CPU Backend Wall Time: 0.0920296 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 0 1 20 0 1 0 1 0
+
+Running flip_u8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.198 ms/batch
+CPU Backend Wall Time: 0.0929832 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 1 0 20 0 1 0 1 0
+
+Running flip_f16_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.771 ms/batch
+CPU Backend Wall Time: 0.380993 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 1 1 20 0 1 0 1 0
+
+Running flip_f16_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.655 ms/batch
+CPU Backend Wall Time: 0.320911 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 2 0 20 0 1 0 1 0
+
+Running flip_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.183 ms/batch
+CPU Backend Wall Time: 0.161171 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 2 1 20 0 1 0 1 0
+
+Running flip_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.566 ms/batch
+CPU Backend Wall Time: 0.277042 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 3 0 20 0 1 0 1 0
+
+Running flip_u8_f16_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f16_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 3 1 20 0 1 0 1 0
+
+Running flip_u8_f16_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f16_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 4 0 20 0 1 0 1 0
+
+Running flip_u8_f32_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f32_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 4 1 20 0 1 0 1 0
+
+Running flip_u8_f32_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f32_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 5 0 20 0 1 0 1 0
+
+Running flip_i8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.186 ms/batch
+CPU Backend Wall Time: 0.0901222 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 5 1 20 0 1 0 1 0
+
+Running flip_i8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 0.091 ms/batch
+CPU Backend Wall Time: 0.0641346 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 6 0 20 0 1 0 1 0
+
+Running flip_u8_i8_Tensor_HOST_PLN3_toPLN3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_i8_Tensor_HOST_PLN3_toPLN3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln3_geometric_augmentations 6 1 20 0 1 0 1 0
+
+Running flip_u8_i8_Tensor_HOST_PLN3_toPKD3 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_i8_Tensor_HOST_PLN3_toPKD3 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 0 0 20 0 1 0 2 0
+
+Running flip_u8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 1.367 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 1 0 20 0 1 0 2 0
+
+Running flip_f16_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 1.721 ms/batch
+CPU Backend Wall Time: 1.61982 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 2 0 20 0 1 0 2 0
+
+Running flip_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 1.538 ms/batch
+CPU Backend Wall Time: 1.66082 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 3 0 20 0 1 0 2 0
+
+Running flip_u8_f16_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f16_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 4 0 20 0 1 0 2 0
+
+Running flip_u8_f32_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_f32_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 5 0 20 0 1 0 2 0
+
+Running flip_i8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+
+CPU Backend Clock Time: 1.48 ms/batch
+
+------------------------------------------------------------------------------------------
+./Tensor_image_host /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src1 /dockerx/rpp/utilities/test_suite/HOST/../TEST_IMAGES/three_images_mixed_src2 /dockerx/rpp/utilities/test_suite/HOST/OUTPUT_IMAGES_HOST_2025-03-17_12-17-56/rpp_host_pln1_geometric_augmentations 6 0 20 0 1 0 2 0
+
+Running flip_u8_i8_Tensor_HOST_PLN1_toPLN1 1 times (each time with a batch size of 3 images) and computing mean statistics...
+The functionality flip_u8_i8_Tensor_HOST_PLN1_toPLN1 doesn't yet exist in RPP
+
+------------------------------------------------------------------------------------------
 
 ---------------------------------- Log of function variants requested but not run - Tensor_image_host ----------------------------------
 
-glitch_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -1  ( RPP_ERROR ) 
-glitch_f32_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -1  ( RPP_ERROR ) 
+flip_u8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
+flip_i8_Tensor_HOST_PLN1_toPLN1 - Returned non-zero exit status : -11  ( SIGSEGV ) 
+15 functionality variants requested by test_suite_image_host were not executed since these sub-variants are not currently supported in RPP.
+
 -----------------------------------------------------------------------------------------------
