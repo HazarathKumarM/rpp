@@ -9,21 +9,30 @@ Full documentation for RPP is available at [https://rocm.docs.amd.com/projects/r
 
 ### Changed
 
-* RPP Tensor Gaussian Filter support on HOST
-* RPP Fog augmentation on HOST and HIP
-* RPP Rain augmentation on HOST and HIP
-* RPP Warp Perspective on HOST and HIP
-* RPP Threshold on HOST and HIP
+* All handle creation and destruction APIs have been consolidated to `rppCreate()`, for handle initialization, and `rppDestroy()`,  for handle destruction (#513)
+* RPP function category "logical_operations" more appropriately renamed to "bitwise_operations". (#520)
+* TurboJPEG package installation enabled for RPP Test Suite with `sudo apt-get install libturbojpeg0-dev`. Instructions updated in utilities/test_suite/README.md. (#518)
 
 ### Removed
 
-### Changed
+* Older versions of RPP handle creation inlcuding `rppCreateWithBatchSize()`, `rppCreateWithStream()`, and `rppCreateWithStreamAndBatchSize()` are now removed and replaced with `rppCreate()`.
+* Older versions of RPP handle destruction API including `rppDestroyGPU()` and `rppDestroyHost()` are now removed and replaced with `rppDestroy()`.
 
-* AMD Clang is now the default CXX and C compiler
-* RPP Tensor Box Filter support on HOST
 ### Resolved issues
 
-## (Unreleased) RPP 1.9.2 
+## RPP 1.9.10 for ROCm 6.4.0
+
+### Added
+
+* RPP Tensor Gaussian Filter support on HOST (CPU) backend. (#478)
+* RPP Fog augmentation on HOST (CPU) and HIP backends. (#446)
+* RPP Rain augmentation on HOST(CPU) and HIP backends. (#463)
+* RPP Warp Perspective on HOST (CPU) and HIP backends. (#451)
+* RPP Tensor Bitwise-XOR support on HOST (CPU) and HIP backends. (#464)
+* RPP Threshold on HOST (CPU) and HIP backends. (#456)
+* RPP Tensor Box Filter support on HOST (CPU) backend.(#425)
+* RPP Audio Support for Spectrogram on HIP backend. (#433)
+* RPP Audio Support for Mel Filter Bank on HIP backend. (#421)
 
 ### Changed
 
