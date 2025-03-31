@@ -999,8 +999,6 @@ void compare_outputs_pkd_and_pln1(Rpp8u* output, Rpp8u* refOutput, RpptDescPtr d
                     {
                         printf("Mismatch at %d %d \n", i, j);
                         printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
-                        printf("%0.6f\n", diff);
-
                     }}
             }
         }
@@ -1074,10 +1072,9 @@ void compare_outputs_pln3(Rpp8u* output, Rpp8u* refOutput, RpptDescPtr dstDescPt
                     if(diff <= CUTOFF)
                 {
                     matchedIdx++;
-                    // std::cout << "OutVal: " << static_cast<int>(*outVal)  // Cast to avoid garbage characters
-                    //         << " - OutRefVal: " << static_cast<int>(*outRefVal)
-                    //         << " = Difference: " << static_cast<int>(diff) << std::endl;
-                }else{
+                    // printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
+                }
+                else{
                     if (outVal && outRefVal)  // Check for null pointers
                     {
                         printf("Mismatch at %d %d %d\n", i, j, c);
@@ -1123,6 +1120,7 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
                     if(diff <= 1e-6)
                     {
                         matchedIdx++;
+                        // printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
                         // std::cout << "Matched at " << i << " " << j << " " << c << std::endl;
                         // std::cout << "OutVal " << *outVal << "- outRefVal: " << *outRefVal << "= difference -" << diff << std::endl;
                     }

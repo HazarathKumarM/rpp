@@ -140,7 +140,7 @@ RppStatus rppt_gamma_correction_gpu(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, Rpp
  * \param [in] srcDescPtr source tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = 1/3)
  * \param [out] dstPtr destination tensor in HOST memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
- * \param [in] alphaTensor alpha values for alpha-blending (1D tensor in HOST memory, of size batchSize with the transparency factor transparency factor 0 <= alpha <= 1 for each image in batch)
+ * \param [in] alpha alpha values for alpha-blending (1D tensor in HOST memory, of size batchSize with the transparency factor transparency factor 0 <= alpha <= 1 for each image in batch)
  * \param [in] roiTensorPtrSrc ROI data in HOST memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HOST handle created with <tt>\ref rppCreateWithBatchSize()</tt>
@@ -163,7 +163,7 @@ RppStatus rppt_blend_host(RppPtr_t srcPtr1, RppPtr_t srcPtr2, RpptDescPtr srcDes
  * \param [in] srcDescPtr source tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = 1/3)
  * \param [out] dstPtr destination tensor in HIP memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
- * \param [in] alphaTensor alpha values for alpha-blending (1D tensor in pinned/HOST memory, of size batchSize with the transparency factor transparency factor 0 <= alpha <= 1 for each image in batch)
+ * \param [in] alpha alpha values for alpha-blending (1D tensor in pinned/HOST memory, of size batchSize with the transparency factor transparency factor 0 <= alpha <= 1 for each image in batch)
  * \param [in] roiTensorPtrSrc ROI data in HIP memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HIP handle created with <tt>\ref rppCreateWithStreamAndBatchSize()</tt>
@@ -377,8 +377,8 @@ RppStatus rppt_contrast_gpu(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t ds
 
 /*! \brief Look Up Table augmentation on HOST backend for a NCHW/NHWC layout tensor
  * \details The lut augmentation provides support for a look-up-table based modification of a batch of RGB(3 channel) / greyscale(1 channel) images with an NHWC/NCHW tensor layout.<br>
- * - srcPtr depth ranges - Rpp8u (0 to 255), Rpp16f (0 to 1), Rpp32f (0 to 1), Rpp8s (-128 to 127).
- * - dstPtr depth ranges - Will be same depth as srcPtr.
+ * - srcPtr depth ranges - Rpp8u (0 to 255), Rpp8s (-128 to 127).
+ * - dstPtr depth ranges - Rpp8u (0 to 255), Rpp16f (0 to 1), Rpp32f (0 to 1), Rpp8s (-128 to 127).
  * \image html img150x150.png Sample Input
  * \image html color_augmentations_lut_img150x150.png Sample Output
  * \param [in] srcPtr source tensor in HOST memory
@@ -398,8 +398,8 @@ RppStatus rppt_lut_host(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dstPtr
 #ifdef GPU_SUPPORT
 /*! \brief Look Up Table augmentation on HIP backend for a NCHW/NHWC layout tensor
  * \details The lut augmentation provides support for a look-up-table based modification of a batch of RGB(3 channel) / greyscale(1 channel) images with an NHWC/NCHW tensor layout.<br>
- * - srcPtr depth ranges - Rpp8u (0 to 255), Rpp16f (0 to 1), Rpp32f (0 to 1), Rpp8s (-128 to 127).
- * - dstPtr depth ranges - Will be same depth as srcPtr.
+ * - srcPtr depth ranges - Rpp8u (0 to 255), Rpp8s (-128 to 127).
+ * - dstPtr depth ranges - Rpp8u (0 to 255), Rpp16f (0 to 1), Rpp32f (0 to 1), Rpp8s (-128 to 127).
  * \image html img150x150.png Sample Input
  * \image html color_augmentations_lut_img150x150.png Sample Output
  * \param [in] srcPtr source tensor in HIP memory

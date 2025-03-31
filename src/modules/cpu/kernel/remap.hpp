@@ -327,6 +327,10 @@ omp_set_dynamic(0);
                     __m128 pRow[3];
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit, pSrcChannel);
                     rpp_simd_load(rpp_resize_nn_load_f32pkd3_to_f32pln3, srcPtrChannel, remapSrcLocArray, pRow);
+                    //Boundary checks for f32 data type
+                    pRow[0] = rpp_pixel_check_0to1_sse(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_sse(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_sse(pRow[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, pRow);
                     dstPtrTempR += vectorIncrementPerChannel;
                     dstPtrTempG += vectorIncrementPerChannel;
@@ -374,6 +378,10 @@ omp_set_dynamic(0);
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowR, remapSrcLocArray, pRow[0]);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowG, remapSrcLocArray, pRow[1]);
+                    //Boundary checks for f32 data type
+                    pRow[0] = rpp_pixel_check_0to1_sse(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_sse(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_sse(pRow[2]);
                     rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrRowB, remapSrcLocArray, pRow[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, pRow);
                     dstPtrTemp += vectorIncrement;
@@ -413,10 +421,25 @@ omp_set_dynamic(0);
                     __m128 pRow;
                     compute_remap_src_loc_sse(rowRemapTableTemp, colRemapTableTemp, remapSrcLocArray, pSrcStride, pWidthLimit, pHeightLimit, pSrcChannel);
                     rpp_simd_load(rpp_load4_f32_to_f32, (srcPtrChannel + *remapSrcLocArray), &pRow);
+                    //Boundary checks for f32 data type
+                    pRow = rpp_pixel_check_0to1_sse(pRow);
                     rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp, &pRow);
                     dstPtrTemp += 3;
                     rowRemapTableTemp++;
                     colRemapTableTemp++;
+                }
+                for (; vectorLoopCount < roi.xywhROI.roiWidth; vectorLoopCount++)
+                {
+                    Rpp32f * dstPtrTempChannel = dstPtrTemp;
+                    Rpp32f * srcPtrTempChannel = srcPtrChannel;
+                    compute_remap_src_loc(*rowRemapTableTemp++, *colRemapTableTemp++, remappedSrcLoc, srcDescPtr->strides.hStride, widthLimit, heightLimit);
+                    for (int c = 0; c < dstDescPtr->c; c++)
+                    {
+                        *dstPtrTempChannel = *(srcPtrTempChannel + remappedSrcLoc);
+                        dstPtrTempChannel += dstDescPtr->strides.cStride;
+                        srcPtrTempChannel += srcDescPtr->strides.cStride;
+                    }
+                    dstPtrTemp++;
                 }
                 dstPtrRow += dstDescPtr->strides.hStride;
                 rowRemapTableImage += remapTableDescPtr->strides.hStride;
@@ -450,6 +473,8 @@ omp_set_dynamic(0);
                     {
                         __m128 pRow;
                         rpp_simd_load(rpp_resize_nn_load_f32pln1, srcPtrTempChn, remapSrcLocArray, pRow);
+                        //Boundary checks for f32 data type
+                        pRow = rpp_pixel_check_0to1_sse(pRow);
                         rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTempChn, &pRow);
                         srcPtrTempChn += srcDescPtr->strides.cStride;
                         dstPtrTempChn += dstDescPtr->strides.cStride;
@@ -1766,6 +1791,10 @@ omp_set_dynamic(0);
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary check for f16 data
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, pDst); // Store dst pixels
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
@@ -1817,6 +1846,10 @@ omp_set_dynamic(0);
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary check for f16 data
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, pDst); // Store dst pixels
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
                         dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
@@ -1863,6 +1896,10 @@ omp_set_dynamic(0);
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary check for f16 data
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, pDst); // Store dst pixels
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
                         dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
@@ -1913,6 +1950,10 @@ omp_set_dynamic(0);
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary check for f16 data
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, pDst); // Store dst pixels
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
@@ -1964,6 +2005,8 @@ omp_set_dynamic(0);
                     compute_generic_bilinear_srclocs_1c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, pRoiLTRB);
                     rpp_simd_load(rpp_generic_bilinear_load_1c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_1c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary check for f16 data
+                    pDst = rpp_pixel_check_0to1_avx(pDst);
                     rpp_simd_store(rpp_store8_f32pln1_to_f32pln1_avx, dstPtrTemp_ps, pDst); // Store dst pixels
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                         dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
