@@ -1004,6 +1004,8 @@ int main(int argc, char **argv)
                         for (j = 0; j < 256; j++)
                             lut8s[j] = (Rpp8s)(255 - j - 128);
 
+                    printf("srcptr->dataType : %d , descptr->dataType : %d", srcDescPtr->dataType, dstDescPtr->dataType);
+                    printf("inputBitDepth : %d", inputBitDepth);
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();

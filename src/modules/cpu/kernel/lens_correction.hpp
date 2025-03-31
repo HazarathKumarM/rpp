@@ -77,11 +77,6 @@ inline void compute_lens_correction_remap_tables_host_tensor(RpptDescPtr srcDesc
         get_inverse(cameraMatrix, invCameraMatrix);
         Rpp32f *invMat = &invCameraMatrix[0];
 
-
-        //scalar print
-        // printf("Scalar Values:     %.6f  %.6f  %.6f\n", invMat[0], invMat[3], invMat[6]);
-
-
         // Get radial and tangential distortion coefficients
         Rpp32f rCoeff[6] = { distortionCoeffs[0], distortionCoeffs[1], distortionCoeffs[4], distortionCoeffs[5], distortionCoeffs[6], distortionCoeffs[7] };
         Rpp32f tCoeff[2] = { distortionCoeffs[2], distortionCoeffs[3] };
@@ -108,10 +103,6 @@ inline void compute_lens_correction_remap_tables_host_tensor(RpptDescPtr srcDesc
         pInvMat0 = _mm256_set1_ps(invMat[0]);
         pInvMat3 = _mm256_set1_ps(invMat[3]);
         pInvMat6 = _mm256_set1_ps(invMat[6]);
-
-        // // print AVX 
-        // printf("AVX Values : %.6f  %.6f  %.6f\n", pInvMat0,pInvMat3,pInvMat6);
-
 
         __m256 pXCameraInit, pYCameraInit, pZCameraInit;
         __m256 pXCameraIncrement, pYCameraIncrement, pZCameraIncrement;

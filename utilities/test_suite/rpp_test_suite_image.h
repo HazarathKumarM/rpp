@@ -1028,7 +1028,7 @@ void compare_outputs_pkd_and_pln1(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr
                 outVal = rowTemp + j;
                 outRefVal = rowTempRef + j;
                 Rpp32f diff = abs(*outVal - *outRefVal);
-                if(diff <= 1e-4){
+                if(diff <= 1e-6){
                     matchedIdx++;}
                 else
                 {
@@ -1117,7 +1117,7 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
                     outVal = rowTemp + j;
                     outRefVal = rowTempRef + j * 3;
                     Rpp32f diff = abs(*outVal - *outRefVal);
-                    if(diff <= 1e-4)
+                    if(diff <= 1e-6)
                     {
                         matchedIdx++;
                         // printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);

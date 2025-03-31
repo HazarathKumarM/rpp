@@ -1718,7 +1718,7 @@ int main(int argc, char **argv)
                 2.input bit depth 0 (Input U8 && Output U8)
                 3.source and destination layout are the same
                 4.augmentation case does not generate random output*/
-                if(qaFlag && (inputBitDepth == 0 || inputBitDepth == 2) && (!(randomOutputCase) && !(nonQACase)))
+                if(qaFlag && (dstDescPtr->dataType == RpptDataType::U8 || dstDescPtr->dataType == RpptDataType::F32) && (!(randomOutputCase) && !(nonQACase)))
                     compare_output(output, testCaseName, srcDescPtr, dstDescPtr, dstImgSizes, batchSize, interpolationTypeName, noiseTypeName, additionalParam, testCase, dst, scriptPath);
 
                 // Calculate exact dstROI in XYWH format for OpenCV dump
