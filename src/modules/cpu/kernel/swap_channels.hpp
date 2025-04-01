@@ -233,7 +233,7 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
 {
     Rpp32u numThreads = handle.GetNumThreads();
     omp_set_dynamic(0);
-#pragma omp parallel for num_threads(numThreads)
+#pragma omp parallel for num_threads(1)
     for(int batchCount = 0; batchCount < dstDescPtr->n; batchCount++)
     {
         Rpp32f *srcPtrImage, *dstPtrImage;
@@ -265,6 +265,11 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
                 {
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
+                    //boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempB, dstPtrTempG, dstPtrTempR, p);    // simd stores with channel swap
                     srcPtrTemp += 12;
                     dstPtrTempR += 4;
@@ -308,6 +313,11 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
                 {
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempB, srcPtrTempG, srcPtrTempR, p);    // simd loads with channel swap
+                    // boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
                     srcPtrTempR += 4;
                     srcPtrTempG += 4;
@@ -333,6 +343,7 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
         else if ((srcDescPtr->c == 3) && (srcDescPtr->layout == RpptLayout::NHWC) && (dstDescPtr->layout == RpptLayout::NHWC))
         {
             Rpp32f *srcPtrRow, *dstPtrRow;
+            
             srcPtrRow = srcPtrImage;
             dstPtrRow = dstPtrImage;
 
@@ -350,6 +361,15 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
                     p[3] = p[0];    // channel swap
                     p[0] = p[2];    // channel swap
                     p[2] = p[3];    // channel swap
+                    //boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
+                    if(i==0 && vectorLoopCount == 0){
+                        printf("\np[0]:");
+                        rpp_mm_print_ps(p[0]);
+                    }
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
                     srcPtrTemp += 12;
                     dstPtrTemp += 12;
@@ -392,8 +412,12 @@ RppStatus swap_channels_f32_f32_host_tensor(Rpp32f *srcPtr,
                 int vectorLoopCount = 0;
                 for (; vectorLoopCount < alignedLength; vectorLoopCount += 4)
                 {
-                    __m128 p[4];
+                    __m128 p[3];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempB, srcPtrTempG, srcPtrTempR, p);    // simd loads with channel swap
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
                     srcPtrTempR += 4;
                     srcPtrTempG += 4;
@@ -467,6 +491,11 @@ RppStatus swap_channels_f16_f16_host_tensor(Rpp16f *srcPtr,
                         srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp_ps, p);    // simd loads
+                    //Boundary Checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempB_ps, dstPtrTempG_ps, dstPtrTempR_ps, p);    // simd stores with channel swap
                     for(int cnt = 0; cnt < 4; cnt++)
                     {
@@ -524,6 +553,11 @@ RppStatus swap_channels_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempB_ps, srcPtrTempG_ps, srcPtrTempR_ps, p);    // simd loads with channel swap
+                    // boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
                     for(int cnt = 0; cnt < 12; cnt++)
                         dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
@@ -572,6 +606,11 @@ RppStatus swap_channels_f16_f16_host_tensor(Rpp16f *srcPtr,
                     p[3] = p[0];    // channel swap
                     p[0] = p[2];    // channel swap
                     p[2] = p[3];    // channel swap
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
                     for(int cnt = 0; cnt < 12; cnt++)
                         dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
@@ -626,6 +665,11 @@ RppStatus swap_channels_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     __m128 p[4];
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempB_ps, srcPtrTempG_ps, srcPtrTempR_ps, p);    // simd loads with channel swap
+                    //Boundary Checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
                     for(int cnt = 0; cnt < 4; cnt++)
                     {

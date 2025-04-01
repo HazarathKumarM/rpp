@@ -1018,6 +1018,7 @@ void compare_outputs_pkd_and_pln1(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr
         int height = dstImgSizes[imageCnt].height;
         int width = dstImgSizes[imageCnt].width * dstDescPtr->c;
         int matchedIdx = 0;
+        int mismatch=0;
         int refOutputHstride = refOutputWidth * dstDescPtr->c;
         for(int i = 0; i < height; i++)
         {
@@ -1032,14 +1033,18 @@ void compare_outputs_pkd_and_pln1(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr
                     matchedIdx++;}
                 else
                 {
+                    printf("ImageCnt: %d",imageCnt);
+                    mismatch++;
                     printf("Mismatch at %d %d\n", i, j);
                         printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
-                        printf("%0.6f\n", diff);
                 }
             }
         }
         if(matchedIdx == (height * width) && matchedIdx !=0)
             fileMatch++;
+        if(mismatch!=0){
+            printf("Mismatched count: %d",mismatch);
+        }
     }
 }
 
@@ -1102,6 +1107,7 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
         int height = dstImgSizes[imageCnt].height;
         int width = dstImgSizes[imageCnt].width;
         int matchedIdx = 0;
+        int mismatch = 0;
         int refOutputHstride = refOutputWidth * dstDescPtr->c;
 
         for(int c = 0; c < dstDescPtr->c; c++)
@@ -1126,14 +1132,18 @@ void compare_outputs_pln3(Rpp32f* output, Rpp32f* refOutput, RpptDescPtr dstDesc
                     }
                     else
                     {
+                        printf("ImageCnt: %d",imageCnt);
+                        mismatch++;
                         printf("Mismatch at %d %d %d\n", i, j, c);
                         printf("OutVal: %0.6f - OutRefVal: %0.6f = Difference: %0.6f\n", *outVal, *outRefVal, diff);
-                        printf("%0.6f\n", diff);
                     }
                 }
             }
         if(matchedIdx == (height * width * dstDescPtr->c) && matchedIdx !=0)
             fileMatch++;
+        if(mismatch!=0){
+                printf("Mismatched count: %d",mismatch);
+            }
         }
     }
 }
