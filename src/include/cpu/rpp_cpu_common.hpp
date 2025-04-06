@@ -5833,14 +5833,19 @@ inline void compute_separable_vertical_resample(T *inputPtr, Rpp32f *outputPtr, 
                         pTemp[v] = _mm_fmadd_ps(pInput[v], pCoeff[k], pTemp[v]);
                 }
                 for(int vec = 0, outStoreStride = 0; vec < numVecs; vec++, outStoreStride += outPixelsPerIter)     // Since 4 output pixels are stored per iteration
-                    rpp_simd_store(rpp_store4_f32_to_f32, outRowPtr + outLocCol + outStoreStride, &pTemp[vec]);
+                    rpp_simd_store(rpp_store4_f32_to_f32, outRowPtr + outLocCol + outStoreStride, &pTemp[vec]);                
             }
 
             for (; outLocCol < bufferLength; outLocCol++)
             {
                 Rpp32f temp = 0;
                 for (int k = 0; k < filter.size; k++)
-                    temp += (inRowPtr[k][outLocCol] * coeffs[k0 + k]);
+                {    
+                    // temp += (inRowPtr[k][outLocCol] * coeffs[k0 + k]);
+                    Rpp32f inVal = inRowPtr[k][outLocCol];
+                    Rpp32f coefficient = coeffs[k0 + k];
+                    temp += inVal * coefficient;
+                }
                 outRowPtr[outLocCol] = temp;
             }
         }
