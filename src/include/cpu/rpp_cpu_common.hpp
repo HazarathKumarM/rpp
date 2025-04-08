@@ -5841,10 +5841,7 @@ inline void compute_separable_vertical_resample(T *inputPtr, Rpp32f *outputPtr, 
                 Rpp32f temp = 0;
                 for (int k = 0; k < filter.size; k++)
                 {    
-                    // temp += (inRowPtr[k][outLocCol] * coeffs[k0 + k]);
-                    Rpp32f inVal = inRowPtr[k][outLocCol];
-                    Rpp32f coefficient = coeffs[k0 + k];
-                    temp += inVal * coefficient;
+                    temp += (inRowPtr[k][outLocCol] * coeffs[k0 + k]);
                 }
                 outRowPtr[outLocCol] = temp;
             }
@@ -5936,9 +5933,9 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                             }
 
                             // Perform transpose operation to arrange input pixels from different output locations in each vector
-                            _MM_TRANSPOSE4_PS(pInputR[0], pInputR[1], pInputR[2], pInputR[3]);
-                            _MM_TRANSPOSE4_PS(pInputG[0], pInputG[1], pInputG[2], pInputG[3]);
-                            _MM_TRANSPOSE4_PS(pInputB[0], pInputB[1], pInputB[2], pInputB[3]);
+                            // _MM_TRANSPOSE4_PS(pInputR[0], pInputR[1], pInputR[2], pInputR[3]);
+                            // _MM_TRANSPOSE4_PS(pInputG[0], pInputG[1], pInputG[2], pInputG[3]);
+                            // _MM_TRANSPOSE4_PS(pInputB[0], pInputB[1], pInputB[2], pInputB[3]);
                             for (int l = 0; l < kernelAdd; l++)
                             {
                                 pOutputR[vec] = _mm_fmadd_ps(pCoeffs[l], pInputR[l], pOutputR[vec]);
@@ -6131,7 +6128,7 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                                 pCoeffs[l] = _mm_loadu_ps(&(coeffs[coeffIdx + ((l + k) * 4)]));                 // Load coefficients
                                 pInput[l] = _mm_blendv_ps(pInput[l], pFirstVal, pxNegativeIndexMask[l]);        // If negative index is present replace the pixel value with first value in the row
                             }
-                            _MM_TRANSPOSE4_PS(pInput[0], pInput[1], pInput[2], pInput[3]);  // Perform transpose operation to arrange input pixels from different output locations in each vector
+                            // _MM_TRANSPOSE4_PS(pInput[0], pInput[1], pInput[2], pInput[3]);  // Perform transpose operation to arrange input pixels from different output locations in each vector
                             for (int l = 0; l < kernelAdd; l++)
                                 pOutput[vec] = _mm_fmadd_ps(pCoeffs[l], pInput[l], pOutput[vec]);
                         }
