@@ -5926,16 +5926,55 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                                 rpp_simd_load(rpp_load4_f32_to_f32, inRowPtrB + srcx, pInputB + l);
                                 pCoeffs[l] = _mm_loadu_ps(&(coeffs[coeffIdx + ((l + k) * 4)]));        // Load coefficients
 
+                                printf("\nR First Val:");rpp_mm_print_ps(pFirstValR);
+                                printf("\nG First Val:");rpp_mm_print_ps(pFirstValG);
+                                printf("\nB First Val:");rpp_mm_print_ps(pFirstValB);
+
+                                printf("\n pxNegativeIndexMask[l] :");rpp_mm_print_ps(pxNegativeIndexMask[l]);
                                 // If negative index is present replace the input pixel value with first value in the row
                                 pInputR[l] = _mm_blendv_ps(pInputR[l], pFirstValR, pxNegativeIndexMask[l]);
                                 pInputG[l] = _mm_blendv_ps(pInputG[l], pFirstValG, pxNegativeIndexMask[l]);
                                 pInputB[l] = _mm_blendv_ps(pInputB[l], pFirstValB, pxNegativeIndexMask[l]);
+                                printf("After computation : ");
+                                printf("\nR %d Input R Val:",l);rpp_mm_print_ps(pInputR[l]);
+                                printf("\nG %d Input G Val:",l);rpp_mm_print_ps(pInputR[l]);
+                                printf("\nB %d Input B Val:",l);rpp_mm_print_ps(pInputR[l]);
                             }
+                            // printf("Before Transpose : \n");
+                            // printf("\nR 0:");rpp_mm_print_ps(pInputR[0]);
+                            // printf("\nR 1:");rpp_mm_print_ps(pInputR[1]);
+                            // printf("\nR 2:");rpp_mm_print_ps(pInputR[2]);
+                            // printf("\nR 3:");rpp_mm_print_ps(pInputR[3]);
 
+                            // printf("\nG 0:");rpp_mm_print_ps(pInputG[0]);
+                            // printf("\nG 1:");rpp_mm_print_ps(pInputG[1]);
+                            // printf("\nG 2:");rpp_mm_print_ps(pInputG[2]);
+                            // printf("\nG 3:");rpp_mm_print_ps(pInputG[3]);
+
+                            // printf("\nB 0:");rpp_mm_print_ps(pInputB[0]);
+                            // printf("\nB 1:");rpp_mm_print_ps(pInputB[1]);
+                            // printf("\nB 2:");rpp_mm_print_ps(pInputB[2]);
+                            // printf("\nB 3:");rpp_mm_print_ps(pInputB[3]);
                             // Perform transpose operation to arrange input pixels from different output locations in each vector
-                            // _MM_TRANSPOSE4_PS(pInputR[0], pInputR[1], pInputR[2], pInputR[3]);
-                            // _MM_TRANSPOSE4_PS(pInputG[0], pInputG[1], pInputG[2], pInputG[3]);
-                            // _MM_TRANSPOSE4_PS(pInputB[0], pInputB[1], pInputB[2], pInputB[3]);
+                            _MM_TRANSPOSE4_PS(pInputR[0], pInputR[1], pInputR[2], pInputR[3]);
+                            _MM_TRANSPOSE4_PS(pInputG[0], pInputG[1], pInputG[2], pInputG[3]);
+                            _MM_TRANSPOSE4_PS(pInputB[0], pInputB[1], pInputB[2], pInputB[3]);
+
+                            // printf("After Transpose : \n");
+                            // printf("\nR 0:");rpp_mm_print_ps(pInputR[0]);
+                            // printf("\nR 1:");rpp_mm_print_ps(pInputR[1]);
+                            // printf("\nR 2:");rpp_mm_print_ps(pInputR[2]);
+                            // printf("\nR 3:");rpp_mm_print_ps(pInputR[3]);
+
+                            // printf("\nG 0:");rpp_mm_print_ps(pInputG[0]);
+                            // printf("\nG 1:");rpp_mm_print_ps(pInputG[1]);
+                            // printf("\nG 2:");rpp_mm_print_ps(pInputG[2]);
+                            // printf("\nG 3:");rpp_mm_print_ps(pInputG[3]);
+
+                            // printf("\nB 0:");rpp_mm_print_ps(pInputB[0]);
+                            // printf("\nB 1:");rpp_mm_print_ps(pInputB[1]);
+                            // printf("\nB 2:");rpp_mm_print_ps(pInputB[2]);
+                            // printf("\nB 3:");rpp_mm_print_ps(pInputB[3]);
                             for (int l = 0; l < kernelAdd; l++)
                             {
                                 pOutputR[vec] = _mm_fmadd_ps(pCoeffs[l], pInputR[l], pOutputR[vec]);
@@ -6093,7 +6132,7 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
             Rpp32f *inRowPtr = inputPtr + outLocRow * inputDescPtr->strides.hStride;
             Rpp32s bufferLength = outputImgSize.width;
             Rpp32s alignedLength = bufferLength &~ (numLanes-1);
-            __m128 pFirstVal = _mm_set1_ps(inRowPtr[0]);
+            // __m128 pFirstVal = _mm_set1_ps(inRowPtr[0]);
             bool breakLoop = false;
             Rpp32s outLocCol = 0;
 
@@ -6115,6 +6154,7 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                         pxIdx[3] = _mm_set1_epi32(index[x + 3]);
                         for(int k = 0; k < filter.size; k += filterKernelStride)
                         {
+                            __m128 pFirstVal = _mm_set1_ps(inRowPtr[k]);
                             __m128i pxNegativeIndexMask[numOutPixels];
                             __m128i pxKernelIdx = _mm_set1_epi32(k);
                             __m128 pInput[numOutPixels], pCoeffs[numOutPixels];
@@ -6128,7 +6168,18 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                                 pCoeffs[l] = _mm_loadu_ps(&(coeffs[coeffIdx + ((l + k) * 4)]));                 // Load coefficients
                                 pInput[l] = _mm_blendv_ps(pInput[l], pFirstVal, pxNegativeIndexMask[l]);        // If negative index is present replace the pixel value with first value in the row
                             }
-                            // _MM_TRANSPOSE4_PS(pInput[0], pInput[1], pInput[2], pInput[3]);  // Perform transpose operation to arrange input pixels from different output locations in each vector
+                            printf("Before Transpose : \n");
+                            printf("\nI 0:");rpp_mm_print_ps(pInput[0]);
+                            printf("\nI 1:");rpp_mm_print_ps(pInput[1]);
+                            printf("\nI 2:");rpp_mm_print_ps(pInput[2]);
+                            printf("\nI 3:");rpp_mm_print_ps(pInput[3]);
+
+                            _MM_TRANSPOSE4_PS(pInput[0], pInput[1], pInput[2], pInput[3]);  // Perform transpose operation to arrange input pixels from different output locations in each vector
+                            printf("After Transpose : \n");
+                            printf("\nI 0:");rpp_mm_print_ps(pInput[0]);
+                            printf("\nI 1:");rpp_mm_print_ps(pInput[1]);
+                            printf("\nI 2:");rpp_mm_print_ps(pInput[2]);
+                            printf("\nI 3:");rpp_mm_print_ps(pInput[3]);
                             for (int l = 0; l < kernelAdd; l++)
                                 pOutput[vec] = _mm_fmadd_ps(pCoeffs[l], pInput[l], pOutput[vec]);
                         }

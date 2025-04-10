@@ -1172,7 +1172,7 @@ RppStatus warp_affine_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
     Rpp32u numThreads = handle.GetNumThreads();
 
     omp_set_dynamic(0);
-#pragma omp parallel for num_threads(numThreads)
+#pragma omp parallel for num_threads(1)
     for(int batchCount = 0; batchCount < dstDescPtr->n; batchCount++)
     {
         RpptROI roi, roiLTRB;
@@ -1198,10 +1198,13 @@ RppStatus warp_affine_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
 
         __m256 pBilinearCoeffs[4];
         __m256 pSrcStrideH = _mm256_set1_ps(srcDescPtr->strides.hStride);
-        __m256 pAffineMatrixTerm0 = _mm256_setr_ps(0, affineMatrix_f6->data[0], affineMatrix_f6->data[0] * 2, affineMatrix_f6->data[0] * 3, affineMatrix_f6->data[0] * 4, affineMatrix_f6->data[0] * 5, affineMatrix_f6->data[0] * 6, affineMatrix_f6->data[0] * 7);
-        __m256 pAffineMatrixTerm3 = _mm256_setr_ps(0, affineMatrix_f6->data[3], affineMatrix_f6->data[3] * 2, affineMatrix_f6->data[3] * 3, affineMatrix_f6->data[3] * 4, affineMatrix_f6->data[3] * 5, affineMatrix_f6->data[3] * 6, affineMatrix_f6->data[3] * 7);
-        __m256 pAffineMatrixTerm0Incr = _mm256_set1_ps(affineMatrix_f6->data[0] * 8);
-        __m256 pAffineMatrixTerm3Incr = _mm256_set1_ps(affineMatrix_f6->data[3] * 8);
+        __m256i indices = _mm256_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7);
+        __m256 pIndices = _mm256_cvtepi32_ps(indices);
+        __m256 pAffineMatrixTerm0 = _mm256_mul_ps(pIndices, _mm256_set1_ps(affineMatrix_f6->data[0]));
+        __m256 pAffineMatrixTerm3 = _mm256_mul_ps(pIndices, _mm256_set1_ps(affineMatrix_f6->data[3]));
+        __m256 pStep = _mm256_set1_ps(8.0f);
+        __m256 pAffineMatrixTerm0Incr = _mm256_mul_ps(_mm256_set1_ps(affineMatrix_f6->data[0]), pStep);
+        __m256 pAffineMatrixTerm3Incr = _mm256_mul_ps(_mm256_set1_ps(affineMatrix_f6->data[3]), pStep);
         __m256 pRoiLTRB[4];
         pRoiLTRB[0] = _mm256_set1_ps(roiLTRB.ltrbROI.lt.x);
         pRoiLTRB[1] = _mm256_set1_ps(roiLTRB.ltrbROI.lt.y);
@@ -1238,6 +1241,9 @@ RppStatus warp_affine_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                 {
                     __m256 pSrc[12], pDst[3];
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
+                    printf("VectorLoopCount : %d\n", vectorLoopCount);
+                    printf("pSrcY : "); rpp_mm256_print_ps(pSrcY);
+                    printf("pSrcX : "); rpp_mm256_print_ps(pSrcX);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
                     //Boundary Check
@@ -1255,6 +1261,8 @@ RppStatus warp_affine_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     compute_generic_bilinear_interpolation_pkd3_to_pln3(srcY, srcX, &roiLTRB, dstPtrTempR++, dstPtrTempG++, dstPtrTempB++, srcPtrChannel, srcDescPtr);
+                    printf("VectorLoopCount : %d\n", vectorLoopCount);
+                    printf("srcY : %.6f srcX : %.6f\n", srcY,srcX);
                     compute_warp_affine_src_loc_next_term(vectorLoopCount, srcY, srcX, affineMatrix_f6);
                 }
                 dstPtrRowR += dstDescPtr->strides.hStride;
@@ -1339,6 +1347,8 @@ RppStatus warp_affine_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                 }
                 srcY += (affineMatrix_f6->data[3] * vectorLoopCount);
                 srcX += (affineMatrix_f6->data[0] * vectorLoopCount);
+                // srcY = fmaf(affineMatrix_f6->data[3], vectorLoopCount, srcY);
+                // srcX = fmaf(affineMatrix_f6->data[0], vectorLoopCount, srcX);
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     compute_generic_bilinear_interpolation_pln3pkd3_to_pkd3(srcY, srcX, &roiLTRB, dstPtrTemp, srcPtrChannel, srcDescPtr);

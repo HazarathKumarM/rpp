@@ -228,7 +228,7 @@ RppStatus rppt_flip_gpu(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dstPtr
  * \param [out] dstPtr destination tensor in HOST memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
  * \param [in] dstImgSizes destination image sizes (<tt> \ref RpptImagePatchPtr </tt> type pointer to array, in HOST memory, of size batchSize)
- * \param [in] interpolationType Interpolation type used in <tt> \ref RpptInterpolationType </tt>
+ * \param [in] interpolationType Interpolation type used (RpptInterpolationType::NEAREST_NEIGHBOR (0) or RpptInterpolationType::BILINEAR (1) or RpptInterpolationType::BICUBIC (2) or RpptInterpolationType::LANCZOS (3) or RpptInterpolationType::GAUSSIAN (4) or RpptInterpolationType::TRIANGULAR (5))
  * \param [in] roiTensorPtrSrc ROI data in HOST memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HOST handle created with <tt>\ref rppCreateWithBatchSize()</tt>
@@ -250,7 +250,7 @@ RppStatus rppt_resize_host(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dst
  * \param [out] dstPtr destination tensor in HIP memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
  * \param [in] dstImgSizes destination image sizes (<tt> \ref RpptImagePatchPtr </tt> type pointer to array, in pinned/HOST memory, of size batchSize)
- * \param [in] interpolationType Interpolation type used in <tt> \ref RpptInterpolationType </tt>
+ * \param [in] interpolationType Interpolation type used (RpptInterpolationType::NEAREST_NEIGHBOR (0) or RpptInterpolationType::BILINEAR (1) or RpptInterpolationType::BICUBIC (2) or RpptInterpolationType::LANCZOS (3) or RpptInterpolationType::GAUSSIAN (4) or RpptInterpolationType::TRIANGULAR (5))
  * \param [in] roiTensorPtrSrc ROI data in HIP memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HIP handle created with <tt>\ref rppCreateWithStreamAndBatchSize()</tt>
@@ -368,7 +368,7 @@ RppStatus rppt_resize_crop_mirror_gpu(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, R
  * \param [out] dstPtr destination tensor in HOST memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
  * \param [in] angle image rotation angle in degrees - positive deg-anticlockwise/negative deg-clockwise (1D tensor in HOST memory, of size batchSize)
- * \param [in] interpolationType Interpolation type used (RpptInterpolationType::XYWH or RpptRoiType::LTRB)
+ * \param [in] interpolationType Interpolation type used (RpptInterpolationType::NEAREST_NEIGHBOR (0) or RpptInterpolationType::BILINEAR (1))
  * \param [in] roiTensorPtrSrc ROI data in HOST memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HOST handle created with <tt>\ref rppCreateWithBatchSize()</tt>
@@ -390,7 +390,7 @@ RppStatus rppt_rotate_host(RppPtr_t srcPtr, RpptDescPtr srcDescPtr, RppPtr_t dst
  * \param [out] dstPtr destination tensor in HIP memory
  * \param [in] dstDescPtr destination tensor descriptor (Restrictions - numDims = 4, offsetInBytes >= 0, dataType = U8/F16/F32/I8, layout = NCHW/NHWC, c = same as that of srcDescPtr)
  * \param [in] angle image rotation angle in degrees - positive deg-anticlockwise/negative deg-clockwise (1D tensor in pinned/HOST memory, of size batchSize)
- * \param [in] interpolationType Interpolation type used (RpptInterpolationType::XYWH or RpptRoiType::LTRB)
+ * \param [in] interpolationType Interpolation type used (RpptInterpolationType::NEAREST_NEIGHBOR (0) or RpptInterpolationType::BILINEAR (1))
  * \param [in] roiTensorPtrSrc ROI data in HIP memory, for each image in source tensor (2D tensor of size batchSize * 4, in either format - XYWH(xy.x, xy.y, roiWidth, roiHeight) or LTRB(lt.x, lt.y, rb.x, rb.y))
  * \param [in] roiType ROI type used (RpptRoiType::XYWH or RpptRoiType::LTRB)
  * \param [in] rppHandle RPP HIP handle created with <tt>\ref rppCreateWithStreamAndBatchSize()</tt>
