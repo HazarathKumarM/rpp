@@ -1657,6 +1657,9 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                             blend_permute_add_mul_3x3_host<1, 3>(&pTemp[0], &pDst[0], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
                             blend_permute_add_mul_3x3_host<1, 3>(&pTemp[1], &pDst[1], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
+                            //Boundary checks
+                            pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                            pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
                             rpp_store16_float(dstPtrTemp, pDst);
 
                             increment_row_ptrs(srcPtrTemp, kernelSize, 6);
@@ -1713,6 +1716,9 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                         blend_permute_add_mul_3x3_host<7, 63>(&pTemp[0], &pDst[0], pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
                         blend_permute_add_mul_3x3_host<7, 63>(&pTemp[1], &pDst[1], pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
 
+                        //Boundary checks
+                        pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                        pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
                         rpp_store16_float(dstPtrTemp, pDst);
                         dstPtrTemp += 16;
                     }
@@ -1768,6 +1774,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                         __m128 pDstPln[3];
                         rpp_convert12_f32pkd3_to_f32pln3(pDst, pDstPln);
+                        //Boundary checks
+                        pDstPln[0] = rpp_pixel_check_0to1_sse(pDstPln[0]);
+                        pDstPln[1] = rpp_pixel_check_0to1_sse(pDstPln[1]);
+                        pDstPln[2] = rpp_pixel_check_0to1_sse(pDstPln[2]);
                         rpp_store12_float_pkd_pln(dstPtrTempChannels, pDstPln);
 
                         increment_row_ptrs(srcPtrTemp, kernelSize, -4);
@@ -1839,6 +1849,13 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             increment_row_ptrs(srcPtrTemp[c], kernelSize, 6);
                         }
 
+                         //Boundary checks
+                        pResult[0] = rpp_pixel_check_0to1_avx(pResult[0]);
+                        pResult[1] = rpp_pixel_check_0to1_avx(pResult[1]);
+                        pResult[2] = rpp_pixel_check_0to1_avx(pResult[2]);
+                        pResult[3] = rpp_pixel_check_0to1_avx(pResult[3]);
+                        pResult[4] = rpp_pixel_check_0to1_avx(pResult[4]);
+                        pResult[5] = rpp_pixel_check_0to1_avx(pResult[5]);
                         // convert result from pln to pkd format and store in output buffer
                         if constexpr (std::is_same<T, Rpp32f>::value)
                             rpp_simd_store(rpp_store48_f32pln3_to_f32pkd3_avx, dstPtrTemp, pResult);
@@ -1912,6 +1929,9 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             blend_permute_add_mul_5x5_host<1, 3, 7, 15>(&pTemp[0], &pDst[0], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
                             blend_permute_add_mul_5x5_host<1, 3, 7, 15>(&pTemp[1], &pDst[1], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
 
+                            //Boundary checks
+                            pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                            pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
                             rpp_store16_float(dstPtrTemp, pDst);
                             increment_row_ptrs(srcPtrTemp, kernelSize, 4);
                             dstPtrTemp += 12;
@@ -1971,6 +1991,9 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                         blend_permute_add_mul_5x5_host<7, 63, 1, 15>(&pTemp[0], &pDst[0], pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
                         blend_permute_add_mul_5x5_host<7, 63, 1, 15>(&pTemp[1], &pDst[1], pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
 
+                        //Boundary checks
+                        pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                        pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
                         rpp_store16_float(dstPtrTemp, pDst);
                         increment_row_ptrs(srcPtrTemp, kernelSize, -4);
                         dstPtrTemp += 12;
@@ -2036,6 +2059,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             blend_permute_add_mul_5x5_host<1, 3, 7, 15>(pTemp, &pResultPln[c], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
                         }
 
+                        //Boundary checks
+                        pResultPln[0] = rpp_pixel_check_0to1_avx(pResultPln[0]);
+                        pResultPln[1] = rpp_pixel_check_0to1_avx(pResultPln[1]);
+                        pResultPln[2] = rpp_pixel_check_0to1_avx(pResultPln[2]);
                         // convert result from pln to pkd format and store in output buffer
                         if constexpr (std::is_same<T, Rpp32f>::value)
                             rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pResultPln);
@@ -2103,6 +2130,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                         __m128 pDstPln[3];
                         rpp_convert12_f32pkd3_to_f32pln3(pDst, pDstPln);
+                        //Boundary checks
+                        pDstPln[0] = rpp_pixel_check_0to1_sse(pDstPln[0]);
+                        pDstPln[1] = rpp_pixel_check_0to1_sse(pDstPln[1]);
+                        pDstPln[2] = rpp_pixel_check_0to1_sse(pDstPln[2]);
                         rpp_store12_float_pkd_pln(dstPtrTempChannels, pDstPln);
 
                         increment_row_ptrs(srcPtrTemp, kernelSize, -4);
@@ -2170,6 +2201,8 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             add_rows_7x7(pRow, &pTemp[1]);
                             blend_permute_add_mul_7x7_host<1, 3, 7, 15, 31, 63>(&pTemp[0], &pDst, pConvolutionFactor, pxMaskPln, blendRegisterOrder);
 
+                            //Boundary checks
+                            pDst = rpp_pixel_check_0to1_avx(pDst);
                             // convert result from pln to pkd format and store in output buffer
                             if constexpr (std::is_same<T, Rpp32f>::value)
                                 _mm256_storeu_ps(dstPtrTemp, pDst);
@@ -2239,6 +2272,8 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                         __m256 pDst;
                         blend_permute_add_mul_7x7_host<7, 63, 1, 15, 127, 3>(pTemp, &pDst, pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
 
+                        //Boundary checks
+                        pDst = rpp_pixel_check_0to1_avx(pDst);
                         // convert result from pln to pkd format and store in output buffer
                         if constexpr (std::is_same<T, Rpp32f>::value)
                             _mm256_storeu_ps(dstPtrTemp, pDst);
@@ -2311,6 +2346,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             add_rows_7x7(pRow, &pTemp[1]);
                             blend_permute_add_mul_7x7_host<1, 3, 7, 15, 31, 63>(pTemp, &pResultPln[c], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
                         }
+                        //Boundary checks
+                        pResultPln[0] = rpp_pixel_check_0to1_avx(pResultPln[0]);
+                        pResultPln[1] = rpp_pixel_check_0to1_avx(pResultPln[1]);
+                        pResultPln[2] = rpp_pixel_check_0to1_avx(pResultPln[2]);
                         // convert result from pln to pkd format and store in output buffer
                         if constexpr (std::is_same<T, Rpp32f>::value)
                             rpp_store24_f32pln3_to_f32pkd3_avx(dstPtrTemp, pResultPln);
@@ -2382,6 +2421,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                         __m128 pDstPln[3];
                         rpp_convert12_f32pkd3_to_f32pln3(pDst, pDstPln);
+                        //Boundary checks
+                        pDstPln[0] = rpp_pixel_check_0to1_sse(pDstPln[0]);
+                        pDstPln[1] = rpp_pixel_check_0to1_sse(pDstPln[1]);
+                        pDstPln[2] = rpp_pixel_check_0to1_sse(pDstPln[2]);
                         rpp_store12_float_pkd_pln(dstPtrTempChannels, pDstPln);
 
                         increment_row_ptrs(srcPtrTemp, kernelSize, -12);
@@ -2454,6 +2497,8 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             add_rows_9x9(pRow, &pTemp[1]);
                             blend_permute_add_mul_9x9_host<1, 3, 7, 15, 31, 63, 127>(pTemp, &pDst, pConvolutionFactor, pxMaskPln, blendRegisterOrder);
 
+                            //Boundary checks
+                            pDst = rpp_pixel_check_0to1_avx(pDst);
                             if constexpr (std::is_same<T, Rpp32f>::value)
                                 _mm256_storeu_ps(dstPtrTemp, pDst);
                             else if constexpr (std::is_same<T, Rpp16f>::value)
@@ -2521,6 +2566,8 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                         __m256 pDst;
                         blend_permute_add_mul_9x9_host<7, 63, 1, 15, 127, 3, 31>(pTemp, &pDst, pConvolutionFactor, pxMaskPkd, blendRegisterOrder);
+                        //Boundary checks
+                        pDst = rpp_pixel_check_0to1_avx(pDst);
                         if constexpr (std::is_same<T, Rpp32f>::value)
                             _mm256_storeu_ps(dstPtrTemp, pDst);
                         else if constexpr (std::is_same<T, Rpp16f>::value)
@@ -2594,6 +2641,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
                             blend_permute_add_mul_9x9_host<1, 3, 7, 15, 31, 63, 127>(pTemp, &pResultPln[c], pConvolutionFactor, pxMaskPln, blendRegisterOrder);
                         }
 
+                        //Boundary checks
+                        pResultPln[0] = rpp_pixel_check_0to1_avx(pResultPln[0]);
+                        pResultPln[1] = rpp_pixel_check_0to1_avx(pResultPln[1]);
+                        pResultPln[2] = rpp_pixel_check_0to1_avx(pResultPln[2]);
                         if constexpr (std::is_same<T, Rpp32f>::value)
                            rpp_store24_f32pln3_to_f32pkd3_avx(dstPtrTemp, pResultPln);
                         else if constexpr (std::is_same<T, Rpp16f>::value)
@@ -2666,6 +2717,10 @@ RppStatus box_filter_float_host_tensor(T *srcPtr,
 
                         __m128 pDstPln[3];
                         rpp_convert12_f32pkd3_to_f32pln3(pDst, pDstPln);
+                        //Boundary checks
+                        pDstPln[0] = rpp_pixel_check_0to1_sse(pDstPln[0]);
+                        pDstPln[1] = rpp_pixel_check_0to1_sse(pDstPln[1]);
+                        pDstPln[2] = rpp_pixel_check_0to1_sse(pDstPln[2]);
                         rpp_store12_float_pkd_pln(dstPtrTempChannels, pDstPln);
 
                         increment_row_ptrs(srcPtrTemp, kernelSize, -20);

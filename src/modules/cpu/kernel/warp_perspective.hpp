@@ -393,6 +393,10 @@ RppStatus warp_perspective_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 pRow[3];
                     compute_generic_nn_srclocs_and_validate_avx(pSrcY, pSrcX, pRoiLTRB, pSrcStrideH, srcLoc, invalidLoad, true);
                     rpp_simd_load(rpp_generic_nn_load_f32pkd3_to_f32pln3_avx, srcPtrChannel, srcLoc, invalidLoad, pRow);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -443,6 +447,10 @@ RppStatus warp_perspective_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
                     rpp_simd_load(rpp_generic_nn_load_f32pln1_avx, srcPtrChannelR, srcLoc, invalidLoad, pRow[0]);
                     rpp_simd_load(rpp_generic_nn_load_f32pln1_avx, srcPtrChannelG, srcLoc, invalidLoad, pRow[1]);
                     rpp_simd_load(rpp_generic_nn_load_f32pln1_avx, srcPtrChannelB, srcLoc, invalidLoad, pRow[2]);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -484,6 +492,10 @@ RppStatus warp_perspective_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 pRow[3];
                     compute_generic_nn_srclocs_and_validate_avx(pSrcY, pSrcX, pRoiLTRB, pSrcStrideH, srcLoc, invalidLoad, true);
                     rpp_simd_load(rpp_generic_nn_load_f32pkd3_to_f32pkd3_avx, srcPtrChannel, srcLoc, invalidLoad, pRow);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pkd3_to_f32pkd3_avx, dstPtrTemp, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -529,6 +541,8 @@ RppStatus warp_perspective_nn_f32_f32_host_tensor(Rpp32f *srcPtr,
                     {
                         __m256 pRow;
                         rpp_simd_load(rpp_generic_nn_load_f32pln1_avx, srcPtrTempChn, srcLoc, invalidLoad, pRow);
+                        //Boundary check
+                        pRow = rpp_pixel_check_0to1_avx(pRow);
                         rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTempChn, &pRow);
                         srcPtrTempChn += srcDescPtr->strides.cStride;
                         dstPtrTempChn += dstDescPtr->strides.cStride;
@@ -881,6 +895,10 @@ RppStatus warp_perspective_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 pRow[3];
                     compute_generic_nn_srclocs_and_validate_avx(pSrcY, pSrcX, pRoiLTRB, pSrcStrideH, srcLoc, invalidLoad, true);
                     rpp_simd_load(rpp_generic_nn_load_f16pkd3_to_f32pln3_avx, srcPtrChannel, srcLoc, invalidLoad, pRow);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -931,6 +949,10 @@ RppStatus warp_perspective_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
                     rpp_simd_load(rpp_generic_nn_load_f16pln1_avx, srcPtrChannelR, srcLoc, invalidLoad, pRow[0]);
                     rpp_simd_load(rpp_generic_nn_load_f16pln1_avx, srcPtrChannelG, srcLoc, invalidLoad, pRow[1]);
                     rpp_simd_load(rpp_generic_nn_load_f16pln1_avx, srcPtrChannelB, srcLoc, invalidLoad, pRow[2]);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pkd3_avx, dstPtrTemp, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -971,6 +993,10 @@ RppStatus warp_perspective_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 pRow[3];
                     compute_generic_nn_srclocs_and_validate_avx(pSrcY, pSrcX, pRoiLTRB, pSrcStrideH, srcLoc, invalidLoad, true);
                     rpp_simd_load(rpp_generic_nn_load_f16pkd3_to_f32pkd3_avx, srcPtrChannel, srcLoc, invalidLoad, pRow);
+                    //Boundary check
+                    pRow[0] = rpp_pixel_check_0to1_avx(pRow[0]);
+                    pRow[1] = rpp_pixel_check_0to1_avx(pRow[1]);
+                    pRow[2] = rpp_pixel_check_0to1_avx(pRow[2]);
                     rpp_simd_store(rpp_store24_f32pkd3_to_f16pkd3_avx, dstPtrTemp, pRow);
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -1016,6 +1042,8 @@ RppStatus warp_perspective_nn_f16_f16_host_tensor(Rpp16f *srcPtr,
                     {
                         __m256 pRow;
                         rpp_simd_load(rpp_generic_nn_load_f16pln1_avx, srcPtrTempChn, srcLoc, invalidLoad, pRow);
+                        //Boundary check
+                        pRow = rpp_pixel_check_0to1_avx(pRow);
                         rpp_simd_store(rpp_store8_f32_to_f16_avx, dstPtrTempChn, &pRow);
                         srcPtrTempChn += srcDescPtr->strides.cStride;
                         dstPtrTempChn += dstDescPtr->strides.cStride;
@@ -1417,6 +1445,10 @@ RppStatus warp_perspective_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -1461,6 +1493,10 @@ RppStatus warp_perspective_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -1502,6 +1538,10 @@ RppStatus warp_perspective_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -1548,6 +1588,10 @@ RppStatus warp_perspective_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -1593,6 +1637,8 @@ RppStatus warp_perspective_bilinear_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_generic_bilinear_srclocs_1c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, pRoiLTRB);
                     rpp_simd_load(rpp_generic_bilinear_load_1c_avx<Rpp32f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_1c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst = rpp_pixel_check_0to1_avx(pDst);
                     rpp_simd_store(rpp_store8_f32pln1_to_f32pln1_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPerChannel;
@@ -1996,6 +2042,10 @@ RppStatus warp_perspective_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary check
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -2040,6 +2090,10 @@ RppStatus warp_perspective_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary check
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pkd3_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -2081,6 +2135,10 @@ RppStatus warp_perspective_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, true);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary check
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pkd3_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPkd;
@@ -2127,6 +2185,10 @@ RppStatus warp_perspective_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_generic_bilinear_srclocs_3c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, srcDescPtr->c, pRoiLTRB, false);
                     rpp_simd_load(rpp_generic_bilinear_load_3c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary check
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -2172,6 +2234,8 @@ RppStatus warp_perspective_bilinear_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_generic_bilinear_srclocs_1c_avx(pSrcY, pSrcX, srcLocs, pBilinearCoeffs, pSrcStrideH, pxSrcStridesCHW, pRoiLTRB);
                     rpp_simd_load(rpp_generic_bilinear_load_1c_avx<Rpp16f>, srcPtrChannel, srcDescPtr, srcLocs, pSrcY, pSrcX, pRoiLTRB, pSrc);  // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_1c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary check
+                    pDst = rpp_pixel_check_0to1_avx(pDst);
                     rpp_simd_store(rpp_store8_f32pln1_to_f16pln1_avx, dstPtrTemp, pDst); // Store dst pixels
                     compute_warp_perspective_src_loc_next_term_avx(plocW, plocY, plocX, pSrcY, pSrcX, pPerspectiveMatrixTerm6Incr, pPerspectiveMatrixTerm3Incr, pPerspectiveMatrixTerm0Incr, pRoiHalfHeight, pRoiHalfWidth);
                     dstPtrTemp += vectorIncrementPerChannel;

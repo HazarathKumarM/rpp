@@ -367,6 +367,10 @@ RppStatus resize_crop_mirror_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_bilinear_coefficients_avx(pWeightParams, pBilinearCoeffs);                              // Compute Bilinear coefficients
                     rpp_simd_load(rpp_bilinear_load_f32pkd3_to_f32pln3_avx, srcRowPtrsForInterp, srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride); // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst);                             // Compute Bilinear interpolation
+                    //Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     dstPtrTempR += vectorIncrementPerChannel;
                     dstPtrTempG += vectorIncrementPerChannel;
@@ -417,6 +421,11 @@ RppStatus resize_crop_mirror_f32_f32_host_tensor(Rpp32f *srcPtr,
                     rpp_simd_load(rpp_bilinear_load_f32pln1_to_f32pln1_avx, &srcRowPtrsForInterp[2], srcLocationColumnArray, &pSrc[4], pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);
                     rpp_simd_load(rpp_bilinear_load_f32pln1_to_f32pln1_avx, &srcRowPtrsForInterp[4], srcLocationColumnArray, &pSrc[8], pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
+                    pDst[3] = rpp_pixel_check_0to1_avx(pDst[3]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pDst);   // Store dst pixels
                     dstPtrTemp += vectorIncrementPkd;
                 }
@@ -459,6 +468,11 @@ RppStatus resize_crop_mirror_f32_f32_host_tensor(Rpp32f *srcPtr,
                     compute_bilinear_coefficients_avx(pWeightParams, pBilinearCoeffs);  // Compute Bilinear coefficients
                     rpp_simd_load(rpp_bilinear_load_f32pkd3_to_f32pln3_avx, srcRowPtrsForInterp, srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride); // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
+                    pDst[3] = rpp_pixel_check_0to1_avx(pDst[3]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, pDst);   // Store dst pixels
                     dstPtrTemp += vectorIncrementPkd;
                 }
@@ -506,6 +520,8 @@ RppStatus resize_crop_mirror_f32_f32_host_tensor(Rpp32f *srcPtr,
                     {
                         rpp_simd_load(rpp_bilinear_load_f32pln1_to_f32pln1_avx, &srcRowPtrsForInterp[c * INTERP_BILINEAR_KERNEL_SIZE], srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);    // Load input pixels required for bilinear interpolation
                         compute_bilinear_interpolation_1c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                        //Boundary checks
+                        pDst = rpp_pixel_check_0to1_avx(pDst);
                         rpp_simd_store(rpp_store8_f32pln1_to_f32pln1_avx, dstPtrTempChn, pDst); // Store dst pixels
                         dstPtrTempChn += dstDescPtr->strides.cStride;
                     }
@@ -623,6 +639,10 @@ RppStatus resize_crop_mirror_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_bilinear_coefficients_avx(pWeightParams, pBilinearCoeffs);                              // Compute Bilinear coefficients
                     rpp_simd_load(rpp_bilinear_load_f16pkd3_to_f32pln3_avx, srcRowPtrsForInterp, srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride); // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst);                             // Compute Bilinear interpolation
+                    //Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, pDst); // Store dst pixels
                     dstPtrTempR += vectorIncrementPerChannel;
                     dstPtrTempG += vectorIncrementPerChannel;
@@ -673,6 +693,11 @@ RppStatus resize_crop_mirror_f16_f16_host_tensor(Rpp16f *srcPtr,
                     rpp_simd_load(rpp_bilinear_load_f16pln1_to_f32pln1_avx, &srcRowPtrsForInterp[2], srcLocationColumnArray, &pSrc[4], pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);
                     rpp_simd_load(rpp_bilinear_load_f16pln1_to_f32pln1_avx, &srcRowPtrsForInterp[4], srcLocationColumnArray, &pSrc[8], pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    // Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
+                    pDst[3] = rpp_pixel_check_0to1_avx(pDst[3]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pkd3_avx, dstPtrTemp, pDst);   // Store dst pixels
                     dstPtrTemp += vectorIncrementPkd;
                 }
@@ -715,6 +740,11 @@ RppStatus resize_crop_mirror_f16_f16_host_tensor(Rpp16f *srcPtr,
                     compute_bilinear_coefficients_avx(pWeightParams, pBilinearCoeffs);  // Compute Bilinear coefficients
                     rpp_simd_load(rpp_bilinear_load_f16pkd3_to_f32pln3_avx, srcRowPtrsForInterp, srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride); // Load input pixels required for bilinear interpolation
                     compute_bilinear_interpolation_3c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                    //Boundary checks
+                    pDst[0] = rpp_pixel_check_0to1_avx(pDst[0]);
+                    pDst[1] = rpp_pixel_check_0to1_avx(pDst[1]);
+                    pDst[2] = rpp_pixel_check_0to1_avx(pDst[2]);
+                    pDst[3] = rpp_pixel_check_0to1_avx(pDst[3]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f16pkd3_avx, dstPtrTemp, pDst);   // Store dst pixels
                     dstPtrTemp += vectorIncrementPkd;
                 }
@@ -762,6 +792,8 @@ RppStatus resize_crop_mirror_f16_f16_host_tensor(Rpp16f *srcPtr,
                     {
                         rpp_simd_load(rpp_bilinear_load_f16pln1_to_f32pln1_avx, &srcRowPtrsForInterp[c * INTERP_BILINEAR_KERNEL_SIZE], srcLocationColumnArray, pSrc, pxSrcLoc, pxMaxSrcLoc, maxWidthLimitMinusStride);    // Load input pixels required for bilinear interpolation
                         compute_bilinear_interpolation_1c_avx(pSrc, pBilinearCoeffs, pDst); // Compute Bilinear interpolation
+                         //Boundary checks
+                        pDst = rpp_pixel_check_0to1_avx(pDst);
                         rpp_simd_store(rpp_store8_f32pln1_to_f16pln1_avx, dstPtrTempChn, pDst); // Store dst pixels
                         dstPtrTempChn += dstDescPtr->strides.cStride;
                     }

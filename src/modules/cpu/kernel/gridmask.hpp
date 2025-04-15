@@ -516,6 +516,11 @@ RppStatus gridmask_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTemp += 12;
@@ -587,6 +592,11 @@ RppStatus gridmask_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 
                     srcPtrTempR += 4;
@@ -654,6 +664,11 @@ RppStatus gridmask_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 
                     srcPtrTemp += 12;
@@ -720,6 +735,11 @@ RppStatus gridmask_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTempR += 4;
@@ -793,6 +813,8 @@ RppStatus gridmask_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load4_f32_to_f32, srcPtrTemp, &p);    // simd loads
                     compute_gridmask_result_4_host(&p, pMask);
+                    //Boundary checks
+                    p = rpp_pixel_check_0to1_sse(p);
                     rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp, &p);    // simd stores
 
                     srcPtrTemp += 4;
@@ -909,6 +931,11 @@ RppStatus gridmask_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp_ps, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTemp_ps, dstPtrTemp_ps + 4, dstPtrTemp_ps + 8, p);    // simd stores
                     for(int cnt = 0; cnt < 4; cnt++)
                     {
@@ -993,6 +1020,11 @@ RppStatus gridmask_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTemp_ps, srcPtrTemp_ps + 4, srcPtrTemp_ps + 8, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
                     for(int cnt = 0; cnt < 12; cnt++)
                     {
@@ -1069,6 +1101,11 @@ RppStatus gridmask_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp_ps, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
                     for(int cnt = 0; cnt < 12; cnt++)
                     {
@@ -1146,6 +1183,11 @@ RppStatus gridmask_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTemp_ps, srcPtrTemp_ps + 4, srcPtrTemp_ps + 8, p);    // simd loads
                     compute_gridmask_result_12_host(p, pMask);
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTemp_ps, dstPtrTemp_ps + 4, dstPtrTemp_ps + 8, p);    // simd stores
                     for(int cnt = 0; cnt < 4; cnt++)
                     {
@@ -1230,6 +1272,8 @@ RppStatus gridmask_f16_f16_host_tensor(Rpp16f *srcPtr,
                     }
                     rpp_simd_load(rpp_load4_f32_to_f32, srcPtrTemp_ps, &p);    // simd loads
                     compute_gridmask_result_4_host(&p, pMask);
+                    //Boundary checks
+                    p = rpp_pixel_check_0to1_sse(p);
                     rpp_simd_store(rpp_store4_f32_to_f32, dstPtrTemp_ps, &p);    // simd stores
                     for(int cnt = 0; cnt < 4; cnt++)
                     {

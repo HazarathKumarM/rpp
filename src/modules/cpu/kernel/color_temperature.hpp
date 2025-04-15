@@ -324,6 +324,10 @@ RppStatus color_temperature_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTemp += 24;
@@ -373,6 +377,10 @@ RppStatus color_temperature_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, p);    // simd stores
 
                     srcPtrTempR += 8;
@@ -421,6 +429,10 @@ RppStatus color_temperature_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp, p);    // simd stores
 
                     srcPtrTemp += 24;
@@ -471,6 +483,10 @@ RppStatus color_temperature_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTempR += 8;
@@ -570,6 +586,10 @@ RppStatus color_temperature_f16_f16_host_tensor(Rpp16f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //     //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < 8; cnt++)
@@ -636,6 +656,10 @@ RppStatus color_temperature_f16_f16_host_tensor(Rpp16f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //     //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < 24; cnt++)
@@ -692,6 +716,10 @@ RppStatus color_temperature_f16_f16_host_tensor(Rpp16f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //     //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pkd3_avx, dstPtrTemp_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < 24; cnt++)
@@ -755,6 +783,10 @@ RppStatus color_temperature_f16_f16_host_tensor(Rpp16f *srcPtr,
 
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_temperature_24_host(p, pAdj);    // color_temperature adjustment
+                    //     //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store24_f32pln3_to_f32pln3_avx, dstPtrTempR_ps, dstPtrTempG_ps, dstPtrTempB_ps, p);    // simd stores
 
                     for(int cnt = 0; cnt < 8; cnt++)

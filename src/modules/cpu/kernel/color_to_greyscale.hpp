@@ -218,6 +218,10 @@ RppStatus color_to_greyscale_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
                     compute_color_24_to_greyscale_8_host(p, pChannelWeights);            // color_to_greyscale adjustment
+                     //Boundary checks
+                     p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                     p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                     p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTemp, p);           // simd stores
 #else
                     __m128 p[3];
@@ -264,6 +268,10 @@ RppStatus color_to_greyscale_f32_f32_host_tensor(Rpp32f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p); // simd loads
                     compute_color_24_to_greyscale_8_host(p, pChannelWeights);                                    // color_to_greyscale adjustment
+                     //Boundary checks
+                     p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                     p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                     p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTemp, p);                                   // simd stores
 #else
                     __m128 p[4];
@@ -358,6 +366,10 @@ RppStatus color_to_greyscale_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p); // simd loads
                     compute_color_24_to_greyscale_8_host(p, pChannelWeights);            // color_to_greyscale adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTemp_ps, p);        // simd stores
 #else
                     __m128 p[3];
@@ -414,6 +426,10 @@ RppStatus color_to_greyscale_f16_f16_host_tensor(Rpp16f *srcPtr,
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pln3_to_f32pln3_avx, srcPtrTempR_ps, srcPtrTempG_ps, srcPtrTempB_ps, p);    // simd loads
                     compute_color_24_to_greyscale_8_host(p, pChannelWeights);                                                // color_to_greyscale adjustment
+                    //Boundary checks
+                    p[0] = rpp_pixel_check_0to1_avx(p[0]);
+                    p[1] = rpp_pixel_check_0to1_avx(p[1]);
+                    p[2] = rpp_pixel_check_0to1_avx(p[2]);
                     rpp_simd_store(rpp_store8_f32_to_f32_avx, dstPtrTemp_ps, p);                                            // simd stores
 #else
                     __m128 p[4];
