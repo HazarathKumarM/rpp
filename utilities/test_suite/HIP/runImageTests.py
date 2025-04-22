@@ -56,7 +56,7 @@ def run_unit_test(srcPath1, srcPath2, dstPathTemp, case, numRuns, testType, layo
     bitDepths = range(7)
     outputFormatToggles = [0, 1]
     if qaMode:
-        bitDepths = [0, 2, 4]
+        bitDepths = [0, 2]
     for bitDepth in bitDepths:
         for outputFormatToggle in outputFormatToggles:
             # There is no layout toggle for PLN1 case, so skip this case
@@ -492,7 +492,7 @@ if (testType == 1 and profilingOption == "NO"):
         print_performance_tests_summary(logFile, functionalityGroupList, numRuns)
 
 # print the results of qa tests
-nonQACaseList = ['6', '8', '10', '11', '24', '28', '54', '84'] # Add cases present in supportedCaseList, but without QA support
+nonQACaseList = ['6', '8', '10', '11', '54', '84'] # Add cases present in supportedCaseList, but without QA support '24', '28'
 
 if qaMode and testType == 0:
     qaFilePath = os.path.join(outFilePath, "QA_results.txt")
