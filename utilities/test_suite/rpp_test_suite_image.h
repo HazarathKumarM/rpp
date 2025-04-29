@@ -1325,7 +1325,7 @@ inline void compare_reduction_output(T* output, string funcName, RpptDescPtr src
 
     int fileMatch = 0;
     int matched_values = 0;
-
+    int inputBitDepth = srcDescPtr->dataType;
     T *refOutput;
     int numChannels = (srcDescPtr->c == 1) ? 1 : 3;
     int numOutputs = (srcDescPtr->c == 1) ? srcDescPtr->n : srcDescPtr->n * 4;
