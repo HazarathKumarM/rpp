@@ -1004,8 +1004,6 @@ int main(int argc, char **argv)
                         for (j = 0; j < 256; j++)
                             lut8s[j] = (Rpp8s)(255 - j - 128);
 
-                    printf("srcptr->dataType : %d , descptr->dataType : %d", srcDescPtr->dataType, dstDescPtr->dataType);
-                    printf("inputBitDepth : %d", inputBitDepth);
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();
@@ -1583,7 +1581,7 @@ int main(int argc, char **argv)
 
                     if(srcDescPtr->c == 1)
                         reductionFuncResultArrLength = srcDescPtr->n;
-                    Rpp32f *mean = TensorMeanReferenceOutputs[inputChannels].data();
+                    Rpp32f *mean = TensorMeanReferenceOutputs_U8[inputChannels].data();
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();
@@ -1663,7 +1661,9 @@ int main(int argc, char **argv)
                 // print reduction functions output array based on different bit depths, and precision desired
                 int precision = ((dstDescPtr->dataType == RpptDataType::F32) || (dstDescPtr->dataType == RpptDataType::F16) || testCase == TENSOR_MEAN || testCase == TENSOR_STDDEV) ? 3 : 0;
                 if (dstDescPtr->dataType == RpptDataType::F32 || testCase == TENSOR_MEAN || testCase == TENSOR_STDDEV)
+                {
                     print_array(static_cast<Rpp32f *>(reductionFuncResultArr), reductionFuncResultArrLength, precision);
+                }
                 else if (dstDescPtr->dataType == RpptDataType::U8)
                 {
                     if (testCase == TENSOR_SUM)
@@ -1691,15 +1691,31 @@ int main(int argc, char **argv)
                 1.QA Flag is set
                 2.input bit depth 0 (U8)
                 3.source and destination layout are the same*/
-                if(qaFlag && inputBitDepth == 0 && (srcDescPtr->layout == dstDescPtr->layout) && !(randomOutputCase) && !(nonQACase))
+                if (qaFlag && (inputBitDepth == 0 || inputBitDepth == 2) && (srcDescPtr->layout == dstDescPtr->layout) && !randomOutputCase && !nonQACase)
                 {
                     if (testCase == TENSOR_SUM)
-                        compare_reduction_output(static_cast<uint64_t *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    {
+                        if (inputBitDepth == 0)
+                        {
+                            compare_reduction_output(static_cast<uint64_t *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        }
+                        else if (inputBitDepth == 2){
+                            compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        }
+                    }
                     else if (testCase == TENSOR_MEAN || testCase == TENSOR_STDDEV)
+                    {
                         compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    }
                     else
-                        compare_reduction_output(static_cast<Rpp8u *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    {
+                        if (inputBitDepth == 0)
+                            compare_reduction_output(static_cast<Rpp8u *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        else if (inputBitDepth == 2)
+                            compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    }
                 }
+                
             }
             else
             {

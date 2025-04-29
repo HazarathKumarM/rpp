@@ -395,8 +395,8 @@ typedef struct
 typedef enum
 {
     U8,
-    F32,
     F16,
+    F32,
     I8
 } RpptDataType;
 
