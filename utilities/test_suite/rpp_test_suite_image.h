@@ -1309,7 +1309,7 @@ template <typename T>
 inline void compare_reduction_output(T* output, string funcName, RpptDescPtr srcDescPtr, int testCase, string dst, string scriptPath)
 {
     string func = funcName;
-    string dataType[4] = {"_u8_", "_f16_", "_f32_", "_i8_"};
+    string dataType[4] = {"_u8_", "_f32_", "_f16_", "_i8_"};
 
     func += dataType[srcDescPtr->dataType];
 
