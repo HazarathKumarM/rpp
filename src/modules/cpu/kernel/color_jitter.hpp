@@ -360,6 +360,11 @@ RppStatus color_jitter_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_color_jitter_12_host(p, pCtm);    // color_jitter adjustment
+                    //Boundary check for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTemp += 12;
@@ -412,6 +417,11 @@ RppStatus color_jitter_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_jitter_12_host(p, pCtm);    // color_jitter adjustment
+                    //Boundary check for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 
                     srcPtrTempR += 4;
@@ -460,6 +470,11 @@ RppStatus color_jitter_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
                     compute_color_jitter_12_host(p, pCtm);    // color_jitter adjustment
+                    //Boundary check for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp, p);    // simd stores
 
                     srcPtrTemp += 12;
@@ -510,6 +525,11 @@ RppStatus color_jitter_f32_f32_host_tensor(Rpp32f *srcPtr,
 
                     rpp_simd_load(rpp_load12_f32pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
                     compute_color_jitter_12_host(p, pCtm);    // color_jitter adjustment
+                    //Boundary check for f32
+                    p[0] = rpp_pixel_check_0to1_sse(p[0]);
+                    p[1] = rpp_pixel_check_0to1_sse(p[1]);
+                    p[2] = rpp_pixel_check_0to1_sse(p[2]);
+                    p[3] = rpp_pixel_check_0to1_sse(p[3]);
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pln3, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 
                     srcPtrTempR += 4;

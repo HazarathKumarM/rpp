@@ -345,6 +345,10 @@ RppStatus tensor_mean_f32_f32_host(Rpp32f *srcPtr,
                 srcPtrRowB += srcDescPtr->strides.hStride;
             }
 #if __AVX2__
+            //Boundary checks for F32
+            pSumR = rpp_pixel_check_0to1_avx(pSumR);
+            pSumG = rpp_pixel_check_0to1_avx(pSumG);
+            pSumB = rpp_pixel_check_0to1_avx(pSumB);
             _mm256_storeu_pd(sumAvxR, pSumR);
             _mm256_storeu_pd(sumAvxG, pSumG);
             _mm256_storeu_pd(sumAvxB, pSumB);
@@ -405,6 +409,10 @@ RppStatus tensor_mean_f32_f32_host(Rpp32f *srcPtr,
                 srcPtrRow += srcDescPtr->strides.hStride;
             }
 #if __AVX2__
+            //Boundary checks for F32
+            pSumR = rpp_pixel_check_0to1_avx(pSumR);
+            pSumG = rpp_pixel_check_0to1_avx(pSumG);
+            pSumB = rpp_pixel_check_0to1_avx(pSumB);
             _mm256_storeu_pd(sumAvxR, pSumR);
             _mm256_storeu_pd(sumAvxG, pSumG);
             _mm256_storeu_pd(sumAvxB, pSumB);

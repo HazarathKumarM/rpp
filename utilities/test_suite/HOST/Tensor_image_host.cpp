@@ -1579,9 +1579,14 @@ int main(int argc, char **argv)
                 {
                     testCaseName = "tensor_stddev";
 
+                    Rpp32f *mean;
                     if(srcDescPtr->c == 1)
                         reductionFuncResultArrLength = srcDescPtr->n;
-                    Rpp32f *mean = TensorMeanReferenceOutputs_U8[inputChannels].data();
+                    if(inputBitDepth == 0)
+                        mean = TensorMeanReferenceOutputs_U8[inputChannels].data();
+                    else if(inputBitDepth == 2)
+                        mean = TensorMeanReferenceOutputs_F32[inputChannels].data();
+                    
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();

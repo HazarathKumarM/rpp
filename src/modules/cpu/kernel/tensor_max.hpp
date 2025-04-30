@@ -295,6 +295,8 @@ RppStatus tensor_max_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
             __m128 result;
             reduce_max_float8_host(&pMax, &result);
+            //Boundary checks for F32
+            result = rpp_pixel_check_0to1_sse(result);
             rpp_simd_store(rpp_store4_f32_to_f32, resultAvx, &result);
             max = std::max(std::max(resultAvx[0], resultAvx[1]), max);
 #endif
@@ -350,6 +352,8 @@ RppStatus tensor_max_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
             __m256 result;
             reduce_max_float24_host(&pMaxR, &pMaxG, &pMaxB, &result);
+            //Boundary checks for F32
+            result = rpp_pixel_check_0to1_avx(result);
             rpp_simd_store(rpp_store8_f32_to_f32_avx, resultAvx, &result);
 
             maxR = std::max(std::max(resultAvx[0], resultAvx[1]), maxR);
@@ -410,6 +414,8 @@ RppStatus tensor_max_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
                 __m256 result;
                 reduce_max_float24_host(&pMaxR, &pMaxG, &pMaxB, &result);
+                //Boundary checks for F32
+                result = rpp_pixel_check_0to1_avx(result);
                 rpp_simd_store(rpp_store8_f32_to_f32_avx, resultAvx, &result);
 
                 maxR = std::max(std::max(resultAvx[0], resultAvx[1]), maxR);

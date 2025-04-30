@@ -292,6 +292,8 @@ RppStatus tensor_min_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
             __m128 result;
             reduce_min_float8_host(&pMin, &result);
+            //Boundary check for F32
+            result = rpp_pixel_check_0to1_sse(result);
             rpp_simd_store(rpp_store4_f32_to_f32, resultAvx, &result);
             min = std::min(std::min(resultAvx[0], resultAvx[1]), min);
 #endif
@@ -347,6 +349,8 @@ RppStatus tensor_min_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
             __m256 result;
             reduce_min_float24_host(&pMinR, &pMinG, &pMinB, &result);
+            //Boundary check for F32
+            result = rpp_pixel_check_0to1_avx(result);
             rpp_simd_store(rpp_store8_f32_to_f32_avx, resultAvx, &result);
 
             minR = std::min(std::min(resultAvx[0], resultAvx[1]), minR);
@@ -408,6 +412,8 @@ RppStatus tensor_min_f32_f32_host(Rpp32f *srcPtr,
 #if __AVX2__
                 __m256 result;
                 reduce_min_float24_host(&pMinR, &pMinG, &pMinB, &result);
+                //Boundary check for F32
+                result = rpp_pixel_check_0to1_avx(result);
                 rpp_simd_store(rpp_store8_f32_to_f32_avx, resultAvx, &result);
 
                 minR = std::min(std::min(resultAvx[0], resultAvx[1]), minR);
