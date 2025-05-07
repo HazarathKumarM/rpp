@@ -5988,11 +5988,6 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                 else if(outputDescPtr->layout == RpptLayout::NHWC)  // For PKD3 outputs
                     rpp_resize_store_pkd3(outRowPtrR + xStride, pOutputChannel);
 
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("pOutputR = %.6f",pOutputR[0]);
-                    printf("pOutputG = %.6f",pOutputG[0]);
-                    printf("pOutputB = %.6f",pOutputB[0]);
-                }
             }
             Rpp32s k0 = 0;
             for (; outLocCol < outputImgSize.width; outLocCol++)
@@ -6014,11 +6009,6 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                 saturate_pixel(sumR, outRowPtrR + xStride);
                 saturate_pixel(sumG, outRowPtrG + xStride);
                 saturate_pixel(sumB, outRowPtrB + xStride);
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("sumR = %.6f",sumR);
-                    printf("sumG = %.6f",sumG);
-                    printf("sumB = %.6f",sumB);
-                }
             }
         }
     }
@@ -6072,11 +6062,11 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                 else if(outputDescPtr->layout == RpptLayout::NHWC)  // For PKD3 outputs
                     rpp_resize_store_pkd3(outRowPtrR + xStride, pOutputChannel);
 
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("outRowPtrR = %.6f",outRowPtrR[outLocCol]);
-                    printf("outRowPtrG = %.6f",outRowPtrG[outLocCol]);
-                    printf("outRowPtrB = %.6f",outRowPtrB[outLocCol]);
-                }
+                // if(outLocCol == 0 && outLocRow == 0){
+                //     printf("outRowPtrR = %.6f",outRowPtrR[outLocCol]);
+                //     printf("outRowPtrG = %.6f",outRowPtrG[outLocCol]);
+                //     printf("outRowPtrB = %.6f",outRowPtrB[outLocCol]);
+                // }
             }
             Rpp32s k0 = 0;
             for (; outLocCol < outputImgSize.width; outLocCol++)
@@ -6098,11 +6088,11 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                 saturate_pixel(sumR, outRowPtrR + xStride);
                 saturate_pixel(sumG, outRowPtrG + xStride);
                 saturate_pixel(sumB, outRowPtrB + xStride);
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("sumR = %.6f",sumR);
-                    printf("sumG = %.6f",sumG);
-                    printf("sumB = %.6f",sumB);
-                }
+                // if(outLocCol == 0 && outLocRow == 0){
+                //     printf("sumR = %.6f",sumR);
+                //     printf("sumG = %.6f",sumG);
+                //     printf("sumB = %.6f",sumB);
+                // }
             }
         }
     }
@@ -6203,9 +6193,9 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                 }
                 if(breakLoop) break;
                 rpp_resize_store(out_row + outLocCol, pOutput);
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("sum = ");rpp_mm_print_ps(pOutput[0]);
-                }
+                // if(outLocCol == 0 && outLocRow == 0){
+                //     printf("sum = ");rpp_mm_print_ps(pOutput[0]);
+                // }
             }
             Rpp32s k0 = 0;
             for (; outLocCol < bufferLength; outLocCol++)
@@ -6220,9 +6210,9 @@ inline void compute_separable_horizontal_resample(Rpp32f *inputPtr, T *outputPtr
                     sum += (coeffs[k0 + (k * 4)] * inRowPtr[srcx]);
                 }
                 saturate_pixel(sum, out_row + outLocCol);
-                if(outLocCol == 0 && outLocRow == 0){
-                    printf("sum = %f\n", sum);
-                }
+                // if(outLocCol == 0 && outLocRow == 0){
+                //     printf("sum = %f\n", sum);
+                // }
             }
         }
     }

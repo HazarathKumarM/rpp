@@ -1548,7 +1548,10 @@ int main(int argc, char **argv)
 
                     if(srcDescPtr->c == 1)
                         reductionFuncResultArrLength = srcDescPtr->n;
-                    memcpy(mean, TensorMeanReferenceOutputs[inputChannels].data(), sizeof(Rpp32f) * reductionFuncResultArrLength);
+                    if(inputBitDepth == 0)
+                        memcpy(mean, TensorMeanReferenceOutputs_U8[inputChannels].data(), sizeof(Rpp32f) * reductionFuncResultArrLength);
+                    else if(inputBitDepth == 2)
+                        memcpy(mean, TensorMeanReferenceOutputs_F32[inputChannels].data(), sizeof(Rpp32f) * reductionFuncResultArrLength);
 
                     startWallTime = omp_get_wtime();
                     if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
@@ -1650,14 +1653,29 @@ int main(int argc, char **argv)
                 1.QA Flag is set
                 2.input bit depth 0 (U8)
                 3.source and destination layout are the same*/
-                if(qaFlag && inputBitDepth == 0 && (srcDescPtr->layout == dstDescPtr->layout) && !(randomOutputCase) && !(nonQACase))
+                if(qaFlag && (inputBitDepth == 0 || inputBitDepth == 2) && (srcDescPtr->layout == dstDescPtr->layout) && !randomOutputCase && !nonQACase)
                 {
                     if (testCase == TENSOR_SUM)
-                        compare_reduction_output(static_cast<uint64_t *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    {
+                        if (inputBitDepth == 0)
+                        {
+                            compare_reduction_output(static_cast<uint64_t *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        }
+                        else if (inputBitDepth == 2){
+                            compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        }
+                    }
                     else if (testCase == TENSOR_MEAN || testCase == TENSOR_STDDEV)
+                    {
                         compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    }
                     else
-                        compare_reduction_output(static_cast<Rpp8u *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    {
+                        if (inputBitDepth == 0)
+                            compare_reduction_output(static_cast<Rpp8u *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                        else if (inputBitDepth == 2)
+                            compare_reduction_output(static_cast<Rpp32f *>(reductionFuncResultArr), testCaseName, srcDescPtr, testCase, dst, scriptPath);
+                    }
                 }
             }
             else
