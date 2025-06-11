@@ -67,6 +67,8 @@ imageAugmentationMap = {
     37: ["crop", "HOST", "HIP"],
     38: ["crop_mirror_normalize", "HOST", "HIP"],
     39: ["resize_crop_mirror", "HOST", "HIP"],
+    40: ["erode", "HIP"],
+    41: ["dilate", "HIP"],
     45: ["color_temperature", "HOST", "HIP"],
     46: ["vignette", "HOST", "HIP"],
     49: ["box_filter", "HIP", "HOST"],
@@ -84,7 +86,7 @@ imageAugmentationMap = {
     82: ["ricap", "HOST", "HIP"],
     83: ["gridmask", "HOST", "HIP"],
     84: ["spatter", "HOST", "HIP"],
-    85: ["swap_channels", "HOST", "HIP"],
+    85: ["channel_permute", "HOST", "HIP"],
     86: ["color_to_greyscale", "HOST", "HIP"],
     87: ["tensor_sum", "HOST", "HIP"],
     88: ["tensor_min", "HOST", "HIP"],
@@ -92,7 +94,7 @@ imageAugmentationMap = {
     90: ["tensor_mean", "HOST", "HIP"],
     91: ["tensor_stddev", "HOST", "HIP"],
     92: ["slice", "HOST", "HIP"],
-    93: ["jpeg_compression_distortion","HIP"],
+    93: ["jpeg_compression_distortion", "HOST", "HIP"]
 }
 
 audioAugmentationMap = {
@@ -128,7 +130,7 @@ ImageAugmentationGroupMap = {
     "color_augmentations" : [0, 1, 2, 3, 4, 13, 31, 34, 36, 45, 81],
     "effects_augmentations" : [5, 6, 8, 10, 11, 29, 30, 32, 35, 46, 82, 83, 84],
     "geometric_augmentations" : [20, 21, 23, 24, 26, 28, 33, 37, 38, 39, 63, 79, 80, 92],
-    "filter_augmentations" : [49, 54],
+    "filter_augmentations" : [40, 41, 49, 54],
     "arithmetic_operations" : [61],
     "logical_operations" : [65, 66, 67, 68],
     "data_exchange_operations" : [70, 85, 86],
@@ -173,6 +175,15 @@ StatusMap = {
     -23: "RPP_ERROR_INVALID_SRC_DIMS",
     -24: "RPP_ERROR_INVALID_DST_DIMS",
 }
+
+# Check for the OS match with RHEL8
+def detect_rhel8():
+    if os.path.exists("/etc/os-release"):
+        with open("/etc/os-release") as f:
+            data = f.read()
+            if "Red Hat" in data and 'VERSION_ID="8' in data:
+                return True
+    return False
 
 # Checks if the folder path is empty, or is it a root folder, or if it exists, and remove its contents
 def validate_and_remove_files(path):
