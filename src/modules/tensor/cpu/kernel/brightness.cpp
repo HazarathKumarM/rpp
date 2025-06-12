@@ -119,8 +119,8 @@ RppStatus brightness_u8_u8_host_tensor(Rpp8u *srcPtr,
     Rpp32f beta = betaTensor[0];
 
     Rpp32u bufferLength = srcDescPtr->strides.nStride; // collapsed all the dims and processing as 1D
-    Rpp32u vectorIncrementPerChannel = 32;
-    Rpp32u alignedLength = bufferLength & ~31;
+    Rpp32u vectorIncrementPerChannel = 16;
+    Rpp32u alignedLength = bufferLength & ~15;
 
 #if __AVX2__
     __m256 pBrightnessParams[2];
@@ -135,17 +135,14 @@ RppStatus brightness_u8_u8_host_tensor(Rpp8u *srcPtr,
     if(srcDescPtr->layout == dstDescPtr->layout)
     {
         int vectorLoopCount = 0;
-        for (; vectorLoopCount < alignedLength; vectorLoopCount += 32)
+        for (; vectorLoopCount < alignedLength; vectorLoopCount += 16)
         {
 #if __AVX2__
             __m256 p[4];
 
-            rpp_simd_load(rpp_load16_u8_to_f32_avx, srcPtr, &p[0]);    // simd loads
-            rpp_simd_load(rpp_load16_u8_to_f32_avx, srcPtr, &p[2]);    // simd loads
-            compute_brightness_16_host(&p[0], pBrightnessParams);  // brightness adjustment
-            compute_brightness_16_host(&p[2], pBrightnessParams);  // brightness adjustment
-            rpp_simd_store(rpp_store16_f32_to_u8_avx, dstPtr, &p[0]);    // simd stores
-            rpp_simd_store(rpp_store16_f32_to_u8_avx, dstPtr, &p[2]);    // simd stores
+            rpp_simd_load(rpp_load16_u8_to_f32_avx, srcPtr, p);    // simd loads
+            compute_brightness_16_host(p, pBrightnessParams);  // brightness adjustment
+            rpp_simd_store(rpp_store16_f32_to_u8_avx, dstPtr, p);    // simd stores
 #else
             __m128 p[4];
 
@@ -153,8 +150,8 @@ RppStatus brightness_u8_u8_host_tensor(Rpp8u *srcPtr,
             compute_brightness_16_host(p, pBrightnessParams);  // brightness adjustment
             rpp_simd_store(rpp_store16_f32_to_u8, dstPtr, p);    // simd stores
 #endif
-            srcPtr +=32;
-            dstPtr +=32;
+            srcPtr +=16;
+            dstPtr +=16;
         }
         for (; vectorLoopCount < bufferLength; vectorLoopCount++)
         {
