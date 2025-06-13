@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include "hip_tensor_executors.hpp"
-#include "rpp_hip_hue_sat.h"
+#include "rpp_hip_rgb_hsv_conversion.hpp"
 #include "rpp_hip_math.hpp"
 
 __device__ void hue_1RGB_hip_compute(float *pixelR, float *pixelG, float *pixelB, float *hueParam)
@@ -213,7 +213,6 @@ RppStatus hip_exec_hue_tensor(T *srcPtr,
 
         if ((srcDescPtr->layout == RpptLayout::NHWC) && (dstDescPtr->layout == RpptLayout::NHWC))
         {
-            globalThreads_x = (dstDescPtr->strides.hStride / 3 + 7) >> 3;
             hipLaunchKernelGGL(hue_pkd_hip_tensor,
                                dim3(ceil((float)globalThreads_x/LOCAL_THREADS_X), ceil((float)globalThreads_y/LOCAL_THREADS_Y), ceil((float)globalThreads_z/LOCAL_THREADS_Z)),
                                dim3(LOCAL_THREADS_X, LOCAL_THREADS_Y, LOCAL_THREADS_Z),
@@ -256,7 +255,6 @@ RppStatus hip_exec_hue_tensor(T *srcPtr,
         }
         else if ((srcDescPtr->layout == RpptLayout::NCHW) && (dstDescPtr->layout == RpptLayout::NHWC))
         {
-            globalThreads_x = (srcDescPtr->strides.hStride + 7) >> 3;
             hipLaunchKernelGGL(hue_pln3_pkd3_hip_tensor,
                                dim3(ceil((float)globalThreads_x/LOCAL_THREADS_X), ceil((float)globalThreads_y/LOCAL_THREADS_Y), ceil((float)globalThreads_z/LOCAL_THREADS_Z)),
                                dim3(LOCAL_THREADS_X, LOCAL_THREADS_Y, LOCAL_THREADS_Z),

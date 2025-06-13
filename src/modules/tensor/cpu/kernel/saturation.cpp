@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include "host_tensor_executors.hpp"
-#include "rpp_cpu_hue_sat.h"
+#include "rpp_cpu_rgb_hsv_conversion.hpp"
 #include "rpp_cpu_simd_math.hpp"
 
 inline void compute_saturation_24_host(__m256 &pVecR, __m256 &pVecG, __m256 &pVecB, __m256 *pSaturationParam)
@@ -163,13 +163,13 @@ RppStatus saturation_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)srcPtrTemp[0];
-                    pixel.G = (Rpp32f)srcPtrTemp[1];
-                    pixel.B = (Rpp32f)srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    *dstPtrTempG = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    *dstPtrTempB = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    *dstPtrTempR = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    *dstPtrTempG = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    *dstPtrTempB = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -227,13 +227,13 @@ RppStatus saturation_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)*srcPtrTempR;
-                    pixel.G = (Rpp32f)*srcPtrTempG;
-                    pixel.B = (Rpp32f)*srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    dstPtrTemp[1] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    dstPtrTemp[2] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    dstPtrTemp[0] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    dstPtrTemp[1] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    dstPtrTemp[2] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -285,13 +285,13 @@ RppStatus saturation_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)srcPtrTemp[0];
-                    pixel.G = (Rpp32f)srcPtrTemp[1];
-                    pixel.B = (Rpp32f)srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    dstPtrTemp[1] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    dstPtrTemp[2] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    dstPtrTemp[0] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    dstPtrTemp[1] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    dstPtrTemp[2] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -351,13 +351,13 @@ RppStatus saturation_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)*srcPtrTempR;
-                    pixel.G = (Rpp32f)*srcPtrTempG;
-                    pixel.B = (Rpp32f)*srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    *dstPtrTempG = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    *dstPtrTempB = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    *dstPtrTempR = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    *dstPtrTempG = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    *dstPtrTempB = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -760,9 +760,9 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        dstPtrTempR[cnt] = (Rpp16f) dstPtrTempR_ps[cnt];
-                        dstPtrTempG[cnt] = (Rpp16f) dstPtrTempG_ps[cnt];
-                        dstPtrTempB[cnt] = (Rpp16f) dstPtrTempB_ps[cnt];
+                        dstPtrTempR[cnt] = static_cast<Rpp16f>(dstPtrTempR_ps[cnt]);
+                        dstPtrTempG[cnt] = static_cast<Rpp16f>(dstPtrTempG_ps[cnt]);
+                        dstPtrTempB[cnt] = static_cast<Rpp16f>(dstPtrTempB_ps[cnt]);
                     }
                     srcPtrTemp += vectorIncrement;
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -772,13 +772,13 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) srcPtrTemp[0];
-                    pixel.G = (Rpp32f) srcPtrTemp[1];
-                    pixel.B = (Rpp32f) srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    *dstPtrTempG = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    *dstPtrTempB = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    *dstPtrTempR = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    *dstPtrTempG = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    *dstPtrTempB = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -817,9 +817,9 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f dstPtrTemp_ps[25];
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        srcPtrTempR_ps[cnt] = (Rpp32f) srcPtrTempR[cnt];
-                        srcPtrTempG_ps[cnt] = (Rpp32f) srcPtrTempG[cnt];
-                        srcPtrTempB_ps[cnt] = (Rpp32f) srcPtrTempB[cnt];
+                        srcPtrTempR_ps[cnt] = static_cast<Rpp32f>(srcPtrTempR[cnt]);
+                        srcPtrTempG_ps[cnt] = static_cast<Rpp32f>(srcPtrTempG[cnt]);
+                        srcPtrTempB_ps[cnt] = static_cast<Rpp32f>(srcPtrTempB[cnt]);
                     }
 #if __AVX2__
                     __m256 p[3];
@@ -833,7 +833,7 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
+                        dstPtrTemp[cnt] = static_cast<Rpp16f>(dstPtrTemp_ps[cnt]);
                     srcPtrTempR += vectorIncrementPerChannel;
                     srcPtrTempG += vectorIncrementPerChannel;
                     srcPtrTempB += vectorIncrementPerChannel;
@@ -842,13 +842,13 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) *srcPtrTempR;
-                    pixel.G = (Rpp32f) *srcPtrTempG;
-                    pixel.B = (Rpp32f) *srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    dstPtrTemp[1] = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    dstPtrTemp[2] = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    dstPtrTemp[0] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    dstPtrTemp[1] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    dstPtrTemp[2] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -882,7 +882,7 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f srcPtrTemp_ps[24];
                     Rpp32f dstPtrTemp_ps[25];
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
+                        srcPtrTemp_ps[cnt] = static_cast<Rpp32f>(srcPtrTemp[cnt]);
 #if __AVX2__
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
@@ -895,20 +895,20 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
+                        dstPtrTemp[cnt] = static_cast<Rpp16f>(dstPtrTemp_ps[cnt]);
                     srcPtrTemp += vectorIncrement;
                     dstPtrTemp += vectorIncrement;
                 }
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) srcPtrTemp[0];
-                    pixel.G = (Rpp32f) srcPtrTemp[1];
-                    pixel.B = (Rpp32f) srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    dstPtrTemp[1] = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    dstPtrTemp[2] = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    dstPtrTemp[0] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    dstPtrTemp[1] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    dstPtrTemp[2] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -947,9 +947,9 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f dstPtrTempR_ps[8], dstPtrTempG_ps[8], dstPtrTempB_ps[8];
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        srcPtrTempR_ps[cnt] = (Rpp32f) srcPtrTempR[cnt];
-                        srcPtrTempG_ps[cnt] = (Rpp32f) srcPtrTempG[cnt];
-                        srcPtrTempB_ps[cnt] = (Rpp32f) srcPtrTempB[cnt];
+                        srcPtrTempR_ps[cnt] = static_cast<Rpp32f>(srcPtrTempR[cnt]);
+                        srcPtrTempG_ps[cnt] = static_cast<Rpp32f>(srcPtrTempG[cnt]);
+                        srcPtrTempB_ps[cnt] = static_cast<Rpp32f>(srcPtrTempB[cnt]);
                     }
 #if __AVX2__
                     __m256 p[3];
@@ -964,9 +964,9 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        dstPtrTempR[cnt] = (Rpp16f) dstPtrTempR_ps[cnt];
-                        dstPtrTempG[cnt] = (Rpp16f) dstPtrTempG_ps[cnt];
-                        dstPtrTempB[cnt] = (Rpp16f) dstPtrTempB_ps[cnt];
+                        dstPtrTempR[cnt] = static_cast<Rpp16f>(dstPtrTempR_ps[cnt]);
+                        dstPtrTempG[cnt] = static_cast<Rpp16f>(dstPtrTempG_ps[cnt]);
+                        dstPtrTempB[cnt] = static_cast<Rpp16f>(dstPtrTempB_ps[cnt]);
                     }
                     srcPtrTempR += vectorIncrementPerChannel;
                     srcPtrTempG += vectorIncrementPerChannel;
@@ -978,13 +978,13 @@ RppStatus saturation_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) *srcPtrTempR;
-                    pixel.G = (Rpp32f) *srcPtrTempG;
-                    pixel.B = (Rpp32f) *srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    *dstPtrTempG = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    *dstPtrTempB = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    *dstPtrTempR = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    *dstPtrTempG = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    *dstPtrTempB = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -1095,13 +1095,13 @@ RppStatus saturation_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)srcPtrTemp[0] + 128.0f);
-                    pixel.G = ((Rpp32f)srcPtrTemp[1] + 128.0f);
-                    pixel.B = ((Rpp32f)srcPtrTemp[2] + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(srcPtrTemp[0]) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(srcPtrTemp[1]) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(srcPtrTemp[2]) + 128.0f);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    *dstPtrTempG = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    *dstPtrTempB = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    *dstPtrTempR = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    *dstPtrTempG = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    *dstPtrTempB = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -1159,13 +1159,13 @@ RppStatus saturation_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)*srcPtrTempR + 128.0f);
-                    pixel.G = ((Rpp32f)*srcPtrTempG + 128.0f);
-                    pixel.B = ((Rpp32f)*srcPtrTempB + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(*srcPtrTempR) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(*srcPtrTempG) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(*srcPtrTempB) + 128.0f);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    dstPtrTemp[1] = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    dstPtrTemp[2] = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    dstPtrTemp[0] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    dstPtrTemp[1] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    dstPtrTemp[2] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -1217,13 +1217,13 @@ RppStatus saturation_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)srcPtrTemp[0] + 128.0f);
-                    pixel.G = ((Rpp32f)srcPtrTemp[1] + 128.0f);
-                    pixel.B = ((Rpp32f)srcPtrTemp[2] + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(srcPtrTemp[0]) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(srcPtrTemp[1]) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(srcPtrTemp[2]) + 128.0f);
                     compute_saturation_host(&pixel, saturationParam);
-                    dstPtrTemp[0] = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    dstPtrTemp[1] = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    dstPtrTemp[2] = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    dstPtrTemp[0] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    dstPtrTemp[1] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    dstPtrTemp[2] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -1283,13 +1283,13 @@ RppStatus saturation_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)*srcPtrTempR + 128.0f);
-                    pixel.G = ((Rpp32f)*srcPtrTempG + 128.0f);
-                    pixel.B = ((Rpp32f)*srcPtrTempB + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(*srcPtrTempR) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(*srcPtrTempG) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(*srcPtrTempB) + 128.0f);
                     compute_saturation_host(&pixel, saturationParam);
-                    *dstPtrTempR = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    *dstPtrTempG = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    *dstPtrTempB = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    *dstPtrTempR = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    *dstPtrTempG = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    *dstPtrTempB = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTempR++;
                     srcPtrTempG++;

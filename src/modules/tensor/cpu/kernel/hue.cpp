@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include "host_tensor_executors.hpp"
-#include "rpp_cpu_hue_sat.h"
+#include "rpp_cpu_rgb_hsv_conversion.hpp"
 #include "rpp_cpu_simd_math.hpp"
 
 inline void compute_hue_24_host(__m256 &pVecR, __m256 &pVecG, __m256 &pVecB, __m256 *pHueParam)
@@ -35,8 +35,8 @@ inline void compute_hue_24_host(__m256 &pVecR, __m256 &pVecG, __m256 &pVecB, __m
 
     // Modify Hue and Saturation
     pH = _mm256_add_ps(pH, pHueParam[0]);                                                         // hue += hueParam + add;
-    pH = _mm256_sub_ps(pH, _mm256_and_ps(_mm256_cmp_ps(pH, avx_p6, _CMP_GE_OQ), avx_p6));                              // if (hue >= 6.0f) hue -= 6.0f;
-    pH = _mm256_add_ps(pH, _mm256_and_ps(_mm256_cmp_ps(pH, avx_p0, _CMP_LT_OQ), avx_p6));                              // if (hue < 0) hue += 6.0f;
+    pH = _mm256_sub_ps(pH, _mm256_and_ps(_mm256_cmp_ps(pH, avx_p6, _CMP_GE_OQ), avx_p6));         // if (hue >= 6.0f) hue -= 6.0f;
+    pH = _mm256_add_ps(pH, _mm256_and_ps(_mm256_cmp_ps(pH, avx_p0, _CMP_LT_OQ), avx_p6));         // if (hue < 0) hue += 6.0f;
 
     // Convert HSV to RGB 
     HSV_to_RGB_avx(pVecR, pVecG, pVecB, pH, pS, pV);
@@ -50,9 +50,9 @@ inline void compute_hue_12_host(__m128 &pVecR, __m128 &pVecG, __m128 &pVecB, __m
     RGB_to_HSV_sse(pVecR, pVecG, pVecB, pH, pS, pV);
     
     // Modify Hue and Saturation
-    pH = _mm_add_ps(pH, pHueParam[0]);                                                                              // hue += hueParam ;
-    pH = _mm_sub_ps(pH, _mm_and_ps(_mm_cmpge_ps(pH, xmm_p6), xmm_p6));                                              // if (hue >= 6.0f) hue -= 6.0f;
-    pH = _mm_add_ps(pH, _mm_and_ps(_mm_cmplt_ps(pH, xmm_p0), xmm_p6));                                              // if (hue < 0) hue += 6.0f;
+    pH = _mm_add_ps(pH, pHueParam[0]);                                                            // hue += hueParam ;
+    pH = _mm_sub_ps(pH, _mm_and_ps(_mm_cmpge_ps(pH, xmm_p6), xmm_p6));                            // if (hue >= 6.0f) hue -= 6.0f;
+    pH = _mm_add_ps(pH, _mm_and_ps(_mm_cmplt_ps(pH, xmm_p0), xmm_p6));                            // if (hue < 0) hue += 6.0f;
 
     // Convert HSV to RGB
     HSV_to_RGB_sse(pVecR, pVecG, pVecB, pH, pS, pV);
@@ -161,13 +161,13 @@ RppStatus hue_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)srcPtrTemp[0];
-                    pixel.G = (Rpp32f)srcPtrTemp[1];
-                    pixel.B = (Rpp32f)srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    *dstPtrTempG = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    *dstPtrTempB = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    *dstPtrTempR = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    *dstPtrTempG = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    *dstPtrTempB = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -225,13 +225,13 @@ RppStatus hue_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)*srcPtrTempR;
-                    pixel.G = (Rpp32f)*srcPtrTempG;
-                    pixel.B = (Rpp32f)*srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    dstPtrTemp[1] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    dstPtrTemp[2] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    dstPtrTemp[0] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    dstPtrTemp[1] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    dstPtrTemp[2] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -283,13 +283,13 @@ RppStatus hue_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)srcPtrTemp[0];
-                    pixel.G = (Rpp32f)srcPtrTemp[1];
-                    pixel.B = (Rpp32f)srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    dstPtrTemp[1] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    dstPtrTemp[2] = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    dstPtrTemp[0] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    dstPtrTemp[1] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    dstPtrTemp[2] = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -349,13 +349,13 @@ RppStatus hue_u8_u8_host_tensor(Rpp8u *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f)*srcPtrTempR;
-                    pixel.G = (Rpp32f)*srcPtrTempG;
-                    pixel.B = (Rpp32f)*srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.R)));
-                    *dstPtrTempG = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.G)));
-                    *dstPtrTempB = (Rpp8u) RPPPIXELCHECK(std::nearbyintf((pixel.B)));
+                    *dstPtrTempR = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.R))));
+                    *dstPtrTempG = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.G))));
+                    *dstPtrTempB = static_cast<Rpp8u>(RPPPIXELCHECK(std::nearbyintf((pixel.B))));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -744,7 +744,7 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f srcPtrTemp_ps[24];
                     Rpp32f dstPtrTempR_ps[8], dstPtrTempG_ps[8], dstPtrTempB_ps[8];
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
+                        srcPtrTemp_ps[cnt] = static_cast<Rpp32f>(srcPtrTemp[cnt]);
 #if __AVX2__
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
@@ -758,9 +758,9 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        dstPtrTempR[cnt] = (Rpp16f) dstPtrTempR_ps[cnt];
-                        dstPtrTempG[cnt] = (Rpp16f) dstPtrTempG_ps[cnt];
-                        dstPtrTempB[cnt] = (Rpp16f) dstPtrTempB_ps[cnt];
+                        dstPtrTempR[cnt] = static_cast<Rpp16f>(dstPtrTempR_ps[cnt]);
+                        dstPtrTempG[cnt] = static_cast<Rpp16f>(dstPtrTempG_ps[cnt]);
+                        dstPtrTempB[cnt] = static_cast<Rpp16f>(dstPtrTempB_ps[cnt]);
                     }
                     srcPtrTemp += vectorIncrement;
                     dstPtrTempR += vectorIncrementPerChannel;
@@ -770,13 +770,13 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) srcPtrTemp[0];
-                    pixel.G = (Rpp32f) srcPtrTemp[1];
-                    pixel.B = (Rpp32f) srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    *dstPtrTempG = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    *dstPtrTempB = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    *dstPtrTempR = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    *dstPtrTempG = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    *dstPtrTempB = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -815,9 +815,9 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f dstPtrTemp_ps[25];
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        srcPtrTempR_ps[cnt] = (Rpp32f) srcPtrTempR[cnt];
-                        srcPtrTempG_ps[cnt] = (Rpp32f) srcPtrTempG[cnt];
-                        srcPtrTempB_ps[cnt] = (Rpp32f) srcPtrTempB[cnt];
+                        srcPtrTempR_ps[cnt] = static_cast<Rpp32f>(srcPtrTempR[cnt]);
+                        srcPtrTempG_ps[cnt] = static_cast<Rpp32f>(srcPtrTempG[cnt]);
+                        srcPtrTempB_ps[cnt] = static_cast<Rpp32f>(srcPtrTempB[cnt]);
                     }
 #if __AVX2__
                     __m256 p[3];
@@ -831,7 +831,7 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                     rpp_simd_store(rpp_store12_f32pln3_to_f32pkd3, dstPtrTemp_ps, p);    // simd stores
 #endif
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        dstPtrTemp[cnt] = (Rpp16f) dstPtrTemp_ps[cnt];
+                        dstPtrTemp[cnt] = static_cast<Rpp16f>(dstPtrTemp_ps[cnt]);
                     srcPtrTempR += vectorIncrementPerChannel;
                     srcPtrTempG += vectorIncrementPerChannel;
                     srcPtrTempB += vectorIncrementPerChannel;
@@ -840,13 +840,13 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) *srcPtrTempR;
-                    pixel.G = (Rpp32f) *srcPtrTempG;
-                    pixel.B = (Rpp32f) *srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    dstPtrTemp[1] = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    dstPtrTemp[2] = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    dstPtrTemp[0] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    dstPtrTemp[1] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    dstPtrTemp[2] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -880,7 +880,7 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f srcPtrTemp_ps[24];
                     Rpp32f dstPtrTemp_ps[25];
                     for(int cnt = 0; cnt < vectorIncrement; cnt++)
-                        srcPtrTemp_ps[cnt] = (Rpp32f) srcPtrTemp[cnt];
+                        srcPtrTemp_ps[cnt] = static_cast<Rpp32f>(srcPtrTemp[cnt]);
 #if __AVX2__
                     __m256 p[3];
                     rpp_simd_load(rpp_load24_f32pkd3_to_f32pln3_avx, srcPtrTemp_ps, p);    // simd loads
@@ -900,13 +900,13 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) srcPtrTemp[0];
-                    pixel.G = (Rpp32f) srcPtrTemp[1];
-                    pixel.B = (Rpp32f) srcPtrTemp[2];
+                    pixel.R = static_cast<Rpp32f>(srcPtrTemp[0]);
+                    pixel.G = static_cast<Rpp32f>(srcPtrTemp[1]);
+                    pixel.B = static_cast<Rpp32f>(srcPtrTemp[2]);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    dstPtrTemp[1] = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    dstPtrTemp[2] = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    dstPtrTemp[0] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.R));
+                    dstPtrTemp[1] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.G));
+                    dstPtrTemp[2] = static_cast<Rpp16f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -945,9 +945,9 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                     Rpp32f dstPtrTempR_ps[8], dstPtrTempG_ps[8], dstPtrTempB_ps[8];
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        srcPtrTempR_ps[cnt] = (Rpp32f) srcPtrTempR[cnt];
-                        srcPtrTempG_ps[cnt] = (Rpp32f) srcPtrTempG[cnt];
-                        srcPtrTempB_ps[cnt] = (Rpp32f) srcPtrTempB[cnt];
+                        srcPtrTempR_ps[cnt] = static_cast<Rpp32f>(srcPtrTempR[cnt]);
+                        srcPtrTempG_ps[cnt] = static_cast<Rpp32f>(srcPtrTempG[cnt]);
+                        srcPtrTempB_ps[cnt] = static_cast<Rpp32f>(srcPtrTempB[cnt]);
                     }
 #if __AVX2__
                     __m256 p[3];
@@ -962,9 +962,9 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
 #endif
                     for(int cnt = 0; cnt < vectorIncrementPerChannel; cnt++)
                     {
-                        dstPtrTempR[cnt] = (Rpp16f) dstPtrTempR_ps[cnt];
-                        dstPtrTempG[cnt] = (Rpp16f) dstPtrTempG_ps[cnt];
-                        dstPtrTempB[cnt] = (Rpp16f) dstPtrTempB_ps[cnt];
+                        dstPtrTempR[cnt] = static_cast<Rpp16f>(dstPtrTempR_ps[cnt]);
+                        dstPtrTempG[cnt] = static_cast<Rpp16f>(dstPtrTempG_ps[cnt]);
+                        dstPtrTempB[cnt] = static_cast<Rpp16f>(dstPtrTempB_ps[cnt]);
                     }
                     srcPtrTempR += vectorIncrementPerChannel;
                     srcPtrTempG += vectorIncrementPerChannel;
@@ -976,13 +976,13 @@ RppStatus hue_f16_f16_host_tensor(Rpp16f *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = (Rpp32f) *srcPtrTempR;
-                    pixel.G = (Rpp32f) *srcPtrTempG;
-                    pixel.B = (Rpp32f) *srcPtrTempB;
+                    pixel.R = static_cast<Rpp32f>(*srcPtrTempR);
+                    pixel.G = static_cast<Rpp32f>(*srcPtrTempG);
+                    pixel.B = static_cast<Rpp32f>(*srcPtrTempB);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp16f) RPPPIXELCHECKF32(pixel.R);
-                    *dstPtrTempG = (Rpp16f) RPPPIXELCHECKF32(pixel.G);
-                    *dstPtrTempB = (Rpp16f) RPPPIXELCHECKF32(pixel.B);
+                    *dstPtrTempR = static_cast<Rpp32f>(RPPPIXELCHECKF32(pixel.R));
+                    *dstPtrTempG = static_cast<Rpp32f>(RPPPIXELCHECKF32(pixel.G));
+                    *dstPtrTempB = static_cast<Rpp32f>(RPPPIXELCHECKF32(pixel.B));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -1073,14 +1073,12 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
 #if __AVX2__
                     __m256 p[6];
                     rpp_simd_load(rpp_load48_i8pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48_avx, p);    // simd normalize
                     compute_hue_24_host(p[0], p[2], p[4], pHueParam);    // hue adjustment
                     compute_hue_24_host(p[1], p[3], p[5], pHueParam);    // hue adjustment
                     rpp_simd_store(rpp_store48_f32pln3_to_i8pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #else
                     __m128 p[12];
                     rpp_simd_load(rpp_load48_i8pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48, p);    // simd normalize
                     compute_hue_12_host(p[0], p[4], p[8], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[1], p[5], p[9], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[2], p[6], p[10], pHueParam);    // hue adjustment
@@ -1095,13 +1093,13 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)srcPtrTemp[0] + 128.0f);
-                    pixel.G = ((Rpp32f)srcPtrTemp[1] + 128.0f);
-                    pixel.B = ((Rpp32f)srcPtrTemp[2] + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(srcPtrTemp[0]) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(srcPtrTemp[1]) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(srcPtrTemp[2]) + 128.0f);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    *dstPtrTempG = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    *dstPtrTempB = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    *dstPtrTempR = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    *dstPtrTempG = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    *dstPtrTempB = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTemp+=3;
                     dstPtrTempR++;
@@ -1139,14 +1137,12 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
 #if __AVX2__
                     __m256 p[6];
                     rpp_simd_load(rpp_load48_i8pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48_avx, p);    // simd normalize
                     compute_hue_24_host(p[0], p[2], p[4], pHueParam);    // hue adjustment
                     compute_hue_24_host(p[1], p[3], p[5], pHueParam);    // hue adjustment
                     rpp_simd_store(rpp_store48_f32pln3_to_i8pkd3_avx, dstPtrTemp, p);    // simd stores
 #else
                     __m128 p[12];
                     rpp_simd_load(rpp_load48_i8pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48, p);    // simd normalize
                     compute_hue_12_host(p[0], p[4], p[8], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[1], p[5], p[9], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[2], p[6], p[10], pHueParam);    // hue adjustment
@@ -1161,13 +1157,13 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)*srcPtrTempR + 128.0f);
-                    pixel.G = ((Rpp32f)*srcPtrTempG + 128.0f);
-                    pixel.B = ((Rpp32f)*srcPtrTempB + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(*srcPtrTempR) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(*srcPtrTempG) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(*srcPtrTempB) + 128.0f);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    dstPtrTemp[1] = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    dstPtrTemp[2] = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    dstPtrTemp[0] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    dstPtrTemp[1] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    dstPtrTemp[2] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTempR++;
                     srcPtrTempG++;
@@ -1201,14 +1197,12 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
 #if __AVX2__
                     __m256 p[6];
                     rpp_simd_load(rpp_load48_i8pkd3_to_f32pln3_avx, srcPtrTemp, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48_avx, p);    // simd normalize
                     compute_hue_24_host(p[0], p[2], p[4], pHueParam);    // hue adjustment
                     compute_hue_24_host(p[1], p[3], p[5], pHueParam);    // hue adjustment
                     rpp_simd_store(rpp_store48_f32pln3_to_i8pkd3_avx, dstPtrTemp, p);    // simd stores
 #else
                     __m128 p[12];
                     rpp_simd_load(rpp_load48_i8pkd3_to_f32pln3, srcPtrTemp, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48, p);    // simd normalize
                     compute_hue_12_host(p[0], p[4], p[8], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[1], p[5], p[9], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[2], p[6], p[10], pHueParam);    // hue adjustment
@@ -1221,13 +1215,13 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount += 3)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)srcPtrTemp[0] + 128.0f);
-                    pixel.G = ((Rpp32f)srcPtrTemp[1] + 128.0f);
-                    pixel.B = ((Rpp32f)srcPtrTemp[2] + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(srcPtrTemp[0]) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(srcPtrTemp[1]) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(srcPtrTemp[2]) + 128.0f);
                     compute_hue_host(&pixel, hueParam);
-                    dstPtrTemp[0] = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    dstPtrTemp[1] = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    dstPtrTemp[2] = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    dstPtrTemp[0] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    dstPtrTemp[1] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    dstPtrTemp[2] = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTemp += 3;
                     dstPtrTemp += 3;
@@ -1265,14 +1259,12 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
 #if __AVX2__
                     __m256 p[6];
                     rpp_simd_load(rpp_load48_i8pln3_to_f32pln3_avx, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48_avx, p);    // simd normalize
                     compute_hue_24_host(p[0], p[2], p[4], pHueParam);    // hue adjustment
                     compute_hue_24_host(p[1], p[3], p[5], pHueParam);    // hue adjustment
                     rpp_simd_store(rpp_store48_f32pln3_to_i8pln3_avx, dstPtrTempR, dstPtrTempG, dstPtrTempB, p);    // simd stores
 #else
                     __m128 p[12];
                     rpp_simd_load(rpp_load48_i8pln3_to_f32pln3, srcPtrTempR, srcPtrTempG, srcPtrTempB, p);    // simd loads
-                    // rpp_simd_load(rpp_normalize48, p);    // simd normalize
                     compute_hue_12_host(p[0], p[4], p[8], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[1], p[5], p[9], pHueParam);    // hue adjustment
                     compute_hue_12_host(p[2], p[6], p[10], pHueParam);    // hue adjustment
@@ -1289,13 +1281,13 @@ RppStatus hue_i8_i8_host_tensor(Rpp8s *srcPtr,
                 for (; vectorLoopCount < bufferLength; vectorLoopCount++)
                 {
                     RpptFloatRGB pixel;
-                    pixel.R = ((Rpp32f)*srcPtrTempR + 128.0f);
-                    pixel.G = ((Rpp32f)*srcPtrTempG + 128.0f);
-                    pixel.B = ((Rpp32f)*srcPtrTempB + 128.0f);
+                    pixel.R = (static_cast<Rpp32f>(*srcPtrTempR) + 128.0f);
+                    pixel.G = (static_cast<Rpp32f>(*srcPtrTempG) + 128.0f);
+                    pixel.B = (static_cast<Rpp32f>(*srcPtrTempB) + 128.0f);
                     compute_hue_host(&pixel, hueParam);
-                    *dstPtrTempR = (Rpp8s) RPPPIXELCHECKI8(pixel.R - 128.0f);
-                    *dstPtrTempG = (Rpp8s) RPPPIXELCHECKI8(pixel.G - 128.0f);
-                    *dstPtrTempB = (Rpp8s) RPPPIXELCHECKI8(pixel.B - 128.0f);
+                    *dstPtrTempR = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.R - 128.0f));
+                    *dstPtrTempG = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.G - 128.0f));
+                    *dstPtrTempB = static_cast<Rpp8s>(RPPPIXELCHECKI8(pixel.B - 128.0f));
 
                     srcPtrTempR++;
                     srcPtrTempG++;

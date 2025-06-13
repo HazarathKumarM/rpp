@@ -1890,9 +1890,9 @@ int main(int argc, char **argv)
     if(alpha != NULL)
         CHECK_RETURN_STATUS(hipHostFree(alpha));
     if(hue != NULL)
-        CHECK_RETURN_STATUS(hipHostFree(alpha));
+        CHECK_RETURN_STATUS(hipHostFree(hue));
     if(saturation != NULL)
-        CHECK_RETURN_STATUS(hipHostFree(alpha));
+        CHECK_RETURN_STATUS(hipHostFree(saturation));
     if (minTensor != nullptr)
         CHECK_RETURN_STATUS(hipHostFree(minTensor));
     if (maxTensor != nullptr)
