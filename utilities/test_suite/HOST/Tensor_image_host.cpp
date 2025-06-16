@@ -1074,14 +1074,14 @@ int main(int argc, char **argv)
                 {
                     testCaseName = "hue";
 
-                    Rpp32f hue[batchSize];
+                    Rpp32f hueShift[batchSize];
                     for (i = 0; i < batchSize; i++)
-                        hue[i] = 60.0;
+                        hueShift[i] = 60.0;
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();
                     if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5) 
-                        rppt_hue_host(input, srcDescPtr, output, dstDescPtr, hue, roiTensorPtrSrc, roiTypeSrc, handle);
+                        rppt_hue_host(input, srcDescPtr, output, dstDescPtr, hueShift, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
@@ -1091,14 +1091,14 @@ int main(int argc, char **argv)
                 {
                     testCaseName = "saturation";
 
-                    Rpp32f saturation[batchSize];
+                    Rpp32f saturationFactor[batchSize];
                     for (i = 0; i < batchSize; i++)
-                        saturation[i] = 5;
+                        saturationFactor[i] = 5;
 
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();
                     if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5) 
-                        rppt_saturation_host(input, srcDescPtr, output, dstDescPtr, saturation, roiTensorPtrSrc, roiTypeSrc, handle);
+                        rppt_saturation_host(input, srcDescPtr, output, dstDescPtr, saturationFactor, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 

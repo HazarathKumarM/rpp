@@ -29,7 +29,6 @@ SOFTWARE.
 __device__ void saturation_1RGB_hip_compute(float *pixelR, float *pixelG, float *pixelB, float *saturationParam)
 {
     // RGB to HSV
-
     float hue, sat, val;
     RGB_to_HSV_hip(pixelR, pixelG, pixelB, hue, sat, val);
 
@@ -58,22 +57,18 @@ __device__ void saturation_8RGB_hip_compute(d_float24 *pix_f24, float *saturatio
 __device__ void saturation_hip_compute(uchar *srcPtr, d_float24 *pix_f24, float *saturationParam)
 {
     saturation_8RGB_hip_compute(pix_f24, saturationParam);
-    rpp_hip_pixel_check_0to255(pix_f24);
 }
 __device__ void saturation_hip_compute(float *srcPtr, d_float24 *pix_f24, float *saturationParam)
 {
     saturation_8RGB_hip_compute(pix_f24, saturationParam);
-    rpp_hip_pixel_check_0to1(pix_f24);
 }
 __device__ void saturation_hip_compute(half *srcPtr, d_float24 *pix_f24, float *saturationParam)
 {
     saturation_8RGB_hip_compute(pix_f24, saturationParam);
-    rpp_hip_pixel_check_0to1(pix_f24);
 }
 __device__ void saturation_hip_compute(schar *srcPtr, d_float24 *pix_f24, float *saturationParam)
 {
     saturation_8RGB_hip_compute(pix_f24, saturationParam);
-    rpp_hip_pixel_check_0to255(pix_f24);
 }
 
 template <typename T>
@@ -89,9 +84,7 @@ __global__ void saturation_pkd_hip_tensor(T *srcPtr,
     int id_z = hipBlockIdx_z * hipBlockDim_z + hipThreadIdx_z;
 
     if ((id_y >= roiTensorPtrSrc[id_z].xywhROI.roiHeight) || (id_x >= roiTensorPtrSrc[id_z].xywhROI.roiWidth))
-    {
         return;
-    }
 
     uint srcIdx = (id_z * srcStridesNH.x) + ((id_y + roiTensorPtrSrc[id_z].xywhROI.xy.y) * srcStridesNH.y) + ((id_x + roiTensorPtrSrc[id_z].xywhROI.xy.x) * 3);
     uint dstIdx = (id_z * dstStridesNH.x) + (id_y * dstStridesNH.y) + id_x * 3;
@@ -118,9 +111,7 @@ __global__ void saturation_pln_hip_tensor(T *srcPtr,
     int id_z = hipBlockIdx_z * hipBlockDim_z + hipThreadIdx_z;
 
     if ((id_y >= roiTensorPtrSrc[id_z].xywhROI.roiHeight) || (id_x >= roiTensorPtrSrc[id_z].xywhROI.roiWidth))
-    {
         return;
-    }
 
     uint srcIdx = (id_z * srcStridesNCH.x) + ((id_y + roiTensorPtrSrc[id_z].xywhROI.xy.y) * srcStridesNCH.z) + (id_x + roiTensorPtrSrc[id_z].xywhROI.xy.x);
     uint dstIdx = (id_z * dstStridesNCH.x) + (id_y * dstStridesNCH.z) + id_x;
@@ -147,9 +138,7 @@ __global__ void saturation_pkd3_pln3_hip_tensor(T *srcPtr,
     int id_z = hipBlockIdx_z * hipBlockDim_z + hipThreadIdx_z;
 
     if ((id_y >= roiTensorPtrSrc[id_z].xywhROI.roiHeight) || (id_x >= roiTensorPtrSrc[id_z].xywhROI.roiWidth))
-    {
         return;
-    }
 
     uint srcIdx = (id_z * srcStridesNH.x) + ((id_y + roiTensorPtrSrc[id_z].xywhROI.xy.y) * srcStridesNH.y) + ((id_x + roiTensorPtrSrc[id_z].xywhROI.xy.x) * 3);
     uint dstIdx = (id_z * dstStridesNCH.x) + (id_y * dstStridesNCH.z) + id_x;
@@ -176,9 +165,7 @@ __global__ void saturation_pln3_pkd3_hip_tensor(T *srcPtr,
     int id_z = hipBlockIdx_z * hipBlockDim_z + hipThreadIdx_z;
 
     if ((id_y >= roiTensorPtrSrc[id_z].xywhROI.roiHeight) || (id_x >= roiTensorPtrSrc[id_z].xywhROI.roiWidth))
-    {
         return;
-    }
 
     uint srcIdx = (id_z * srcStridesNCH.x) + ((id_y + roiTensorPtrSrc[id_z].xywhROI.xy.y) * srcStridesNCH.z) + (id_x + roiTensorPtrSrc[id_z].xywhROI.xy.x);
     uint dstIdx = (id_z * dstStridesNH.x) + (id_y * dstStridesNH.y) + id_x * 3;

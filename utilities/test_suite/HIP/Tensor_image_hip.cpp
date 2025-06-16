@@ -436,13 +436,13 @@ int main(int argc, char **argv)
     if(testCase == RAIN)
         CHECK_RETURN_STATUS(hipHostMalloc(&alpha, batchSize * sizeof(Rpp32f)));
 
-    Rpp32f *hue = nullptr;
+    Rpp32f *hueShift = nullptr;
     if(testCase == HUE)
-        CHECK_RETURN_STATUS(hipHostMalloc(&hue, batchSize * sizeof(Rpp32f)));
+        CHECK_RETURN_STATUS(hipHostMalloc(&hueShift, batchSize * sizeof(Rpp32f)));
 
-    Rpp32f *saturation = nullptr;
+    Rpp32f *saturationFactor = nullptr;
     if(testCase == SATURATION)
-        CHECK_RETURN_STATUS(hipHostMalloc(&saturation, batchSize * sizeof(Rpp32f)));
+        CHECK_RETURN_STATUS(hipHostMalloc(&saturationFactor, batchSize * sizeof(Rpp32f)));
 
     Rpp32f *minTensor = nullptr, *maxTensor = nullptr;
     if(testCase == THRESHOLD)
@@ -1112,11 +1112,11 @@ int main(int argc, char **argv)
                     testCaseName = "hue";
 
                     for (i = 0; i < batchSize; i++)
-                        hue[i] = 60.0;
+                        hueShift[i] = 60.0;
 
                     startWallTime = omp_get_wtime();
                     if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
-                        rppt_hue_gpu(d_input, srcDescPtr, d_output, dstDescPtr, hue, roiTensorPtrSrc, roiTypeSrc, handle);
+                        rppt_hue_gpu(d_input, srcDescPtr, d_output, dstDescPtr, hueShift, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
@@ -1127,11 +1127,11 @@ int main(int argc, char **argv)
                     testCaseName = "saturation";
 
                     for (i = 0; i < batchSize; i++)
-                        saturation[i] = 5;
+                        saturationFactor[i] = 5;
 
                     startWallTime = omp_get_wtime();
                     if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
-                        rppt_saturation_gpu(d_input, srcDescPtr, d_output, dstDescPtr, saturation, roiTensorPtrSrc, roiTypeSrc, handle);
+                        rppt_saturation_gpu(d_input, srcDescPtr, d_output, dstDescPtr, saturationFactor, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
@@ -1889,10 +1889,10 @@ int main(int argc, char **argv)
         CHECK_RETURN_STATUS(hipFree(d_interDstPtr));
     if(alpha != NULL)
         CHECK_RETURN_STATUS(hipHostFree(alpha));
-    if(hue != NULL)
-        CHECK_RETURN_STATUS(hipHostFree(hue));
-    if(saturation != NULL)
-        CHECK_RETURN_STATUS(hipHostFree(saturation));
+    if(hueShift != NULL)
+        CHECK_RETURN_STATUS(hipHostFree(hueShift));
+    if(saturationFactor != NULL)
+        CHECK_RETURN_STATUS(hipHostFree(saturationFactor));
     if (minTensor != nullptr)
         CHECK_RETURN_STATUS(hipHostFree(minTensor));
     if (maxTensor != nullptr)
