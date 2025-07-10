@@ -68,6 +68,7 @@ int main(int argc, char **argv)
     bool interpolationTypeCase = (interpolationTypeCases.find(testCase) != interpolationTypeCases.end());
     bool reductionTypeCase = (reductionTypeCases.find(testCase) != reductionTypeCases.end());
     bool noiseTypeCase = (noiseTypeCases.find(testCase) != noiseTypeCases.end());
+    bool dropoutTypeCase = (dropoutTypeCases.find(testCase) != dropoutTypeCases.end());
     bool pln1OutTypeCase = (pln1OutTypeCases.find(testCase) != pln1OutTypeCases.end());
 
     unsigned int verbosity = atoi(argv[11]);
@@ -185,6 +186,7 @@ int main(int argc, char **argv)
     RpptInterpolationType interpolationType = RpptInterpolationType::BILINEAR;
     std::string interpolationTypeName = "";
     std::string noiseTypeName = "";
+    std::string dropoutTypeName = "";
     if (kernelSizeCase)
     {
         char additionalParam_char[2];
@@ -203,6 +205,12 @@ int main(int argc, char **argv)
         noiseTypeName = get_noise_type(additionalParam);
         func += "_noiseType";
         func += noiseTypeName.c_str();
+    }
+    else if (dropoutTypeCase)
+    {
+        dropoutTypeName = get_dropout_type(additionalParam);
+        func += "_dropoutType";
+        func += dropoutTypeName.c_str();
     }
 
     if(!qaFlag)
@@ -383,15 +391,28 @@ int main(int argc, char **argv)
         CHECK_RETURN_STATUS(hipHostMalloc(&distortionCoeffs, batchSize * 8 * sizeof(Rpp32f)));
     }
 
-    Rpp32u boxesInEachImage = 3;
+    Rpp32u boxesInEachImage = 3; 
     Rpp32f *colorBuffer;
     RpptRoiLtrb *anchorBoxInfoTensor;
     Rpp32u *numOfBoxes;
+    bool *channelMaskHostPinned = nullptr;
+
     if(testCase == ERASE)
     {
         CHECK_RETURN_STATUS(hipHostMalloc(&colorBuffer, batchSize * boxesInEachImage * sizeof(Rpp32f)));
         CHECK_RETURN_STATUS(hipMemset(colorBuffer, 0, batchSize * boxesInEachImage * sizeof(Rpp32f)));
         CHECK_RETURN_STATUS(hipHostMalloc(&anchorBoxInfoTensor, batchSize * boxesInEachImage * sizeof(RpptRoiLtrb)));
+        CHECK_RETURN_STATUS(hipHostMalloc(&numOfBoxes, batchSize * sizeof(Rpp32u)));
+    }
+
+    if(testCase == DROPOUT)
+    {
+        boxesInEachImage = 100; 
+        CHECK_RETURN_STATUS(hipHostMalloc(&colorBuffer, batchSize * boxesInEachImage * srcDescPtr->c * sizeof(Rpp32f)));
+        CHECK_RETURN_STATUS(hipMemset(colorBuffer, 0, batchSize * boxesInEachImage * sizeof(Rpp32f)));
+        CHECK_RETURN_STATUS(hipHostMalloc(&channelMaskHostPinned, batchSize * srcDescPtr->c * sizeof(bool)));
+        CHECK_RETURN_STATUS(hipHostMalloc(&anchorBoxInfoTensor, batchSize * boxesInEachImage * sizeof(RpptRoiLtrb)));
+        // memset(&anchorBoxInfoTensor, 0, batchSize * maxBoxesPerImage * sizeof(RpptRoiLtrb));
         CHECK_RETURN_STATUS(hipHostMalloc(&numOfBoxes, batchSize * sizeof(Rpp32u)));
     }
 
@@ -1604,9 +1625,100 @@ int main(int argc, char **argv)
 
                     break;
                 }
-                default:
+                case DROPOUT:
                 {
-                    missingFuncFlag = 1;
+                    testCaseName = "dropout";
+
+                    switch (additionalParam)
+                    {
+                        case 0: // Cutout
+                        {
+                            testCaseName = "cutout";
+                            boxesInEachImage = 1;
+
+                            init_dropout_erase(batchSize, boxesInEachImage, numOfBoxes, anchorBoxInfoTensor, roiTensorPtrSrc, srcDescPtr->c, colorBuffer, inputBitDepth, 0);
+                            startWallTime = omp_get_wtime();
+                            if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
+                                rppt_erase_gpu(d_input, srcDescPtr, d_output, dstDescPtr, anchorBoxInfoTensor, colorBuffer, numOfBoxes, roiTensorPtrSrc, roiTypeSrc, handle);
+                            else
+                                missingFuncFlag = 1;
+
+                            break;
+                        }
+
+                        case 1: // Random Erasing
+                        {
+                            testCaseName = "randomErasing";
+                            boxesInEachImage = 1;
+
+                            init_dropout_erase(batchSize, boxesInEachImage, numOfBoxes, anchorBoxInfoTensor, roiTensorPtrSrc, srcDescPtr->c, colorBuffer, inputBitDepth, 1);
+                            startWallTime = omp_get_wtime();
+                            if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
+                                rppt_random_erase_gpu(d_input, srcDescPtr, d_output, dstDescPtr, anchorBoxInfoTensor, numOfBoxes, roiTensorPtrSrc, roiTypeSrc, handle);
+                            else
+                                missingFuncFlag = 1;
+
+                            break;
+                        }
+                        case 2: // Coarse Dropout
+                        {
+                            testCaseName = "coarse";
+                            int maxBoxesPerImage = 8;
+
+                            init_dropout_erase(batchSize, maxBoxesPerImage, numOfBoxes, anchorBoxInfoTensor, roiTensorPtrSrc, srcDescPtr->c, colorBuffer, inputBitDepth, 2);
+                            startWallTime = omp_get_wtime();
+                            if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
+                                rppt_coarse_dropout_gpu(d_input, srcDescPtr, d_output, dstDescPtr, anchorBoxInfoTensor, colorBuffer, numOfBoxes, maxBoxesPerImage, roiTensorPtrSrc, roiTypeSrc, handle);
+                            else
+                                missingFuncFlag = 1;
+
+                            break;
+                        }
+                        case 3: // Channel Dropout
+                        {
+                            testCaseName = "channel";
+
+                            // Initialize pinned host memory
+                            Rpp32f dropProb[batchSize];
+                            Rpp32u seed = 42;
+                            for (i = 0; i < batchSize; i++)
+                            {
+                                dropProb[i] = 0.4f;
+                            }
+                            
+                            startWallTime = omp_get_wtime();
+                            if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
+                                rppt_channel_dropout_gpu(d_input, srcDescPtr, d_output, dstDescPtr, dropProb, roiTensorPtrSrc, roiTypeSrc, handle);
+                            else
+                                missingFuncFlag = 1;
+
+                            break;
+                        }
+                        case 4: // Grid Dropout
+                        {
+                            testCaseName = "grid";
+                            Rpp32u gridH = 10, gridW = 10;
+                            Rpp32f holeRatio = 0.4f;
+                            bool randomOffset = false;
+
+                            boxesInEachImage = gridH * gridW;
+
+                            init_grid_dropout(batchSize, numOfBoxes, anchorBoxInfoTensor, roiTensorPtrSrc, gridH, gridW, holeRatio, randomOffset, colorBuffer, srcDescPtr->c, inputBitDepth);
+                            startWallTime = omp_get_wtime();
+                            if (inputBitDepth == 0 || inputBitDepth == 1 || inputBitDepth == 2 || inputBitDepth == 5)
+                               rppt_erase_gpu(d_input, srcDescPtr, d_output, dstDescPtr, anchorBoxInfoTensor, colorBuffer, numOfBoxes, roiTensorPtrSrc, roiTypeSrc, handle);
+                            else
+                                missingFuncFlag = 1;
+
+                            break;
+                        }
+                        default:
+                        {
+                            missingFuncFlag = 1;
+                            break;
+                        }
+                    }
+
                     break;
                 }
             }
@@ -1824,6 +1936,13 @@ int main(int argc, char **argv)
         CHECK_RETURN_STATUS(hipHostFree(colorBuffer));
         CHECK_RETURN_STATUS(hipHostFree(anchorBoxInfoTensor));
         CHECK_RETURN_STATUS(hipHostFree(numOfBoxes));
+    }
+    if(testCase == DROPOUT)
+    {
+        CHECK_RETURN_STATUS(hipHostFree(colorBuffer));
+        CHECK_RETURN_STATUS(hipHostFree(anchorBoxInfoTensor));
+        CHECK_RETURN_STATUS(hipHostFree(numOfBoxes));
+        CHECK_RETURN_STATUS(hipHostFree(channelMaskHostPinned));
     }
     if(anchorTensor != NULL)
         CHECK_RETURN_STATUS(hipHostFree(anchorTensor));

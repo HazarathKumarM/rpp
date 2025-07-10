@@ -391,6 +391,46 @@ RppStatus hip_exec_erase_tensor(T *srcPtr,
                                 RpptRoiType roiType,
                                 rpp::Handle& handle);
 
+// -------------------- random_erase --------------------
+
+template <typename T>
+RppStatus hip_exec_random_erase_tensor(T *srcPtr,
+                                       RpptDescPtr srcDescPtr,
+                                       T *dstPtr,
+                                       RpptDescPtr dstDescPtr,
+                                       RpptRoiLtrb *anchorBoxInfoTensor,
+                                       Rpp32u *numBoxesTensor,
+                                       RpptROIPtr roiTensorPtrSrc,
+                                       RpptRoiType roiType,
+                                       rpp::Handle& handle);
+
+// -------------------- channel_dropout --------------------
+
+template <typename T>
+RppStatus hip_exec_channel_dropout_tensor(T *srcPtr,
+                                          RpptDescPtr srcDescPtr,
+                                          T *dstPtr,
+                                          RpptDescPtr dstDescPtr,
+                                          Rpp32f *dropProb,
+                                          RpptROIPtr roiTensorPtrSrc,
+                                          RpptRoiType roiType,
+                                          rpp::Handle &handle); 
+
+// -------------------- coarse_dropout --------------------
+
+template <typename T, typename U>
+RppStatus hip_exec_coarse_dropout_tensor(T *srcPtr,
+                                         RpptDescPtr srcDescPtr,
+                                         T *dstPtr,
+                                         RpptDescPtr dstDescPtr,
+                                         RpptRoiLtrb *anchorBoxInfoTensor,
+                                         U *colorsTensor,
+                                         Rpp32u *numBoxesTensor,
+                                         int maxBoxesPerImage,
+                                         RpptROIPtr roiTensorPtrSrc,
+                                         RpptRoiType roiType,
+                                         rpp::Handle& handle);
+
 // -------------------- fog --------------------
 
 template <typename T>
