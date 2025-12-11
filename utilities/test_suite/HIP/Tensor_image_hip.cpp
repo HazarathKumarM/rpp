@@ -594,6 +594,9 @@ int main(int argc, char **argv)
     Rpp8u *posterizeLevelBits = nullptr;
     if(testCase == POSTERIZE)
         CHECK_RETURN_STATUS(hipHostMalloc(&posterizeLevelBits, batchSize * sizeof(Rpp8u)));
+    Rpp32s *qualityTensor = nullptr;
+    if(testCase == JPEG_COMPRESSION_DISTORTION)
+        CHECK_RETURN_STATUS(hipHostMalloc(&qualityTensor, batchSize * sizeof(Rpp32s)));
     Rpp32f *angle = nullptr;
     if(testCase == ROTATE)
         CHECK_RETURN_STATUS(hipHostMalloc(&angle, batchSize * sizeof(Rpp32f)));
@@ -1764,7 +1767,7 @@ int main(int argc, char **argv)
 
                     if(srcDescPtr->c == 1)
                         reductionFuncResultArrLength = srcDescPtr->n;
-                    memcpy(mean, TensorMeanReferenceOutputs[inputChannels].data(), sizeof(Rpp32f) * reductionFuncResultArrLength);
+                    memcpy(mean, TensorMeanReferenceOutputs_U8[inputChannels].data(), sizeof(Rpp32f) * reductionFuncResultArrLength);
 
                     startWallTime = omp_get_wtime();
                     if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
@@ -1799,9 +1802,11 @@ int main(int argc, char **argv)
                 case JPEG_COMPRESSION_DISTORTION:
                 {
                     testCaseName = "jpeg_compression_distortion";
+                    for (i = 0; i < batchSize; i++)
+                        qualityTensor[i] = 50;
                     startWallTime = omp_get_wtime();
                     if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
-                        errorCodeCapture = rppt_jpeg_compression_distortion_gpu(d_input, srcDescPtr, d_output, dstDescPtr, roiTensorPtrSrc, roiTypeSrc, handle);
+                        errorCodeCapture = rppt_jpeg_compression_distortion_gpu(d_input, srcDescPtr, d_output, dstDescPtr, qualityTensor, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
@@ -2162,6 +2167,8 @@ int main(int argc, char **argv)
         CHECK_RETURN_STATUS(hipHostFree(maxTensor));
     if (posterizeLevelBits != nullptr)
         CHECK_RETURN_STATUS(hipHostFree(posterizeLevelBits));
+    if (qualityTensor != nullptr)
+        CHECK_RETURN_STATUS(hipHostFree(qualityTensor));
     if (permutationTensor != nullptr)
         CHECK_RETURN_STATUS(hipHostFree(permutationTensor));
     return 0;
