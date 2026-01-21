@@ -569,6 +569,28 @@ int main(int argc, char **argv)
 
                     break;
                 }
+                case SNOW:
+                {
+                    testCaseName = "snow";
+                    Rpp32f brightnessCoefficient[batchSize];
+                    Rpp32f snowThreshold[batchSize];
+                    Rpp32s darkMode[batchSize];
+                    for (i = 0; i < batchSize; i++)
+                    {
+                        brightnessCoefficient[i] = 2.5f;
+                        snowThreshold[i] = 1.0f;
+                        darkMode[i] = 0;
+                    }
+
+                    startWallTime = omp_get_wtime();
+                    startCpuTime = clock();
+                    if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
+                        rppt_snow_host(input, srcDescPtr, output, dstDescPtr, brightnessCoefficient, snowThreshold, darkMode, roiTensorPtrSrc, roiTypeSrc, handle);
+                    else
+                        missingFuncFlag = 1;
+
+                    break;
+                }
                 case NOISE:
                 {
                     testCaseName = "noise";
@@ -1306,10 +1328,16 @@ int main(int argc, char **argv)
                     for (i = 0; i < batchSize; i++)
                         stdDevTensor[i] = 5.0f;
 
+                    if (borderType != RpptImageBorderType::REPLICATE)
+                    {
+                        missingFuncFlag = 1;
+                        break;
+                    }
+
                     startWallTime = omp_get_wtime();
                     startCpuTime = clock();
                     if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
-                        errorCodeCapture = rppt_gaussian_filter_host(input, srcDescPtr, output, dstDescPtr, stdDevTensor, kernelSize, roiTensorPtrSrc, roiTypeSrc, handle);
+                        errorCodeCapture = rppt_gaussian_filter_host(input, srcDescPtr, output, dstDescPtr, stdDevTensor, kernelSize, borderType, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
@@ -1750,6 +1778,26 @@ int main(int argc, char **argv)
                     startCpuTime = clock();
                     if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
                         errorCodeCapture = rppt_solarize_host(input, srcDescPtr, output, dstDescPtr, thresholdTensor, roiTensorPtrSrc, roiTypeSrc, handle);
+                    else
+                        missingFuncFlag = 1;
+
+                    break;
+                }
+                case CHANNEL_DROPOUT:
+                {
+                    testCaseName = "channel_dropout";
+
+                    Rpp32f dropoutProbability[batchSize];
+                    Rpp32f seed = qaFlag ? DROPOUT_FIXED_SEED : std::random_device{}();
+                    for (i = 0; i < batchSize; i++)
+                        dropoutProbability[i] = 0.4f;
+                    Rpp8u dropoutTensor[batchSize * srcDescPtr->c];
+                    generate_channel_dropout_mask(dropoutTensor, dropoutProbability, batchSize, srcDescPtr->c, seed);
+
+                    startWallTime = omp_get_wtime();
+                    startCpuTime = clock();
+                    if (BitDepthTestMode == U8_TO_U8 || BitDepthTestMode == F16_TO_F16 || BitDepthTestMode == F32_TO_F32 || BitDepthTestMode == I8_TO_I8)
+                        errorCodeCapture = rppt_channel_dropout_host(input, srcDescPtr, output, dstDescPtr, dropoutTensor, roiTensorPtrSrc, roiTypeSrc, handle);
                     else
                         missingFuncFlag = 1;
 
