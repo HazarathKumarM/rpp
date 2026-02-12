@@ -40,59 +40,135 @@ Input<br>(nifti1 .nii medical image) | fused_multiply_add_scalar<br>(brightened 
 Spectrogram kernel output represented as a image <br><br>
 ![](docs/data/spectrogramOutput.png)
 
-### Filter Augmentations Samples
+## Comprehensive Augmentation Gallery
 
-Box Filter (kSize=5) | Gaussian Filter (kSize=5) | Median Filter (kSize=5)
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/filter_augmentations_box_filter_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_gaussian_filter_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_median_filter_kSize5_img150x150.png)
+### Filter Augmentations
 
-### Color Augmentations Samples
-
-Brightness | Contrast | Hue
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/color_augmentations_brightness_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_contrast_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_hue_img150x150.png)
-
-Saturation | Gamma Correction | Color Temperature
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/color_augmentations_saturation_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_gamma_correction_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_color_temperature_img150x150.png)
-
-### Effects Augmentations Samples
-
-Gaussian Noise | Rain | Fog
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/effects_augmentations_gaussian_noise_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_rain_img640x480.png) | ![](docs/data/doxygenOutputs/effects_augmentations_fog_img640x480.png)
-
-Snow | Pixelate | Jitter
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/effects_augmentations_snow_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_pixelate_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_jitter_img150x150.png)
-
-### Geometric Augmentations Samples
-
-Flip | Resize | Rotate
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/geometric_augmentations_flip_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_resize_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_rotate_img150x150.png)
-
-Warp Affine | Fisheye | Lens Correction
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/geometric_augmentations_warp_affine_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_fisheye_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_lens_correction_img_640x480.png)
-
-### Morphological Operations Samples
-
-Erode (kSize=3) | Erode (kSize=7) | Dilate (kSize=3) | Dilate (kSize=7)
+#### Box Filter
+kSize=3 | kSize=5 | kSize=7 | kSize=9
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/data/doxygenOutputs/morphological_operations_erode_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode_kSize7_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize7_img150x150.png)
+![](docs/data/doxygenOutputs/filter_augmentations_box_filter_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_box_filter_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_box_filter_kSize7_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_box_filter_kSize9_img150x150.png)
 
-### Arithmetic Operations Samples
+#### Gaussian Filter
+kSize=3 | kSize=5 | kSize=7 | kSize=9
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/filter_augmentations_gaussian_filter_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_gaussian_filter_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_gaussian_filter_kSize7_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_gaussian_filter_kSize9_img150x150.png)
+
+#### Median Filter
+kSize=3 | kSize=5 | kSize=7
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/filter_augmentations_median_filter_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_median_filter_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/filter_augmentations_median_filter_kSize7_img150x150.png)
+
+### Color Augmentations
+
+Brightness | Contrast | Hue | Saturation
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/color_augmentations_brightness_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_contrast_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_hue_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_saturation_img150x150.png)
+
+Gamma Correction | Color Temperature | Exposure | Blend
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/color_augmentations_gamma_correction_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_color_temperature_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_exposure_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_blend_img150x150.png)
+
+Color Cast | Color Twist | LUT
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/color_augmentations_color_cast_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_color_twist_img150x150.png) | ![](docs/data/doxygenOutputs/color_augmentations_lut_img150x150.png)
+
+### Effects Augmentations
+
+#### Noise Effects
+Gaussian Noise (static) | Gaussian Noise (animated) | Salt & Pepper | Shot Noise
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_gaussian_noise_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_gaussian_noise_150x150x4.gif) | ![](docs/data/doxygenOutputs/effects_augmentations_salt_and_pepper_noise_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_shot_noise_img150x150.png)
+
+#### Weather Effects
+Rain | Fog | Snow
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_rain_img640x480.png) | ![](docs/data/doxygenOutputs/effects_augmentations_fog_img640x480.png) | ![](docs/data/doxygenOutputs/effects_augmentations_snow_img150x150.png)
+
+#### Artistic Effects
+Pixelate | Jitter | Glitch | Water
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_pixelate_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_jitter_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_glitch_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_water_img150x150.png)
+
+#### Advanced Effects
+Erase | Posterize | Solarize | Vignette
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_erase_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_posterize_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_solarize_img150x150.jpg) | ![](docs/data/doxygenOutputs/effects_augmentations_vignette_img150x150.png)
+
+Non-linear Blend | Channel Dropout | Gridmask | RICAP
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_non_linear_blend_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentation_channel_dropout_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_gridmask_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_ricap_img150x150.png)
+
+#### Spatter Effects
+Spatter (Blood) | Spatter (Ink) | Spatter (Mud)
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/effects_augmentations_spatter_typeBlood_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_spatter_typeInk_img150x150.png) | ![](docs/data/doxygenOutputs/effects_augmentations_spatter_typeMud_img150x150.png)
+
+### Geometric Augmentations
+
+Flip (static) | Flip (animated) | Resize | Rotate
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/geometric_augmentations_flip_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_flip_150x150x4.gif) | ![](docs/data/doxygenOutputs/geometric_augmentations_resize_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_rotate_img150x150.png)
+
+Warp Affine | Warp Perspective | Fisheye | Lens Correction
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/geometric_augmentations_warp_affine_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_warp_perspective_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_fisheye_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_lens_correction_img_640x480.png)
+
+Crop | Crop & Patch | Crop Mirror Normalize | Resize Crop Mirror
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/geometric_augmentations_crop_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_crop_and_patch_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_crop_mirror_normalize_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_resize_crop_mirror_img115x115.png)
+
+Resize Mirror Normalize | Remap | Phase | JPEG Compression
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/geometric_augmentations_resize_mirror_normalize_img115x115.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_remap_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_phase_img150x150.png) | ![](docs/data/doxygenOutputs/geometric_augmentations_jpeg_compression_distortion_img_150x150.png)
+
+### Morphological Operations
+
+#### Erode
+kSize=3 | kSize=5 | kSize=7 | kSize=9
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/morphological_operations_erode_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode_kSize7_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode_kSize9_img150x150.png)
+
+Erode 3 | Erode 5 | Erode 7 | Erode 9
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/morphological_operations_erode3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode5_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode7_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_erode9_img150x150.png)
+
+#### Dilate
+kSize=3 | kSize=5 | kSize=7 | kSize=9
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize5_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize7_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate_kSize9_img150x150.png)
+
+Dilate 3 | Dilate 5 | Dilate 7 | Dilate 9
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/morphological_operations_dilate3_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate5_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate7_img150x150.png) | ![](docs/data/doxygenOutputs/morphological_operations_dilate9_img150x150.png)
+
+### Arithmetic Operations
 
 Add Scalar | Subtract Scalar | Multiply Scalar
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](docs/data/doxygenOutputs/arithmetic_operations_add_scalar_150x150x4.gif) | ![](docs/data/doxygenOutputs/arithmetic_operations_subtract_scalar_150x150x4.gif) | ![](docs/data/doxygenOutputs/arithmetic_operations_multiply_scalar_150x150x4.gif)
 
-### Bitwise Operations Samples
+Fused Multiply Add Scalar | Magnitude
+:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/arithmetic_operations_fused_multiply_add_scalar_150x150x4.gif) | ![](docs/data/doxygenOutputs/arithmetic_operations_magnitude_img150x150.png)
+
+### Bitwise Operations
 
 Bitwise AND | Bitwise NOT | Bitwise OR | Bitwise XOR
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](docs/data/doxygenOutputs/bitwise_operations_bitwise_and_img150x150.png) | ![](docs/data/doxygenOutputs/bitwise_operations_bitwise_not_img150x150.png) | ![](docs/data/doxygenOutputs/bitwise_operations_bitwise_or_img150x150.png) | ![](docs/data/doxygenOutputs/bitwise_operations_bitwise_xor_img150x150.png)
+
+### Data Exchange Operations
+
+Channel Permute | Color to Greyscale | Copy
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/data/doxygenOutputs/data_exchange_operations_channel_permute_img150x150.png) | ![](docs/data/doxygenOutputs/data_exchange_operations_color_to_greyscale_img150x150.png) | ![](docs/data/doxygenOutputs/data_exchange_operations_copy_img150x150.png)
+
+### Statistical Operations
+
+Threshold
+:-------------------------:
+![](docs/data/doxygenOutputs/statistical_operations_threshold_img150x150.png)
   
 ## Prerequisites
 
