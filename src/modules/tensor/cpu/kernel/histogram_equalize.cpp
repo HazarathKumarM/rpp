@@ -295,10 +295,15 @@ RppStatus histogram_equalize_u8_u8_host_tensor(Rpp8u *srcPtr,
         Rpp32u roiHeight = roi.xywhROI.roiHeight;
         Rpp32u pixels = roiWidth * roiHeight;
 
-        Rpp8u *yBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
-        Rpp8u *cbBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
-        Rpp8u *crBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
-        Rpp8u *dstYBuf = yBuf;
+        // Allocate buffers for 3-channel images only
+        Rpp8u *yBuf = nullptr, *cbBuf = nullptr, *crBuf = nullptr, *dstYBuf = nullptr;
+        if (srcDescPtr->c == 3)
+        {
+            yBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
+            cbBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
+            crBuf = static_cast<Rpp8u *>(malloc(pixels * sizeof(Rpp8u)));
+            dstYBuf = yBuf;
+        }
 
 #if __AVX2__
         Rpp32u vectorIncrement = 48;
@@ -641,10 +646,14 @@ RppStatus histogram_equalize_u8_u8_host_tensor(Rpp8u *srcPtr,
             build_lut_from_hist_host(hist, lutBatch, pixels);
             apply_lut_tensor(srcPtr, dstPtr, roiWidth, roiHeight, lutBatch, srcDescPtr->strides.hStride, dstDescPtr->strides.hStride);
         }
-        
-        free(yBuf);
-        free(cbBuf);
-        free(crBuf);
+
+        // Free buffers
+        if (srcDescPtr->c == 3)
+        {
+            free(yBuf);
+            free(cbBuf);
+            free(crBuf);
+        }
     }
 
     return RPP_SUCCESS;
