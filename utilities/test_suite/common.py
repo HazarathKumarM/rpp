@@ -110,6 +110,7 @@ imageAugmentationMap = {
     45: ["color_temperature", "HOST", "HIP"],
     46: ["vignette", "HOST", "HIP"],
     49: ["box_filter", "HIP", "HOST"],
+    50: ["sobel_filter", "HOST", "HIP"],
     51: ["median_filter", "HOST", "HIP"],
     54: ["gaussian_filter", "HOST", "HIP"],
     61: ["magnitude", "HOST", "HIP"],
@@ -136,7 +137,8 @@ imageAugmentationMap = {
     93: ["jpeg_compression_distortion", "HOST", "HIP"],
     94: ["posterize", "HOST", "HIP"],
     95: ["solarize", "HOST", "HIP"],
-    96: ["channel_dropout", "HOST", "HIP"]
+    96: ["channel_dropout", "HOST", "HIP"],
+    100: ["coarse_dropout", "HOST", "HIP"]
 }
 
 audioAugmentationMap = {
@@ -173,13 +175,13 @@ ImageAugmentationGroupMap = {
         "brightness", "gamma_correction", "blend", "contrast", "exposure", "color_cast", "lut", "color_twist", "hue", "saturation", "color_temperature", "color_jitter"
     ],
     "effects_augmentations": [
-        "pixelate", "jitter", "noise", "fog", "rain", "water", "non_linear_blend", "erase", "glitch", "vignette", "ricap", "gridmask", "spatter", "posterize", "snow"
+        "pixelate", "jitter", "noise", "fog", "rain", "water", "non_linear_blend", "erase", "glitch", "vignette", "ricap", "gridmask", "spatter", "posterize", "snow", "coarse_dropout"
     ],
     "geometric_augmentations": [
         "flip", "resize", "rotate", "warp_affine", "lens_correction", "warp_perspective", "crop_and_patch", "crop", "crop_mirror_normalize", "resize_crop_mirror", "phase", "remap", "resize_mirror_normalize", "slice", "jpeg_compression_distortion", "fisheye"
     ],
     "filter_augmentations": [
-        "box_filter", "median_filter", "gaussian_filter"
+        "box_filter", "median_filter", "gaussian_filter", "sobel_filter"
     ],
     "morphological_operations": [
         "erode", "dilate"

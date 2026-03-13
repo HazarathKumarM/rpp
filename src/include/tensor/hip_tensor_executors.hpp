@@ -676,6 +676,20 @@ RppStatus hip_exec_channel_dropout_tensor(T *srcPtr,
                                           RpptRoiType roiType,
                                           rpp::Handle& handle);
 
+// -------------------- coarse_dropout --------------------
+
+template <typename T>
+RppStatus hip_exec_coarse_dropout_tensor(T *srcPtr,
+                                         RpptDescPtr srcDescPtr,
+                                         T *dstPtr,
+                                         RpptDescPtr dstDescPtr,
+                                         RpptRoiLtrb *anchorBoxInfoTensor,
+                                         Rpp32u *numBoxesTensor,
+                                         Rpp32u maxBoxesPerImage,
+                                         RpptROIPtr roiTensorPtrSrc,
+                                         RpptRoiType roiType,
+                                         rpp::Handle& handle);
+
 /**************************************** FILTER AUGMENTATIONS ****************************************/
 
 // -------------------- box_filter --------------------
@@ -698,6 +712,19 @@ RppStatus hip_exec_gaussian_filter_tensor(T *srcPtr,
                                           T *dstPtr,
                                           RpptDescPtr dstDescPtr,
                                           Rpp32f *stdDevTensor,
+                                          Rpp32u kernelSize,
+                                          RpptROIPtr roiTensorPtrSrc,
+                                          RpptRoiType roiType,
+                                          rpp::Handle& handle);
+
+// -------------------- sobel_filter --------------------
+
+template <typename T>
+RppStatus hip_exec_sobel_filter_tensor(T *srcPtr,
+                                          RpptDescPtr srcDescPtr,
+                                          T *dstPtr,
+                                          RpptDescPtr dstDescPtr,
+                                          Rpp32u sobelType,
                                           Rpp32u kernelSize,
                                           RpptROIPtr roiTensorPtrSrc,
                                           RpptRoiType roiType,
